@@ -23,14 +23,19 @@ Partial Class rptDistributorRouteMarginStatusReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.lblCustomer = New common.Controls.MyLabel()
-        Me.txtMultCustomer = New common.UserControls.txtMultiSelectFinder()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblItem = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.lblCustomer = New common.Controls.MyLabel()
+        Me.txtMultCustomer = New common.UserControls.txtMultiSelectFinder()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbdCommission = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbdTPT = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbDetail = New Telerik.WinControls.UI.RadRadioButton()
         Me.rdbAll = New Telerik.WinControls.UI.RadRadioButton()
@@ -39,21 +44,27 @@ Partial Class rptDistributorRouteMarginStatusReport
         Me.lblfromDate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv2 = New common.UserControls.MyRadGridView()
+        Me.btnExcle = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbdCommission = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbdTPT = New Telerik.WinControls.UI.RadRadioButton()
-        Me.btnExcle = New Telerik.WinControls.UI.RadButton()
+        Me.txtItem = New common.UserControls.txtMultiSelectFinder()
+        Me.btnprint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.lblItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rbdCommission, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbdTPT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.rdbDetail, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -65,14 +76,11 @@ Partial Class rptDistributorRouteMarginStatusReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExcle, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.rbdCommission, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbdTPT, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExcle, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -89,6 +97,7 @@ Partial Class rptDistributorRouteMarginStatusReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnprint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExcle)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnReset)
@@ -119,11 +128,8 @@ Partial Class rptDistributorRouteMarginStatusReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage1.Controls.Add(Me.lblCustomer)
-        Me.RadPageViewPage1.Controls.Add(Me.txtMultCustomer)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
-        Me.RadPageViewPage1.Controls.Add(Me.txtRoute)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
@@ -132,34 +138,37 @@ Partial Class rptDistributorRouteMarginStatusReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 359)
         Me.RadPageViewPage1.Text = "Filter"
         '
-        'lblCustomer
+        'RadGroupBox4
         '
-        Me.lblCustomer.FieldName = Nothing
-        Me.lblCustomer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomer.Location = New System.Drawing.Point(12, 92)
-        Me.lblCustomer.Name = "lblCustomer"
-        Me.lblCustomer.Size = New System.Drawing.Size(55, 18)
-        Me.lblCustomer.TabIndex = 416
-        Me.lblCustomer.Text = "Customer"
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.lblItem)
+        Me.RadGroupBox4.Controls.Add(Me.txtItem)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel2)
+        Me.RadGroupBox4.Controls.Add(Me.txtRoute)
+        Me.RadGroupBox4.Controls.Add(Me.lblCustomer)
+        Me.RadGroupBox4.Controls.Add(Me.txtMultCustomer)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(12, 63)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(339, 95)
+        Me.RadGroupBox4.TabIndex = 418
         '
-        'txtMultCustomer
+        'lblItem
         '
-        Me.txtMultCustomer.arrDispalyMember = Nothing
-        Me.txtMultCustomer.arrValueMember = Nothing
-        Me.txtMultCustomer.Location = New System.Drawing.Point(73, 91)
-        Me.txtMultCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMultCustomer.MyLinkLable1 = Nothing
-        Me.txtMultCustomer.MyLinkLable2 = Nothing
-        Me.txtMultCustomer.MyNullText = "All"
-        Me.txtMultCustomer.Name = "txtMultCustomer"
-        Me.txtMultCustomer.Size = New System.Drawing.Size(250, 19)
-        Me.txtMultCustomer.TabIndex = 415
+        Me.lblItem.FieldName = Nothing
+        Me.lblItem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItem.Location = New System.Drawing.Point(16, 61)
+        Me.lblItem.Name = "lblItem"
+        Me.lblItem.Size = New System.Drawing.Size(29, 18)
+        Me.lblItem.TabIndex = 418
+        Me.lblItem.Text = "Item"
         '
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(12, 58)
+        Me.MyLabel2.Location = New System.Drawing.Point(13, 13)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(36, 18)
         Me.MyLabel2.TabIndex = 414
@@ -169,7 +178,7 @@ Partial Class rptDistributorRouteMarginStatusReport
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(73, 57)
+        Me.txtRoute.Location = New System.Drawing.Point(74, 12)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Nothing
         Me.txtRoute.MyLinkLable2 = Nothing
@@ -177,6 +186,61 @@ Partial Class rptDistributorRouteMarginStatusReport
         Me.txtRoute.Name = "txtRoute"
         Me.txtRoute.Size = New System.Drawing.Size(250, 19)
         Me.txtRoute.TabIndex = 413
+        '
+        'lblCustomer
+        '
+        Me.lblCustomer.FieldName = Nothing
+        Me.lblCustomer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCustomer.Location = New System.Drawing.Point(13, 37)
+        Me.lblCustomer.Name = "lblCustomer"
+        Me.lblCustomer.Size = New System.Drawing.Size(55, 18)
+        Me.lblCustomer.TabIndex = 416
+        Me.lblCustomer.Text = "Customer"
+        '
+        'txtMultCustomer
+        '
+        Me.txtMultCustomer.arrDispalyMember = Nothing
+        Me.txtMultCustomer.arrValueMember = Nothing
+        Me.txtMultCustomer.Location = New System.Drawing.Point(74, 36)
+        Me.txtMultCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultCustomer.MyLinkLable1 = Nothing
+        Me.txtMultCustomer.MyLinkLable2 = Nothing
+        Me.txtMultCustomer.MyNullText = "All"
+        Me.txtMultCustomer.Name = "txtMultCustomer"
+        Me.txtMultCustomer.Size = New System.Drawing.Size(250, 19)
+        Me.txtMultCustomer.TabIndex = 415
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbdCommission)
+        Me.RadGroupBox3.Controls.Add(Me.rbdTPT)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(372, 3)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(165, 44)
+        Me.RadGroupBox3.TabIndex = 417
+        Me.RadGroupBox3.Visible = False
+        '
+        'rbdCommission
+        '
+        Me.rbdCommission.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbdCommission.Location = New System.Drawing.Point(6, 13)
+        Me.rbdCommission.Name = "rbdCommission"
+        Me.rbdCommission.Size = New System.Drawing.Size(81, 18)
+        Me.rbdCommission.TabIndex = 14
+        Me.rbdCommission.Text = "Commission"
+        Me.rbdCommission.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbdTPT
+        '
+        Me.rbdTPT.Location = New System.Drawing.Point(107, 13)
+        Me.rbdTPT.Name = "rbdTPT"
+        Me.rbdTPT.Size = New System.Drawing.Size(38, 18)
+        Me.rbdTPT.TabIndex = 13
+        Me.rbdTPT.TabStop = False
+        Me.rbdTPT.Text = "TPT"
         '
         'RadGroupBox2
         '
@@ -202,7 +266,7 @@ Partial Class rptDistributorRouteMarginStatusReport
         '
         'rdbAll
         '
-        Me.rdbAll.Location = New System.Drawing.Point(83, 13)
+        Me.rdbAll.Location = New System.Drawing.Point(85, 13)
         Me.rdbAll.Name = "rdbAll"
         Me.rdbAll.Size = New System.Drawing.Size(67, 18)
         Me.rdbAll.TabIndex = 13
@@ -285,7 +349,7 @@ Partial Class rptDistributorRouteMarginStatusReport
         Me.gv2.MasterTemplate.EnableFiltering = True
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv2.MyExportAPI = False
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
@@ -296,6 +360,16 @@ Partial Class rptDistributorRouteMarginStatusReport
         Me.gv2.Size = New System.Drawing.Size(779, 359)
         Me.gv2.TabIndex = 3
         Me.gv2.VarID = ""
+        '
+        'btnExcle
+        '
+        Me.btnExcle.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExcle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExcle.Location = New System.Drawing.Point(171, 8)
+        Me.btnExcle.Name = "btnExcle"
+        Me.btnExcle.Size = New System.Drawing.Size(71, 22)
+        Me.btnExcle.TabIndex = 338
+        Me.btnExcle.Text = "Excle"
         '
         'btnclose
         '
@@ -327,46 +401,28 @@ Partial Class rptDistributorRouteMarginStatusReport
         Me.btnGo.TabIndex = 334
         Me.btnGo.Text = ">>>"
         '
-        'RadGroupBox3
+        'txtItem
         '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.rbdCommission)
-        Me.RadGroupBox3.Controls.Add(Me.rbdTPT)
-        Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(372, 3)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(165, 44)
-        Me.RadGroupBox3.TabIndex = 417
+        Me.txtItem.arrDispalyMember = Nothing
+        Me.txtItem.arrValueMember = Nothing
+        Me.txtItem.Location = New System.Drawing.Point(74, 60)
+        Me.txtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItem.MyLinkLable1 = Nothing
+        Me.txtItem.MyLinkLable2 = Nothing
+        Me.txtItem.MyNullText = "All"
+        Me.txtItem.Name = "txtItem"
+        Me.txtItem.Size = New System.Drawing.Size(250, 19)
+        Me.txtItem.TabIndex = 417
         '
-        'rbdCommission
+        'btnprint
         '
-        Me.rbdCommission.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbdCommission.Location = New System.Drawing.Point(6, 13)
-        Me.rbdCommission.Name = "rbdCommission"
-        Me.rbdCommission.Size = New System.Drawing.Size(81, 18)
-        Me.rbdCommission.TabIndex = 14
-        Me.rbdCommission.Text = "Commission"
-        Me.rbdCommission.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'rbdTPT
-        '
-        Me.rbdTPT.Location = New System.Drawing.Point(107, 13)
-        Me.rbdTPT.Name = "rbdTPT"
-        Me.rbdTPT.Size = New System.Drawing.Size(38, 18)
-        Me.rbdTPT.TabIndex = 13
-        Me.rbdTPT.TabStop = False
-        Me.rbdTPT.Text = "TPT"
-        '
-        'btnExcle
-        '
-        Me.btnExcle.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExcle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExcle.Location = New System.Drawing.Point(171, 8)
-        Me.btnExcle.Name = "btnExcle"
-        Me.btnExcle.Size = New System.Drawing.Size(71, 22)
-        Me.btnExcle.TabIndex = 338
-        Me.btnExcle.Text = "Excle"
+        Me.btnprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnprint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnprint.Location = New System.Drawing.Point(248, 8)
+        Me.btnprint.Name = "btnprint"
+        Me.btnprint.Size = New System.Drawing.Size(71, 22)
+        Me.btnprint.TabIndex = 458
+        Me.btnprint.Text = "Print"
         '
         'rptDistributorRouteMarginStatusReport
         '
@@ -386,9 +442,17 @@ Partial Class rptDistributorRouteMarginStatusReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
-        Me.RadPageViewPage1.PerformLayout()
-        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.lblItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.rbdCommission, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbdTPT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -402,15 +466,11 @@ Partial Class rptDistributorRouteMarginStatusReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExcle, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout()
-        CType(Me.rbdCommission, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbdTPT, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExcle, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -438,4 +498,8 @@ Partial Class rptDistributorRouteMarginStatusReport
     Friend WithEvents rbdCommission As RadRadioButton
     Friend WithEvents rbdTPT As RadRadioButton
     Friend WithEvents btnExcle As RadButton
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents lblItem As common.Controls.MyLabel
+    Friend WithEvents txtItem As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnprint As RadButton
 End Class
