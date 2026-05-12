@@ -27,7 +27,6 @@ Public Class frmBankAdvise
             ApplyPartialBankAdvise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyPartialBankAdvise, clsFixedParameterCode.ApplyPartialBankAdvise, Nothing)) = "1", True, False))
             IsBankAdviseStartDate = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, Nothing))
             IsSeprateBankForDCSBankAdvice = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SeprateBankForDCSBankAdvice, clsFixedParameterCode.SeprateBankForDCSBankAdvice, Nothing))
-            ApplyPartialBankAdvise = True
             If ApplyPartialBankAdvise Then
                 RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Visible
             Else
