@@ -294,6 +294,8 @@ Public Class clsMPDCSInsentiveRecoDetail
     Public Reco_Staus As Boolean = False ''Not a Table Column
     Public Reco_Staus_OLD As Boolean = False ''Not a Table Column
 
+    Public MPCollectionQty As Decimal = 0 ''Not a Table Column
+
 
 #End Region
     Public Shared Function saveDataZone(ByVal strDocNo As String, ByVal strZone As String, ByVal arrObj As List(Of clsMPDCSInsentiveRecoDetail)) As Boolean
@@ -371,15 +373,19 @@ where Document_Code='" + strDocNo + "' and tspl_vendor_master.zone_Code in (" + 
             Dim arrObj As List(Of clsMPDCSInsentiveRecoDetail) = Nothing
             Dim obj As clsMPDCSInsentiveRecoDetail = Nothing
             Dim qry As String = "Select TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME, TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
-,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MCC_MASTER.MCC_NAME,TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name
-from (select PK_Id,Document_Code,SNo,Cycle_Year,Cycle_Month,Cycle_No,MCC_Code,VLC_Code,Qty,UOM,FAT,SNF,Amount,MP_Count,MP_Qty,MP_FAT,MP_SNF,MP_Amount,Diff_Qty,Diff_FAT,Diff_SNF,Diff_Amount,1 as Reco_Staus from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL where TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code='" & strDocNo & "'
+,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MCC_MASTER.MCC_NAME,TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name,TabCollectionQty.Qty as MPCollectionQty
+from ( select PK_Id,Document_Code,SNo,Cycle_Year,Cycle_Month,Cycle_No,MCC_Code,VLC_Code,Qty,UOM,FAT,SNF,Amount,MP_Count,MP_Qty,MP_FAT,MP_SNF,MP_Amount,Diff_Qty,Diff_FAT,Diff_SNF,Diff_Amount,1 as Reco_Staus from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL where TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code='" & strDocNo & "'
 union all
-select PK_Id,Document_Code,SNo,Cycle_Year,Cycle_Month,Cycle_No,MCC_Code,VLC_Code,Qty,UOM,FAT,SNF,Amount,MP_Count,MP_Qty,MP_FAT,MP_SNF,MP_Amount,Diff_Qty,Diff_FAT,Diff_SNF,Diff_Amount,0 as Reco_Staus from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID where TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID.Document_Code='" & strDocNo & "') as TSPL_DCS_MP_INCENTIVE_RECO_DETAIL 
+select PK_Id,Document_Code,SNo,Cycle_Year,Cycle_Month,Cycle_No,MCC_Code,VLC_Code,Qty,UOM,FAT,SNF,Amount,MP_Count,MP_Qty,MP_FAT,MP_SNF,MP_Amount,Diff_Qty,Diff_FAT,Diff_SNF,Diff_Amount,0 as Reco_Staus from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID where TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID.Document_Code='" & strDocNo & "' ) as TSPL_DCS_MP_INCENTIVE_RECO_DETAIL 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code where 2=2 "
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code 
+left outer join ( select VLC_Code,sum(Qty) as Qty from TSPL_DBT_MONTHLY_FARMER_MILK_DETAIL 
+left outer join TSPL_DBT_MONTHLY_FARMER_MILK on TSPL_DBT_MONTHLY_FARMER_MILK.Document_Code=TSPL_DBT_MONTHLY_FARMER_MILK_DETAIL.Document_Code
+where TSPL_DBT_MONTHLY_FARMER_MILK.DBT_Reco_Code='" + strDocNo + "' group by VLC_Code ) TabCollectionQty on TabCollectionQty.VLC_Code=TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code
+where 2=2 "
 
             If clsCommon.myLen(SelectedZone) > 0 Then
                 qry += " and TSPL_VENDOR_MASTER.Zone_Code in (" + SelectedZone + ")"
@@ -426,6 +432,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
                     obj.Diff_FAT = clsCommon.myCDecimal(dt.Rows(i)("Diff_FAT"))
                     obj.Diff_SNF = clsCommon.myCDecimal(dt.Rows(i)("Diff_SNF"))
                     obj.Diff_Amount = clsCommon.myCDecimal(dt.Rows(i)("Diff_Amount"))
+                    obj.MPCollectionQty = clsCommon.myCDecimal(dt.Rows(i)("MPCollectionQty"))
 
                     obj.Reco_Staus = (clsCommon.myCDecimal(dt.Rows(i)("Reco_Staus")) = 1)
                     arrObj.Add(obj)
