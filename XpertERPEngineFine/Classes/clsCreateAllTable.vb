@@ -49975,10 +49975,17 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Payment_Amount", "decimal(18,2)  null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_ASSET_LOST", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_BANK_ADVISE' and COLUMN_NAME='Is_Partial'"
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count = 0 Then
+                clsERPFuncationality.DropTableKey("TSPL_BANK_ADVISE", "Payment_Process_Document_No", EnumTableKeyType.Unique)
+                qry = " alter table TSPL_BANK_ADVISE alter column Payment_Process_Document_No varchar(30) NULL"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) Not NULL Primary key")
             coll.Add("Document_Date", "datetime Not NULL")
-            coll.Add("Payment_Process_Document_No", "varchar(30) Not NULL UNIQUE references TSPL_PAYMENT_PROCESS_HEAD(Doc_No)")
+            coll.Add("Payment_Process_Document_No", "varchar(30)  NULL ")
             coll.Add("Remarks", "varchar(200) NULL")
             coll.Add("Created_By", "varchar(12)  Not NULL")
             coll.Add("Created_Date", "datetime  Not NULL")
@@ -49987,7 +49994,16 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Status", "integer NULL")
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "datetime NULL")
+            coll.Add("Is_Partial", "integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BANK_ADVISE", coll, "", True, False, "", "", "", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "Varchar(30) not null REFERENCES TSPL_BANK_ADVISE (Document_No)")
+            coll.Add("PK_Id", "integer NOT NULL  identity NOT FOR REPLICATION")
+            coll.Add("Payment_Process_PP_Detail_No", "Varchar(30) Not NULL references TSPL_PAYMENT_PROCESS_DETAIL(PP_Detail_No)")
+            coll.Add("Balance_Amt", "decimal(18, 2) NULL")
+            coll.Add("Partial_Amt", "decimal(18, 2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BANK_ADVISE_DETAIL", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "varchar(30) references TSPL_BANK_ADVISE(Document_No)")

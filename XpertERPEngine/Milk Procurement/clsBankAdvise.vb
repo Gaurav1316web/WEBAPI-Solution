@@ -10,15 +10,18 @@ Public Class clsBankAdvise
     Public Modified_Date As Date
     Public Remarks As String = ""
     Public Status As Integer
-
+    Public Is_Partial As Integer
+    Public Arr As List(Of clsBankAdviseDetail) = Nothing
 
     Public Shared Function SaveData(ByVal obj As clsBankAdvise, ByVal isNewEntry As Boolean) As Boolean
         Dim issaved As Boolean = True
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-
+            Dim qry As String = "delete from TSPL_BANK_ADVISE_DETAIL where Document_No='" + obj.Document_No + "'"
+            issaved = issaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim dt As Date = clsCommon.myCDate(clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             If isNewEntry Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(Nothing, dt, clsDocType.BankAdvise, "", "", False)
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.BankAdvise, "", "", False)
             End If
 
             Dim coll As New Hashtable()
@@ -27,17 +30,23 @@ Public Class clsBankAdvise
             clsCommon.AddColumnsForChange(coll, "Payment_Process_Document_No", clsCommon.myCstr(obj.Payment_Process_Document_No))
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Status", obj.Status)
+            clsCommon.AddColumnsForChange(coll, "Is_Partial", obj.Is_Partial)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm:ss tt"))
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm:ss tt"))
-                issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BANK_ADVISE", OMInsertOrUpdate.Insert, "", Nothing)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BANK_ADVISE", OMInsertOrUpdate.Insert, "", trans)
             Else
-                issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BANK_ADVISE", OMInsertOrUpdate.Update, "Document_No= '" + obj.Document_No + "'", Nothing)
+                issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BANK_ADVISE", OMInsertOrUpdate.Update, "Document_No= '" + obj.Document_No + "'", trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BANK_ADVISE", "Document_No", Nothing)
+            issaved = issaved AndAlso clsBankAdviseDetail.SaveData(obj.Document_No, obj.Arr, obj.Payment_Process_Document_No, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BANK_ADVISE", "Document_No", "TSPL_BANK_ADVISE_DETAIL", "Document_No", trans)
+            If issaved Then
+                trans.Commit()
+            End If
         Catch ex As Exception
+            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return issaved
@@ -78,27 +87,55 @@ Public Class clsBankAdvise
                 Else
                     obj.Status = 0
                 End If
+                obj.Is_Partial = clsCommon.myCdbl(dt.Rows(0)("Is_Partial"))
+
+                Qry = " select TSPL_BANK_ADVISE_DETAIL.*,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name  from TSPL_BANK_ADVISE_DETAIL left join TSPL_PAYMENT_PROCESS_DETAIL on TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No = TSPL_BANK_ADVISE_DETAIL.Payment_Process_PP_Detail_No WHERE DOCUMENT_NO = '" & obj.Document_No & "' "
+                dt = clsDBFuncationality.GetDataTable(Qry, trans)
+                If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                    obj.Arr = New List(Of clsBankAdviseDetail)
+                    Dim objTr As clsBankAdviseDetail
+                    For Each dr As DataRow In dt.Rows
+                        objTr = New clsBankAdviseDetail
+                        objTr.DCSCode = clsCommon.myCdbl(dr("VLC_CODE_Uploader"))
+                        objTr.DCSName = clsCommon.myCstr(dr("VLC_Name"))
+                        objTr.Payment_Process_PP_Detail_No = clsCommon.myCstr(dr("Payment_Process_PP_Detail_No"))
+                        objTr.Balance_Amt = clsCommon.myCDecimal(dr("Balance_Amt"))
+                        objTr.Partial_Amt = clsCommon.myCDecimal(dr("Partial_Amt"))
+                        obj.Arr.Add(objTr)
+                    Next
+                End If
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return obj
     End Function
-
+    Public Shared Function deleteData(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            deleteData(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Public Shared Function deleteData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", trans)
-
-            Dim Qry As String = "delete from TSPL_BANK_ADVISE where  Document_No='" & strCode & "'"
-            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", "TSPL_BANK_ADVISE_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", "TSPL_BANK_ADVISE_DETAIL", "Document_No", trans)
+            Dim qry As String = "delete from TSPL_BANK_ADVISE_DETAIL where Document_No='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_BANK_ADVISE where  Document_No='" & strCode & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
     Public Shared Function paymentProcessDetails(ByVal PPDocNo As String) As String
-        Dim Qry As String = "Select TSPL_PAYMENT_PROCESS_HEAD.Doc_No As  [Document Code],TSPL_PAYMENT_PROCESS_HEAD.From_Date As [From Date],TSPL_PAYMENT_PROCESS_HEAD.To_Date As [To Date],TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader As [DCS Code],TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code As [MCC Code],TSPL_LOCATION_MASTER.Location_Desc As [Area] from TSPL_PAYMENT_PROCESS_DETAIL
+        Dim Qry As String = "Select TSPL_PAYMENT_PROCESS_HEAD.Doc_No As  [Document Code],TSPL_PAYMENT_PROCESS_HEAD.From_Date As [From Date],TSPL_PAYMENT_PROCESS_HEAD.To_Date As [To Date],TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader As [DCS Code],TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as [DCS Name],TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount as [Balanace Amt],TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code As [MCC Code],TSPL_LOCATION_MASTER.Location_Desc As [Area], 1 as RI from TSPL_PAYMENT_PROCESS_DETAIL
                                 Left Outer Join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                 left outer join TSPL_LOCATION_MASTER  On TSPL_LOCATION_MASTER.Location_Code=TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code "
         If clsCommon.myLen(PPDocNo) > 0 Then
@@ -107,6 +144,49 @@ Public Class clsBankAdvise
         Return Qry
     End Function
 
+    Public Function GetPaymentProcessDCSWiseDetails(ByVal paymentProcessDocNo As String, ByVal isLoadData As Boolean, ByVal strDocNo As String, ByVal IsCheckDCSBal As Boolean) As String
+        Try
+            Dim BaseQry As String = " "
+            Dim Qry As String = "  select [Document Code],max([From Date])[From Date],max([To Date])[To Date],[DCS Code],max([DCS Name])[DCS Name],PP_Detail_No as [PP Detail No],sum(ri* [Balanace Amt])[Balanace Amt],max([MCC Code])[MCC Code],max([Area])[Area] from ( "
+            Qry += paymentProcessDetails("")
+            Qry += " where FarmType='PP' And TSPL_PAYMENT_PROCESS_HEAD.isPrePosted=1 And TSPL_PAYMENT_PROCESS_HEAD.Doc_No Not In ( Select Payment_Process_Document_No from TSPL_BANK_ADVISE where Is_Partial = 0 ) "
+            If clsCommon.myLen(paymentProcessDocNo) > 0 Then
+                Qry += " and TSPL_PAYMENT_PROCESS_HEAD.Doc_No ='" & paymentProcessDocNo & "' "
+            End If
+            Qry += "" & Environment.NewLine & " union all " & Environment.NewLine & ""
+
+            BaseQry = " select TSPL_PAYMENT_PROCESS_HEAD.Doc_No As  [Document Code],TSPL_PAYMENT_PROCESS_HEAD.From_Date As [From Date],TSPL_PAYMENT_PROCESS_HEAD.To_Date As [To Date],TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader As [DCS Code],TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as [DCS Name],TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No,TSPL_BANK_ADVISE_DETAIL.partial_amt as [Balanace Amt],TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code As [MCC Code],TSPL_LOCATION_MASTER.Location_Desc As [Area],-1 as RI
+								from TSPL_BANK_ADVISE_DETAIL 
+								LEFT JOIN TSPL_BANK_ADVISE ON TSPL_BANK_ADVISE.Document_No = TSPL_BANK_ADVISE_DETAIL.Document_No
+								 Left Outer Join TSPL_PAYMENT_PROCESS_DETAIL On TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No=TSPL_BANK_ADVISE_DETAIL.Payment_Process_PP_Detail_No Left Outer Join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+								Left outer join TSPL_LOCATION_MASTER  On TSPL_LOCATION_MASTER.Location_Code=TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code where FarmType='PP' And TSPL_PAYMENT_PROCESS_HEAD.isPrePosted=1 "
+            If clsCommon.myLen(strDocNo) > 0 Then
+                BaseQry += " and TSPL_BANK_ADVISE.Document_No='" & strDocNo & "' "
+            End If
+            If clsCommon.myLen(paymentProcessDocNo) > 0 Then
+                BaseQry += " and TSPL_BANK_ADVISE.Payment_Process_Document_No ='" & paymentProcessDocNo & "' "
+            End If
+            Qry += BaseQry
+            Qry += "   ) xx where 2=2 "
+            If clsCommon.myLen(paymentProcessDocNo) > 0 Then
+                Qry += " and [Document Code]='" & paymentProcessDocNo & "' "
+            End If
+
+            Qry += "group by [Document Code],[DCS Code],PP_Detail_No "
+            If IsCheckDCSBal Then
+                Qry += " having sum(ri*[Balanace Amt])< 0 "
+            Else
+                Qry += " having sum(ri*[Balanace Amt])>0 "
+            End If
+            If isLoadData Then
+                Return BaseQry
+            Else
+                Return Qry
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
     Public Shared Function postData(ByVal strCode As String) As Boolean
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -159,20 +239,30 @@ left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TS
 where Document_No='" + strCode + "'"
         Return Qry
     End Function
-
-    Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal tran As SqlTransaction) As Boolean
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            Dim obj As clsBankAdvise = GetBankAdviseData(strCode, Nothing, tran)
+            ReverseAndUnpost(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim obj As clsBankAdvise = GetBankAdviseData(strCode, Nothing, trans)
             If obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0 Then
                 Throw New Exception("Invalid document No [" + strCode + "]")
             End If
             If obj Is Nothing OrElse clsCommon.myCDecimal(obj.Status) = 0 Then
                 Throw New Exception("Already unposted document No [" + strCode + "]")
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", "TSPL_BANK_ADVISE", "Document_No", tran)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_BANK_ADVISE", "Document_No", "TSPL_BANK_ADVISE", "Document_No", trans)
 
             Dim Qry As String = "Update TSPL_BANK_ADVISE Set Status=0 where  Document_No='" & strCode & "'"
-            clsDBFuncationality.ExecuteNonQuery(Qry, tran)
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -320,4 +410,34 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + strPPNo + "'  and (isnull(TSPL_PAY
         End Try
         Return issaved
     End Function
+End Class
+Public Class clsBankAdviseDetail
+#Region "Variables"
+    Public Document_No As String = ""
+    Public DCSCode As String = ""
+    Public DCSName As String = ""
+    Public Payment_Process_PP_Detail_No As String = Nothing
+    Public Balance_Amt As Decimal = 0
+    Public Partial_Amt As Double = 0
+#End Region
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBankAdviseDetail), ByVal paymentProcessDocNo As String, ByVal trans As SqlTransaction) As Boolean
+
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            Dim objHead As New clsBankAdvise()
+            For Each obj As clsBankAdviseDetail In Arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Payment_Process_PP_Detail_No", obj.Payment_Process_PP_Detail_No)
+                clsCommon.AddColumnsForChange(coll, "Balance_Amt", obj.Balance_Amt)
+                clsCommon.AddColumnsForChange(coll, "Partial_Amt", obj.Partial_Amt)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BANK_ADVISE_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+            Next
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(objHead.GetPaymentProcessDCSWiseDetails(paymentProcessDocNo, False, "", True), trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("DCS : " & clsCommon.myCstr(dt.Rows(0)("DCS Code")) & "  Balance is going negative.")
+            End If
+        End If
+        Return True
+    End Function
+
 End Class
