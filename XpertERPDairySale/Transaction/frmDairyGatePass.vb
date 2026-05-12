@@ -2283,7 +2283,7 @@ tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img,"
         Qry += "  FROM 
                    ( Select  max(Supply_Date)as Supply_Date,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-            Qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt ,MAX(gpUnit) AS gpUnit, "
+            Qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt , "
         Else
             Qry += " MAX(PrintUOMConv)PrintUOMConv,max(Conversion_FactorCrt) as Conversion_FactorCrt, "
         End If
@@ -2312,13 +2312,13 @@ MAX(TAX6)TAX6,MAX(TAX6_Amt)TAX6_Amt,
 MAX(TAX7)TAX7,MAX(TAX7_Amt)TAX7_Amt,
 MAX(TAX8)TAX8,MAX(TAX8_Amt)TAX8_Amt "
         End If
-        Qry += " ,max(Conver_Factr)Conver_Factr,max(Bulk_UOM_Code)Bulk_UOM_Code,MAX(Sale_Invoice_No)Sale_Invoice_No,MAX(Booth)Booth,MAX(Sub_Route_Code)Sub_Route_Code,MAX(Sub_Route_Name)Sub_Route_Name  FROM
+        Qry += " ,max(Conver_Factr)Conver_Factr,max(Bulk_UOM_Code)Bulk_UOM_Code,MAX(Sale_Invoice_No)Sale_Invoice_No,MAX(Booth)Booth,MAX(Sub_Route_Code)Sub_Route_Code,MAX(Sub_Route_Name)Sub_Route_Name,max(Vehicle_Type)Vehicle_Type  FROM
                    ( select   Bulk_UOM.UOM_Code as Bulk_UOM_Code,Bulk_UOM.Conversion_Factor AS Conver_Factr,FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,tspl_item_uom_detail.Conversion_Factor As PrintUOMConv,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Qry += "NoCrateIssue, Demand_UniqueID, "
         End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-            Qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , gpUnit.Conversion_Factor AS gpUnit, "
+            Qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , "
         Else
             Qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , "
         End If
@@ -2342,7 +2342,7 @@ XYZ.TAX8,XYZ.TAX8_Amt, "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
             Qry += " xyz.ActualRate, "
         End If
-        Qry += "case when TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item = 'Y' then 0 else xyz.Total_TCS_Amt end as Total_TCS_Amt,xyz.Zone_Code as Zonecode" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", xyz.ItemCost", "") + ",TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo,xyz.Sale_Invoice_No,xyz.Booth,xyz.Sub_Route_Code,xyz.Sub_Route_Name  from " & tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL & " " &
+        Qry += "case when TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item = 'Y' then 0 else xyz.Total_TCS_Amt end as Total_TCS_Amt,xyz.Zone_Code as Zonecode" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", xyz.ItemCost", "") + ",TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo,xyz.Sale_Invoice_No,xyz.Booth,xyz.Sub_Route_Code,xyz.Sub_Route_Name,xyz.Vehicle_Type    from " & tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL & " " &
                    " left outer join " & tbl_TSPL_DAIRYSALE_GATEPASS_MASTER & "  on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode " &
                    " left outer join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id=TSPL_DAIRYSALE_GATEPASS_MASTER.vehicle_id " &
                    " left outer join tspl_location_master on tspl_location_master.location_code=TSPL_DAIRYSALE_GATEPASS_MASTER.location_code " &
@@ -2366,7 +2366,8 @@ XYZ.TAX8,XYZ.TAX8_Amt, "
 
         '--" left join tspl_item_uom_detail gpUnit on gpUnit.item_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and CrateUnit.uom_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-            Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=tspl_vehicle_master.Transport_Id  left join tspl_item_uom_detail gpUnit on gpUnit.item_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and CrateUnit.uom_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code "
+            'Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=tspl_vehicle_master.Transport_Id  left join tspl_item_uom_detail gpUnit on gpUnit.item_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and CrateUnit.uom_code = TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code "
+            Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=tspl_vehicle_master.Transport_Id   "
         Else
             Qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=tspl_vehicle_master.Transport_Id  "
         End If
@@ -2403,7 +2404,7 @@ XYZ.TAX8,XYZ.TAX8_Amt, "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Qry += "max(NoCrateIssue)NoCrateIssue,"
         End If
-        Qry += " max(TSPL_CUSTOMER_MASTER.Zone_Code)Zone_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + ",Max(Concat(TSPL_CUSTOMER_MASTER.Add1,TSPL_CUSTOMER_MASTER.Add2)) As 'DistAddress',Max(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No) As Sale_Invoice_No,MAX(TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code) As Booth,MAX(TSPL_CUSTOMER_MASTER_SUB_Route.Sub_Route_Code)Sub_Route_Code,Max(TSPL_SUB_ROUTE_MASTER.Name) As Sub_Route_Name  from " & tbl_TSPL_SD_SHIPMENT_DETAIL & "   
+        Qry += " max(TSPL_CUSTOMER_MASTER.Zone_Code)Zone_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + ",Max(Concat(TSPL_CUSTOMER_MASTER.Add1,TSPL_CUSTOMER_MASTER.Add2)) As 'DistAddress',Max(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No) As Sale_Invoice_No,MAX(TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code) As Booth,MAX(TSPL_CUSTOMER_MASTER_SUB_Route.Sub_Route_Code)Sub_Route_Code,Max(TSPL_SUB_ROUTE_MASTER.Name) As Sub_Route_Name,max(TSPL_SD_SHIPMENT_HEAD.Vehicle_Type) Vehicle_Type  from " & tbl_TSPL_SD_SHIPMENT_DETAIL & "   
  
                      Left Outer Join " & tbl_TSPL_SD_SHIPMENT_HEAD & " ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
@@ -2506,7 +2507,7 @@ Left Outer Join TSPL_SUB_ROUTE_MASTER On TSPL_SUB_ROUTE_MASTER.Code=TSPL_CUSTOME
         qry = " select '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,Type, Comp_Code,case when Is_FreshItem = 1 then isnull(MilkQuantityltr,0) else isnull(MilkQuantityKG,0) end as Qty , isnull(MilkQuantityKG,0) + isnull(MilkQuantityltr,0) as Total_Qty,* from ( Select '" & objCommonVar.CurrentUserCode & "' as UserName, Case When CFinPouch > 0 Then ( ( Final.Crate_Qty * Final.Conversion_Factor )/ CFinPouch ) Else 0 End AS 'NoOfPouch', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) Else 0 End AS 'MilkQuantity', Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr', CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then cast( ( cast(qty as int)% Column_Crate ) as int ) Else 0 End AS 'LooseCrate', Pouch_Qty AS 'LoosePouch', CAST( CASE WHEN qty > 0 THEN CAST(qty AS decimal(18,2)) / Conversion_FactorCrt END AS decimal(18,2) ) AS CrateQtydd, CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, case when isnull(Final.CFinLTR,0)=0 then Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinKG) else Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinLTR) end as item_Cost FROM 
                    ( Select  max(type)type,  max(Supply_Date)as Supply_Date, "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-            qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt ,MAX(gpUnit) AS gpUnit, "
+            qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt , "
         Else
             qry += " max(Conversion_FactorCrt) as Conversion_FactorCrt, "
         End If
@@ -2520,7 +2521,7 @@ Left Outer Join TSPL_SUB_ROUTE_MASTER On TSPL_SUB_ROUTE_MASTER.Code=TSPL_CUSTOME
                    Sum(qty) qty, Max(Comp_Address) Comp_Address, Max(Loc_add) Loc_add, Max(Route_No) Route_No, Sum(Totalcrate) Totalcrate, Sum(TotalCan) TotalCan, Max(Route_Desc) Route_Desc, (GPCode) GPCode, Max(GPDate) GPDate, Max(GPTime) GPTime, Max(vehicle_id) vehicle_id, Max(VehicleDesc) VehicleDesc, Max(location_code) location_code, Max(Location_desc) Location_desc, Max(transporter) transporter, Max(remarks) remarks, Max(comments) comments, Max(post) post, Item_code, Max(item_desc) item_desc, Max(short_description) short_description, Max(sku_seq) sku_seq, Max(TranporterNameFromMaster) TranporterNameFromMaster, Max(HSN_Code) HSN_Code, Max(Salesman) Salesman, Sum(Column_Crate) Column_Crate, Max(Area_Code) Area_Code, Max(Zone_Code) Zone_Code, Max(ShiftType) ShiftType, Max(GSTReg_No) GSTReg_No, Max(Loading_Slip) Loading_Slip, Max(DispatchDate) DispatchDate, Max(GatePass_Date) GatePass_Date, Sum(Amount) Amount, sum(AmountWithoutTax) as AmountWithoutTax, Sum(Margin) Margin, sum(SecurityAmt) as SecurityAmt, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax ,max(RoundOffAmt) as RoundOffAmt , max(ItemCost) as UnitRate, Max(Driver_Name) Driver_Name, Max(Driver_ContactNo) Driver_ContactNo,max(Is_FreshItem)Is_FreshItem,max(NoCrateIssue)NoCrateIssue,MAX(Demand_UniqueID)Demand_UniqueID FROM
                    ( select   tspl_route_master.type, FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-            qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , gpUnit.Conversion_Factor AS gpUnit, "
+            qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt ,  "
         Else
             qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , "
         End If
