@@ -22,10 +22,12 @@ Partial Class rptBoothTruckSheet
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtTripNo = New common.MyNumBox()
+        Me.MyLabel9 = New common.Controls.MyLabel()
         Me.chkIsIndividualCust = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -61,14 +63,16 @@ Partial Class rptBoothTruckSheet
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.txtTripNo = New common.MyNumBox()
-        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.txtMultCustomer = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsIndividualCust, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -109,8 +113,7 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -149,6 +152,8 @@ Partial Class rptBoothTruckSheet
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtMultCustomer)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
         Me.RadPageViewPage1.Controls.Add(Me.txtTripNo)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel9)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsIndividualCust)
@@ -170,6 +175,43 @@ Partial Class rptBoothTruckSheet
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 350)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'txtTripNo
+        '
+        Me.txtTripNo.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTripNo.CalculationExpression = Nothing
+        Me.txtTripNo.DecimalPlaces = 0
+        Me.txtTripNo.FieldCode = Nothing
+        Me.txtTripNo.FieldDesc = Nothing
+        Me.txtTripNo.FieldMaxLength = 0
+        Me.txtTripNo.FieldName = Nothing
+        Me.txtTripNo.isCalculatedField = False
+        Me.txtTripNo.IsSourceFromTable = False
+        Me.txtTripNo.IsSourceFromValueList = False
+        Me.txtTripNo.IsUnique = False
+        Me.txtTripNo.Location = New System.Drawing.Point(573, 54)
+        Me.txtTripNo.MendatroryField = False
+        Me.txtTripNo.MyLinkLable1 = Nothing
+        Me.txtTripNo.MyLinkLable2 = Nothing
+        Me.txtTripNo.Name = "txtTripNo"
+        Me.txtTripNo.ReferenceFieldDesc = Nothing
+        Me.txtTripNo.ReferenceFieldName = Nothing
+        Me.txtTripNo.ReferenceTableName = Nothing
+        Me.txtTripNo.Size = New System.Drawing.Size(120, 20)
+        Me.txtTripNo.TabIndex = 453
+        Me.txtTripNo.Text = "0"
+        Me.txtTripNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTripNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(516, 56)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(46, 16)
+        Me.MyLabel9.TabIndex = 452
+        Me.MyLabel9.Text = "Trip No."
+        '
         'chkIsIndividualCust
         '
         Me.chkIsIndividualCust.IsThreeState = True
@@ -183,7 +225,7 @@ Partial Class rptBoothTruckSheet
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(21, 119)
+        Me.MyLabel2.Location = New System.Drawing.Point(21, 140)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(91, 18)
         Me.MyLabel2.TabIndex = 450
@@ -195,7 +237,7 @@ Partial Class rptBoothTruckSheet
         Me.RadGroupBox1.Controls.Add(Me.rbtnDispatch)
         Me.RadGroupBox1.Controls.Add(Me.rbtnDemand)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(132, 113)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(132, 134)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(303, 36)
@@ -244,7 +286,7 @@ Partial Class rptBoothTruckSheet
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(21, 85)
+        Me.MyLabel4.Location = New System.Drawing.Point(21, 106)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(85, 18)
         Me.MyLabel4.TabIndex = 446
@@ -257,7 +299,7 @@ Partial Class rptBoothTruckSheet
         Me.RadGroupBox4.Controls.Add(Me.rbtnProductType)
         Me.RadGroupBox4.Controls.Add(Me.MyRadioButton3)
         Me.RadGroupBox4.HeaderText = ""
-        Me.RadGroupBox4.Location = New System.Drawing.Point(132, 76)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(132, 97)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox4.Size = New System.Drawing.Size(303, 34)
@@ -534,7 +576,7 @@ Partial Class rptBoothTruckSheet
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.MyExportAPI = False
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
@@ -585,42 +627,30 @@ Partial Class rptBoothTruckSheet
         Me.btnReset.TabIndex = 155
         Me.btnReset.Text = "Reset"
         '
-        'txtTripNo
+        'txtMultCustomer
         '
-        Me.txtTripNo.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtTripNo.CalculationExpression = Nothing
-        Me.txtTripNo.DecimalPlaces = 0
-        Me.txtTripNo.FieldCode = Nothing
-        Me.txtTripNo.FieldDesc = Nothing
-        Me.txtTripNo.FieldMaxLength = 0
-        Me.txtTripNo.FieldName = Nothing
-        Me.txtTripNo.isCalculatedField = False
-        Me.txtTripNo.IsSourceFromTable = False
-        Me.txtTripNo.IsSourceFromValueList = False
-        Me.txtTripNo.IsUnique = False
-        Me.txtTripNo.Location = New System.Drawing.Point(573, 54)
-        Me.txtTripNo.MendatroryField = False
-        Me.txtTripNo.MyLinkLable1 = Nothing
-        Me.txtTripNo.MyLinkLable2 = Nothing
-        Me.txtTripNo.Name = "txtTripNo"
-        Me.txtTripNo.ReferenceFieldDesc = Nothing
-        Me.txtTripNo.ReferenceFieldName = Nothing
-        Me.txtTripNo.ReferenceTableName = Nothing
-        Me.txtTripNo.Size = New System.Drawing.Size(120, 20)
-        Me.txtTripNo.TabIndex = 453
-        Me.txtTripNo.Text = "0"
-        Me.txtTripNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTripNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.txtMultCustomer.arrDispalyMember = Nothing
+        Me.txtMultCustomer.arrValueMember = Nothing
+        Me.txtMultCustomer.Location = New System.Drawing.Point(132, 75)
+        Me.txtMultCustomer.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtMultCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultCustomer.MyLinkLable1 = Nothing
+        Me.txtMultCustomer.MyLinkLable2 = Nothing
+        Me.txtMultCustomer.MyNullText = "All"
+        Me.txtMultCustomer.Name = "txtMultCustomer"
+        Me.txtMultCustomer.Size = New System.Drawing.Size(303, 19)
+        Me.txtMultCustomer.TabIndex = 455
         '
-        'MyLabel9
+        'MyLabel3
         '
-        Me.MyLabel9.FieldName = Nothing
-        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(516, 56)
-        Me.MyLabel9.Name = "MyLabel9"
-        Me.MyLabel9.Size = New System.Drawing.Size(46, 16)
-        Me.MyLabel9.TabIndex = 452
-        Me.MyLabel9.Text = "Trip No."
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(21, 76)
+        Me.MyLabel3.Margin = New System.Windows.Forms.Padding(4)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(55, 18)
+        Me.MyLabel3.TabIndex = 454
+        Me.MyLabel3.Text = "Customer"
         '
         'rptBoothTruckSheet
         '
@@ -641,6 +671,8 @@ Partial Class rptBoothTruckSheet
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsIndividualCust, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -686,8 +718,7 @@ Partial Class rptBoothTruckSheet
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -733,4 +764,6 @@ Partial Class rptBoothTruckSheet
     Friend WithEvents chkIsIndividualCust As RadCheckBox
     Friend WithEvents txtTripNo As common.MyNumBox
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents txtMultCustomer As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
 End Class

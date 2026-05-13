@@ -572,6 +572,11 @@ where 2 = 2 "
             ElseIf chkIsIndividualCust.CheckState = CheckState.Unchecked Then
                 qry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
             End If
+
+            If txtMultCustomer.arrValueMember IsNot Nothing AndAlso txtMultCustomer.arrValueMember.Count > 0 Then
+                qry += " And TSPL_CUSTOMER_MASTER.Cust_Code In (" & clsCommon.GetMulcallString(txtMultCustomer.arrValueMember) & ") "
+            End If
+
             qry += " )"
 
             Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
@@ -684,5 +689,24 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabLTRUOM on TabLTRUOM.Item_Code=xx.Item
         End Try
     End Sub
 
+    Private Sub txtMultCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultCustomer._My_Click
+        Try
+            Dim qry As String = "Select Distinct TSPL_Customer_MASTER.Cust_Code As Code,TSPL_Customer_MASTER.Customer_name as Name from TSPL_Customer_MASTER
+Inner Join TSPL_DEMAND_BOOKING_DETAIL On TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_Customer_MASTER.Cust_Code
+Inner Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+Where 1=1 AND convert(date,TSPL_DEMAND_BOOKING_master.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) and convert(date,TSPL_DEMAND_BOOKING_master.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103)  "
+            If clsCommon.myLen(txtRouteCode.Value) > 0 Then
+                qry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" & txtRouteCode.Value & "')  "
+            End If
+            If chkIsIndividualCust.CheckState = CheckState.Checked Then
+                qry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=1 "
+            ElseIf chkIsIndividualCust.CheckState = CheckState.Unchecked Then
+                qry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
+            End If
+            txtMultCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("RouteMulSel", qry, "Code", "Name", txtMultCustomer.arrValueMember, txtMultCustomer.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 
