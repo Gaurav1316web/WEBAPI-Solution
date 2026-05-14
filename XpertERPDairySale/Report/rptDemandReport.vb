@@ -470,11 +470,11 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                     ElseIf chkSaleInvoiceWise.Checked = True Then
                         MainQuery = " select  Document_No as [Document No],[VEHICLE NO],[WdName],[Group],[Cust Group Desc], [Customer Category Code],[Zone],[Route No],UOM , " + strItem2WithSum + " , (" + strGrandTotalWithoutScheme + ") as [Grand Total], case WHEN upper(UOM)='CAN' THEN (" + strGrandTotalWithoutScheme + ") else 0 END AS [Can total], case WHEN upper(UOM)='CRATE' THEN (" + strGrandTotalWithoutScheme + ") else 0 END AS [Crate total], case WHEN upper(UOM)='BOX' THEN (" + strGrandTotalWithoutScheme + ") else 0 END AS [Box total] from (select zzz.Document_No,zzz.[VEHICLE NO],zzz.[Customer Category Code],zzz.[WdName],zzz.Description,zzz.Cust_Group_Code as [Group], max(zzz.[Cust Group Desc]) as [Cust Group Desc],zzz.Zone_Code as [Zone] ,zzz.UOM,zzz.[Route No] ,sum(qty) as qty from  (Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS Document_No,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item, TSPL_ITEM_MASTER.Sku_Seq, TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location AS Location_Code, TSPL_LOCATION_MASTER.Location_Desc,isnull(TSPL_CUSTOMER_MASTER.cust_category_code,'') as [Customer Category Code], TSPL_SD_SALE_INVOICE_HEAD.Customer_Code As [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name As WdName, TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code as UOM,TSPL_SD_SALE_INVOICE_HEAD.Route_No as [Route No] ,TSPL_ITEM_MASTER.Alies_Name As [Description] ,TSPL_VEHICLE_MASTER.Description [Lorry_No],TSPL_CUSTOMER_MASTER.Cust_Group_Code,TSPL_CUSTOMER_MASTER.Zone_Code ,IsNull(TSPL_VEHICLE_MASTER.Description, '''') As [VEHICLE NO], TSPL_SD_SALE_INVOICE_DETAIL.Qty  as Qty, TSPL_SD_SALE_INVOICE_HEAD.Document_Date As [Order Date],TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc as [Cust Group Desc] From TSPL_SD_SALE_INVOICE_DETAIL Left Outer Join TSPL_SD_SALE_INVOICE_HEAD On TSPL_SD_SALE_INVOICE_HEAD.Document_Code  = TSPL_SD_SALE_INVOICE_DETAIL.Document_Code Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code  Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code  Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code where 2=2 " + strWhrClause2 + " )zzz where 1=1 group by zzz.Document_No,zzz.[VEHICLE NO] ,zzz.WdName,zzz.Description,zzz.Cust_Group_Code,zzz.[Customer Category Code],zzz.Zone_Code,zzz.[Route No],zzz.UOM 	) as s pivot (  sum(Qty) for Description in ( " + strItem2 + " ) ) as zpivot group by zpivot.Document_No,zpivot.[VEHICLE NO],zpivot.[WdName],zpivot.[Group],zpivot.[Cust Group Desc],zpivot.[Customer Category Code],zpivot.[Zone],zpivot.[Route No],zpivot.UOM "
                     Else
-                        MainQuery = " select  [VEHICLE NO],[WdName],[Group],[Cust Group Desc], [Customer Category Code],[Zone],[Route No],
+                        MainQuery = " select  [VEHICLE NO],[WdName],[Group],[Cust Group Desc], max([Customer Code])[Booth Code],max([Source By])[Source By], [Customer Category Code],[Zone],[Route No],
                                       UOM  , " + strItem2WithSum + " , (" + strGrandTotalWithoutScheme + ") as [Grand Total] 
                                       from (select zzz.[VEHICLE NO],zzz.[WdName],zzz.Description,zzz.Cust_Group_Code as [Group], max(zzz.[Cust Group Desc]) as [Cust Group Desc],
-                                      zzz.[Customer Category Code],zzz.Zone_Code as [Zone] ,zzz.[Route No],zzz.UOM  ,sum(qty) as qty 
-                                      from  (Select  TSPL_ITEM_MASTER.Sku_Seq, TSPL_DEMAND_BOOKING_MASTER.Location_Code,
+                                      zzz.[Customer Category Code],zzz.Zone_Code as [Zone] ,zzz.[Route No],zzz.UOM  ,sum(qty) as qty ,max([Customer Code])[Customer Code],max(Source_By)[Source By]
+                                      from  (Select CASE WHEN Source_By = 'APP' THEN 'APP' ELSE 'ERP'END as Source_By,  TSPL_ITEM_MASTER.Sku_Seq, TSPL_DEMAND_BOOKING_MASTER.Location_Code,
                                       TSPL_LOCATION_MASTER.Location_Desc, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code As [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name As WdName,
                                       TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],TSPL_DEMAND_BOOKING_DETAIL.Unit_code as UOM, TSPL_DEMAND_BOOKING_DETAIL.Item_Code as Item_Code,
                                       TSPL_ITEM_MASTER.Alies_Name As [Description] ,TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_CUSTOMER_MASTER.Cust_Group_Code,
@@ -487,7 +487,12 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                                      Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code 
                                      Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code = TSPL_DEMAND_BOOKING_MASTER.Location_Code
                                      left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code
-                                      where 2=2 " + strWhrClause2 + " )zzz
+                                      where 2=2 "
+
+                        If rbdMobile.Checked Then
+                            MainQuery += " AND Source_By ='app'  "
+                        End If
+                        MainQuery +="      " + strWhrClause2 + " )zzz
                                       group by zzz.[VEHICLE NO] ,zzz.WdName,zzz.Description,zzz.Cust_Group_Code,zzz.[Customer Category Code],zzz.Zone_Code,zzz.[Route No] ,zzz.UOM ) as s pivot (  sum(Qty) for Description in ( " + strItem2 + " ) ) as zpivot group by zpivot.[VEHICLE NO],zpivot.[WdName],zpivot.[Group],zpivot.[Cust Group Desc],zpivot.[Customer Category Code],zpivot.[Zone],zpivot.[Route No],zpivot.UOM "
                     End If
                     query = MainQuery
@@ -539,6 +544,7 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                     Dim dtResult As DataTable = dtgv.Clone()
                     Dim view As DataView = New DataView(dtData)
                     Dim dtZone As DataTable = view.ToTable(True, "Zone")
+
                     dtResult.Columns.Add(New DataColumn("Total In Ltr", System.Type.GetType("System.Decimal")))
                     dtData.Columns.Add(New DataColumn("Total In Ltr", System.Type.GetType("System.Decimal")))
                     'Row wise total
@@ -703,6 +709,7 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
                         gv1.Columns(3).IsPinned = True
                         gv1.Columns(4).IsPinned = True
                     End If
+
                     If chkMilkPouch.Checked = False AndAlso chkProduct.Checked = False Then
                         gv1.Columns("Grand Total").IsPinned = True
                         gv1.Columns("Grand Total").PinPosition = PinnedColumnPosition.Right
@@ -779,5 +786,19 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Documen
         Dim qry As String = "Select TSPL_ROUTE_MASTER.Route_No AS Code,TSPL_ROUTE_MASTER.Route_Desc as Name from TSPL_ROUTE_MASTER  where 1=1 "
         TxtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("RouteMulSel", qry, "Code", "Name", TxtRoute.arrValueMember, TxtRoute.arrDispalyMember)
 
+    End Sub
+
+    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        Try
+            gv1.DataSource = Nothing
+            gv1.Rows.Clear()
+            gv1.Columns.Clear()
+            RadPageView1.SelectedPage = RadPageViewPage1
+            rbdMobile.Checked = False
+            txtCustomer.arrValueMember = Nothing
+            TxtRoute.arrValueMember = Nothing
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class
