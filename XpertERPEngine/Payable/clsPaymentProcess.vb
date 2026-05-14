@@ -2932,6 +2932,9 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
 ,cast(((TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)))-round( (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))*isnull(TSPL_MILK_SRN_DETAIL.FAT_Ratio,0),0) as integer) as SNF_Amount
 ,(case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD
 ,TBL_BILL_DETAILS.BILLSRL,TabSaving.Item_Desc as SavingDesc,TabCompulsory.Item_Desc as CompulsoryDesc,"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            BaseQry += " TabOverhead.Amount as OverheadAmt,  "
+        End If
 
         '    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
         '    BaseQry += " Round(ISNULL(TabSaving.[Amount],0), 0) + ISNULL(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0) as [SavingAmount],TSPL_TRANSFER_TO_SAVING_DETAIL.Amount "
@@ -3060,6 +3063,58 @@ where  TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ")"
             BaseQry += " and TSPL_VLC_MASTER_HEAD.VSP_Code In (" + strVSPCode + ") "
         End If
         BaseQry += " )x group by VSP_Code)TabCompulsory on TabCompulsory.VSP_Code=TBL_BILL_DETAILS.VSP_CODE"
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            BaseQry += " left outer join (SELECT ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition,zz.Addition_Hindi,SUM(ZZ.Amount) AS Amount,max(ManAddDed) as ManAddDed FROM(
+select  Final.VSP_Uploader_Code, Final.VSP_Code ,'' as Vendor_NAME,Final.Item_Desc as Addition,final.Addition_Hindi, sum(Amount) as [Amount],max(ManAddDed) as ManAddDed  from (
+select TSPL_VENDOR_INVOICE_HEAD.Document_No, TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VLC_Code_VLC_Uploader, 
+case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.trans_type,'')='Addition' then TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc 
+WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='DCS-QAT' THEN 'QAP'
+WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='DCS-LYT' THEN 'Loyalty'
+WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='OWD-CRE' THEN 'Own BMC Expanse'
+WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='OWD-CRD' THEN 'FAT SNF SHORTAGE'
+WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='CHC-CRE' THEN 'BMC CHARGES'
+WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='CRE-DHL' THEN 'Head Load'
+when TSPL_DCS_ADDITION_DEDUCTION.Description is null then TSPL_VENDOR_INVOICE_HEAD.RefDocType
+else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc ,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi as Addition_Hindis,
+COALESCE(TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi, TSPL_DEDUCTION_MASTER.Description_Hindi) AS Addition_Hindi,
+0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
+,TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,case when TSPL_MULTIPLE_DEDUCTION_head.Document_No is not null then 1 else 0 end as ManAddDed
+from TSPL_PAYMENT_PROCESS_CREDIT_NOTE   
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
+left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
+left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
+left outer join TSPL_DEDUCTION_MASTER ON TSPL_DEDUCTION_MASTER.Code = TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
+where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in (" + strDocNo + ") and TSPL_VENDOR_INVOICE_HEAD.RefDocType not in ('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') and (Hide_In_Milk_Bill_Print = '0' OR Hide_In_Milk_Bill_Print IS NULL)
+) Final where final.Item_Desc='DCS OVERHEAD 2%'
+group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc,final.Addition_Hindi  
+
+union all 
+
+SELECT TT.VSP_Uploader_Code,TT.VSP_Code,TT.Vendor_NAME,coalesce (mapping.mmDescription, TT.Addition) AS Addition,coalesce (mapping.HindiDescription, TT.Addition_Hindi) AS Addition_Hindi
+,TT.Amount,0 as ManAddDed  FROM (
+select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME,TSPL_DCS_ADDITION_DEDUCTION.Description as Addition,TSPL_DCS_ADDITION_DEDUCTION.Description_Hindi as Addition_Hindi,
+TSPL_DCS_ADDITION_DEDUCTION.Code,
+(TSPL_VENDOR_INVOICE_HEAD.Document_Total) as [Amount]  from TSPL_PAYMENT_PROCESS_SAVING 
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
+left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
+left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
+where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in  (" + strDocNo + ") and TSPL_DCS_ADDITION_DEDUCTION.Description='DCS OVERHEAD 2%' 
+)TT
+left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,MAPPING.Description_Hindi HindiDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
+left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.MappingCode WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code 
+)ZZ  where Addition!='Notview' "
+            If clsCommon.myLen(strVSPCode) > 0 Then
+                BaseQry += " and VSP_Code In (" + strVSPCode + ") "
+            End If
+            BaseQry += " GROUP BY  ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition,zz.Addition_Hindi ) 
+                        TabOverhead on TabOverhead.VSP_Code=TBL_BILL_DETAILS.VSP_CODE "
+        End If
+
 
         BaseQry += " left outer join (select VSP_Code,max(Item_Desc) as Item_Desc, sum([Amount]) as [Amount] from (
 			 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME,TSPL_DCS_ADDITION_DEDUCTION.Description as Item_Desc,(TSPL_VENDOR_INVOICE_HEAD.Document_Total) as [Amount]  from TSPL_PAYMENT_PROCESS_SAVING 

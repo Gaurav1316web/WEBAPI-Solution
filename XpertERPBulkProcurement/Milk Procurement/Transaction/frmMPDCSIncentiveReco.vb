@@ -26,6 +26,9 @@ Public Class frmMPDCSIncentiveReco
     Public Const colFAT As String = "colFAT"
     Public Const colSNF As String = "colSNF"
     Public Const colAmount As String = "colAmount"
+
+    Public Const colMPCollQty As String = "colMPCollQty"
+
     Public Const colMPCount As String = "colMPCount"
     Public Const colMPQty As String = "colMPQty"
     Public Const colMPFAT As String = "colMPFAT"
@@ -775,6 +778,15 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         AmountActual.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvItem.Columns.Add(AmountActual)
 
+        Qty = New GridViewDecimalColumn
+        Qty.FormatString = ""
+        Qty.HeaderText = "Farmer Collection Qty"
+        Qty.Name = colMPCollQty
+        Qty.Width = 100
+        Qty.ReadOnly = True
+        Qty.FormatString = "{0:n3}"
+        Qty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvItem.Columns.Add(Qty)
 
         gvItem.AllowAddNewRow = False
         gvItem.AllowDeleteRow = False
@@ -792,6 +804,9 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         gvItem.MasterTemplate.SummaryRowsBottom.Clear()
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim Smitem As New GridViewSummaryItem(colQty, "{0:n3}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(Smitem)
+
+        Smitem = New GridViewSummaryItem(colMPCollQty, "{0:n3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Smitem)
 
         Smitem = New GridViewSummaryItem(colEditQty, "{0:n3}", GridAggregateFunction.Sum)
@@ -1059,6 +1074,8 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colDiffFAT).Value = objTr.Diff_FAT
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colDiffSNF).Value = objTr.Diff_SNF
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colDiffAmt).Value = objTr.Diff_Amount
+
+                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colMPCollQty).Value = objTr.MPCollectionQty
 
                     'FillFarmerInfo(gvItem.Rows.Count - 1)
                 Next
