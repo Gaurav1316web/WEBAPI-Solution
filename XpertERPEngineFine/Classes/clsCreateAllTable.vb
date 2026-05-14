@@ -50001,6 +50001,8 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Payment_Process_PP_Detail_No", "Varchar(30) Not NULL references TSPL_PAYMENT_PROCESS_DETAIL(PP_Detail_No)")
             coll.Add("Balance_Amt", "decimal(18, 2) NULL")
             coll.Add("Partial_Amt", "decimal(18, 2) NULL")
+            coll.Add("Saving_Amt", "decimal(18, 2) NULL")
+            coll.Add("Saving_Partial_Amt", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BANK_ADVISE_DETAIL", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()

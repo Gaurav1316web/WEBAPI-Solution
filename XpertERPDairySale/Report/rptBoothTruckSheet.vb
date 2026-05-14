@@ -500,7 +500,7 @@ where 2 = 2  "
             ElseIf rdbHindi.IsChecked Then
                 qry += " (TSPL_ITEM_MASTER.Alies_Name_Hindi)Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  + ' ' + TSPL_CUSTOMER_MASTER.Customer_Name_Hindi  as [BoothName], "
             End If
-            qry += "TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,'" + Shift + "' AS Shift_Type,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
+            qry += "TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_SUB_ROUTE_MASTER.Code As Sub_Route_Code,TSPL_SUB_ROUTE_MASTER.Name As Sub_Route_Name,'" + Shift + "' AS Shift_Type,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
  TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,"
             If rbtnDispatch.IsChecked Then
                 qry += " Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty>0 Then IsNull(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,0) Else 0 End as Amount,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, Case When TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty Else 0 end CRATE "
@@ -537,6 +537,7 @@ left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Documen
 Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+LEFT Outer join TSPL_SUB_ROUTE_MASTER On  TSPL_SUB_ROUTE_MASTER.Code=TSPL_CUSTOMER_MASTER.Sub_Route_Code
 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_DEMAND_BOOKING_DETAIL.vehicle_code
@@ -571,6 +572,11 @@ where 2 = 2 "
             ElseIf chkIsIndividualCust.CheckState = CheckState.Unchecked Then
                 qry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
             End If
+
+            If txtMultCustomer.arrValueMember IsNot Nothing AndAlso txtMultCustomer.arrValueMember.Count > 0 Then
+                qry += " And TSPL_CUSTOMER_MASTER.Cust_Code In (" & clsCommon.GetMulcallString(txtMultCustomer.arrValueMember) & ") "
+            End If
+
             qry += " )"
 
             Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
@@ -588,7 +594,7 @@ where 2 = 2 "
                         If ii > 1 Then
                             BKNQuery += Environment.NewLine + " Union all " + Environment.NewLine
                         End If
-                        BKNQuery += " select " + clsCommon.myCstr(ii) + " as Grp ,ROW_NUMBER() over (order by max(Display_Seq)) as SNo, max(Access_officer) as Access_officer,max(Comp_Code1) as Comp_Code1,max(Description) as Description,max(Vehicle_Id) as Vehicle_Id,max(FromDate) as FromDate,max(ToDate) as ToDate,max(FromShift) as FromShift,max(Toshift) as Toshift,max(ShiftType) as ShiftType,max(Comp_Name) as Comp_Name,max(Transporter_Name) as Transporter_Name,max(Add1) as Add1,max(City_Code) as City_Code,max(Pincode) as Pincode,max(State) as State,max(Phone1) as Phone1,Cust_Code ,max(BoothName) as BoothName,max(Route_No) as Route_No,max(Route_Desc) as Route_Desc,max(Shift_Type) as Shift_Type,max(Document_Date) as Document_Date"
+                        BKNQuery += " select " + clsCommon.myCstr(ii) + " as Grp ,ROW_NUMBER() over (order by max(Display_Seq)) as SNo, max(Access_officer) as Access_officer,max(Comp_Code1) as Comp_Code1,max(Description) as Description,max(Vehicle_Id) as Vehicle_Id,max(FromDate) as FromDate,max(ToDate) as ToDate,max(FromShift) as FromShift,max(Toshift) as Toshift,max(ShiftType) as ShiftType,max(Comp_Name) as Comp_Name,max(Transporter_Name) as Transporter_Name,max(Add1) as Add1,max(City_Code) as City_Code,max(Pincode) as Pincode,max(State) as State,max(Phone1) as Phone1,Cust_Code ,max(BoothName) as BoothName,max(Route_No) as Route_No,max(Route_Desc) as Route_Desc,Sub_Route_Code,Max(Sub_Route_Name) As Sub_Route_Name,max(Shift_Type) as Shift_Type,max(Document_Date) as Document_Date"
                         For jj As Integer = 1 To 10
                             Dim strJJ As String = clsCommon.myCstr(jj)
                             Dim strICODE As String = ""
@@ -644,7 +650,7 @@ left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.Item_C
 left outer join TSPL_ITEM_UOM_DETAIL as TabDefaultUOM on TabDefaultUOM .Item_Code=xx.Item_Code and  TabDefaultUOM .Default_UOM=1
 left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.Item_Code and  TabCrateUOM.UOM_Code='Crate' 
 left outer join TSPL_ITEM_UOM_DETAIL as TabLTRUOM on TabLTRUOM.Item_Code=xx.Item_Code and  TabLTRUOM.UOM_Code='LTR' 
-) x group by Cust_Code"
+) x group by Cust_Code,Route_No,Sub_Route_Code"
                     Next
                     dtPrint = clsDBFuncationality.GetDataTable(BKNQuery)
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
@@ -683,5 +689,24 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabLTRUOM on TabLTRUOM.Item_Code=xx.Item
         End Try
     End Sub
 
+    Private Sub txtMultCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultCustomer._My_Click
+        Try
+            Dim qry As String = "Select Distinct TSPL_Customer_MASTER.Cust_Code As Code,TSPL_Customer_MASTER.Customer_name as Name from TSPL_Customer_MASTER
+Inner Join TSPL_DEMAND_BOOKING_DETAIL On TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_Customer_MASTER.Cust_Code
+Inner Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+Where 1=1 AND convert(date,TSPL_DEMAND_BOOKING_master.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) and convert(date,TSPL_DEMAND_BOOKING_master.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103)  "
+            If clsCommon.myLen(txtRouteCode.Value) > 0 Then
+                qry += " And TSPL_DEMAND_BOOKING_master.Route_No In ('" & txtRouteCode.Value & "')  "
+            End If
+            If chkIsIndividualCust.CheckState = CheckState.Checked Then
+                qry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=1 "
+            ElseIf chkIsIndividualCust.CheckState = CheckState.Unchecked Then
+                qry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
+            End If
+            txtMultCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("RouteMulSel", qry, "Code", "Name", txtMultCustomer.arrValueMember, txtMultCustomer.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 

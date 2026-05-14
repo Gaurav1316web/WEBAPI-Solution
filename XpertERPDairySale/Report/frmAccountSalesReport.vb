@@ -224,7 +224,7 @@ FROM
                 Dim BaseQry As String = rpt.BaseQryLoadDataInvoiceCount(txtFromDate.Value, txtToDate.Value, txtLocation.Value)
                 rpt = Nothing
                 Qry = "Select Max(Invoice_Tax_Type) As [Sale Voucher Type],Min(First_Invoice) As [Sr.No. From],Max(Last_Invoice) As [Sr. No. To],Sum(Total_Invoice) As [Total Number],
-Sum(Total_CancelInvoice) As [Cancelled] from (" & BaseQry & ")final Group By Prefix " ' ,Invoice_Tax_Type"
+(Sum(Total_CancelInvoice)+SUM(Total_DeleteInvoice)) As [Cancelled] from (" & BaseQry & ")final Group By Prefix " ' ,Invoice_Tax_Type"
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

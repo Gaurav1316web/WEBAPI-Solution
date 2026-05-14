@@ -9,6 +9,8 @@ Public Class frmBankAdvise
     Const ColPPDetailNo As String = "ColPPDetailNo"
     Const colBalanceAmt As String = "colBalanceAmt"
     Const colPartialAmt As String = "colPartialAmt"
+    Const colSavingAmt As String = "colSavingAmt"
+    Const colSavingPartialAmt As String = "colSavingPartialAmt"
     Private isCellValueChangedOpen As Boolean = False
 #End Region
     Private Sub SetUserMgmtNew()
@@ -96,6 +98,31 @@ Public Class frmBankAdvise
         repoPartialAmt.DecimalPlaces = 2
         repoPartialAmt.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoPartialAmt)
+
+        Dim repoSavingAmt = New GridViewDecimalColumn()
+        repoSavingAmt.FormatString = "{0:n2}"
+        repoSavingAmt.HeaderText = "Saving Amt"
+        repoSavingAmt.Name = colSavingAmt
+        repoSavingAmt.ReadOnly = True
+        repoSavingAmt.Width = 150
+        repoSavingAmt.Minimum = 0
+        repoSavingAmt.Width = 100
+        repoSavingAmt.ShowUpDownButtons = False
+        repoSavingAmt.DecimalPlaces = 2
+        repoSavingAmt.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoSavingAmt)
+
+        Dim repoSavingPartialAmt = New GridViewDecimalColumn()
+        repoSavingPartialAmt.FormatString = "{0:n2}"
+        repoSavingPartialAmt.HeaderText = "Saving Partial Amt"
+        repoSavingPartialAmt.Name = colSavingPartialAmt
+        repoSavingPartialAmt.Width = 150
+        repoSavingPartialAmt.Minimum = 0
+        repoSavingPartialAmt.Width = 100
+        repoSavingPartialAmt.ShowUpDownButtons = False
+        repoSavingPartialAmt.DecimalPlaces = 2
+        repoSavingPartialAmt.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoSavingPartialAmt)
 
         gv1.EnableFiltering = True
         gv1.AllowDeleteRow = True
@@ -219,7 +246,9 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
                             gv1.Rows(gv1.Rows.Count - 1).Cells(ColDCSName).Value = clsCommon.myCstr(row("DCS Name"))
                             gv1.Rows(gv1.Rows.Count - 1).Cells(ColPPDetailNo).Value = clsCommon.myCstr(row("PP Detail No"))
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceAmt).Value = clsCommon.myCDecimal(row("Balanace Amt"))
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colSavingAmt).Value = clsCommon.myCDecimal(row("Saving Amt"))
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colPartialAmt).Value = (gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceAmt).Value * clsCommon.myCDecimal(txtApplyPer.Value)) / 100
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colSavingPartialAmt).Value = (gv1.Rows(gv1.Rows.Count - 1).Cells(colSavingAmt).Value * clsCommon.myCDecimal(txtApplyPer.Value)) / 100
                         End If
                     End If
                 Next
@@ -240,13 +269,17 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
                             gv1.CurrentRow.Cells(colPartialAmt).Value = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colBalanceAmt).Value)
                             Throw New Exception("Partial Amount cannot be greater than Balance Amount")
                         End If
+                        If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colSavingPartialAmt).Value) > clsCommon.myCDecimal(gv1.CurrentRow.Cells(colSavingAmt).Value) Then
+                            gv1.CurrentRow.Cells(colSavingPartialAmt).Value = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colSavingAmt).Value)
+                            Throw New Exception("Saving Partial Amount cannot be greater than Saving Amount")
+                        End If
                     End If
                 End If
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        isCellValueChangedOpen = False
+            isCellValueChangedOpen = False
         End Try
     End Sub
 
@@ -317,6 +350,8 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
                             gv1.Rows(gv1.Rows.Count - 1).Cells(ColPPDetailNo).Value = objTr.Payment_Process_PP_Detail_No
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceAmt).Value = objTr.Balance_Amt
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colPartialAmt).Value = objTr.Partial_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colSavingAmt).Value = objTr.Saving_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colSavingPartialAmt).Value = objTr.Saving_Partial_Amt
                         Next
                     End If
                 End If
@@ -349,6 +384,8 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
                     objtr.Payment_Process_PP_Detail_No = clsCommon.myCstr(grow.Cells(ColPPDetailNo).Value)
                     objtr.Balance_Amt = clsCommon.myCDecimal(grow.Cells(colBalanceAmt).Value)
                     objtr.Partial_Amt = clsCommon.myCDecimal(grow.Cells(colPartialAmt).Value)
+                    objtr.Saving_Amt = clsCommon.myCDecimal(grow.Cells(colSavingAmt).Value)
+                    objtr.Saving_Partial_Amt = clsCommon.myCDecimal(grow.Cells(colSavingPartialAmt).Value)
                     If (clsCommon.myLen(objtr.Payment_Process_PP_Detail_No) > 0) Then
                         obj.Arr.Add(objtr)
                     End If
@@ -368,7 +405,7 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
 
         If clsCommon.myLen(fndPaymentProcessNo.Value) < 0 Then
             clsCommon.MyMessageBoxShow(Me, "Payment Process Document No. can't be black.", Me.Text)
-                Return False
+            Return False
         End If
 
         If clsCommon.myLen(txtRemarks) < 0 Then
@@ -379,6 +416,10 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
         For ii As Integer = 0 To gv1.Rows.Count - 1
             If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPartialAmt).Value) > clsCommon.myCDecimal(gv1.Rows(ii).Cells(colBalanceAmt).Value) Then
                 clsCommon.MyMessageBoxShow(Me, "Partial Amount cannot be greater than Balance Amount", Me.Text)
+                Return False
+            End If
+            If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSavingPartialAmt).Value) > clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSavingAmt).Value) Then
+                clsCommon.MyMessageBoxShow(Me, "Saving Partial Amount cannot be greater than Saving Amount", Me.Text)
                 Return False
             End If
         Next
@@ -470,7 +511,7 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
                     End If
                 End If
             Else
-                    clsCommon.MyMessageBoxShow(Me, "Data Not Found to Reverse and Unpost.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found to Reverse and Unpost.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -500,11 +541,61 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
-                Dim obj As New frmVendorBankAdvice()
-                obj.DocNo = clsCommon.myCstr(fndDocNo.Value)
-                obj.MCC = clsCommon.myCstr(txtMCC.Text)
-                obj.FormLoad()
-                'obj.Print(True, fndDocNo.Value, txtMCC.Text)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select * from TSPL_BANK_ADVISE_DETAIL where Document_No='" & fndDocNo.Value & "'")
+                If dt.Rows.Count > 0 Then
+                    Dim vSeprateBankForDCSBankAdvice As String = Nothing
+                    If clsCommon.myLen(IsSeprateBankForDCSBankAdvice) > 0 Then
+                        'If clsCommon.myLen(IsSeprateBankForDCSBankAdvice) > 0 Then
+                        vSeprateBankForDCSBankAdvice = IsSeprateBankForDCSBankAdvice
+                        ' If
+                    End If
+                    Dim qry As String = " select  max([Company Bank])[Company Bank],max([Company Bank Account No])[Company Bank Account No], max(CycleRange)CycleRange,max(GRPColumn)GRPColumn,max(Comp_Name)Comp_Name,max(Comp_address)Comp_address,
+                                  max(CompPhone)CompPhone,max(Regn_No)Regn_No,max(MCC_NAME)MCC_NAME,max(From_Date)From_Date,max(GSTReg_No)GSTReg_No,
+                                  max(Doc_No)Doc_No,max(Fiscal_Name)Fiscal_Name,max(CycleNo)CycleNo,max(Date_Range)Date_Range,VLC_CODE_Uploader,
+                                  max(Payee_Joint_Name)Payee_Joint_Name,max(Bank_Code)Bank_Code,max(Branch_Name)Branch_Name,max(Bank_Code_Desc)Bank_Code_Desc,
+                                  max(Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No)Payee_Joint_Account_No,sum(Payable_Amount)Payable_Amount,
+                                  max(FD)FD,max(TD)TD ,max([Bank Advise No])[Bank Advise No],max([Bank Advise Date])[Bank Advise Date],max([Bank Advice Status])[Bank Advice Status] from ( select  '' AS CycleRange, TSPL_Vendor_MASTER.Bank_Code as GRPColumn, CASE WHEN TSPL_Vendor_MASTER.Bank_Code LIKE 'PNB%' THEN 'PNB Bank' ELSE 'Other Banks' END AS GRPColumns,'" + txtDocDate.Value + "' as FD,'" + txtDocDate.Value + "' AS TD,TSPL_COMPANY_MASTER.Bank_Name,TSPL_COMPANY_MASTER.BankAccountNo,TSPL_COMPANY_MASTER.BankIFSCCode,TSPL_COMPANY_MASTER.BankBranchAddress,
+                               TSPL_BANK_MASTER.DESCRIPTION as [Company Bank], TSPL_BANK_MASTER.BANKACCNUMBER as [Company Bank Account No],
+                               TSPL_COMPANY_MASTER.Comp_Name
+                               ,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address
+                               ,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No, TSPL_MCC_MASTER.MCC_NAME ,TSPL_PAYMENT_PROCESS_HEAD.From_Date,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name
+,TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,  TSPL_Vendor_MASTER.Bank_Code, TSPL_VENDOR_MASTER.Branch_Name,case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No, 
+
+(isnull(TSPL_BANK_ADVISE_DETAIL.Partial_Amt,0))  as Payable_Amount  ,TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_BANK_ADVISE.Status IS NULL OR TSPL_BANK_ADVISE.Status =0 Then 'Pending' Else 'Approved' End As [Bank Advice Status]  from 
+TSPL_BANK_ADVISE_DETAIL 
+left join TSPL_PAYMENT_PROCESS_DETAIL on TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No=TSPL_BANK_ADVISE_DETAIL.Payment_Process_PP_Detail_No 
+                                left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+                                left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='UDP'
+                                left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
+                                left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
+                                left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank_Current  left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected left outer join TSPL_TRANSFER_TO_SAVING_DETAIL  on TSPL_PAYMENT_PROCESS_DETAIL.VSP_Code = TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code 
+                                left outer join TSPL_BANK_ADVISE On TSPL_BANK_ADVISE.Payment_Process_Document_No=TSPL_PAYMENT_PROCESS_HEAD.Doc_No   and 
+								TSPL_BANK_ADVISE_DETAIL.Document_No=TSPL_BANK_ADVISE.Document_No
+left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected    where TSPL_BANK_ADVISE.Document_No='" & fndDocNo.Value & "'  And
+(isnull(TSPL_BANK_ADVISE_DETAIL.Partial_Amt,0))>0)xxx group by xxx.VLC_CODE_Uploader order by Payee_Joint_Account_No asc "
+                    dt = clsDBFuncationality.GetDataTable(qry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JSL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdvice", "Bank Advice")
+                        ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewJPR", "Bank Advice")
+                        ElseIf clsCommon.myLen(vSeprateBankForDCSBankAdvice) > 0 Then
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSWMNEW1", "Bank Advice")
+                        Else
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNew", "Bank Advice")
+                            frmCRV = Nothing
+                        End If
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
+                    End If
+                Else
+                    Dim obj As New frmVendorBankAdvice()
+                    obj.DocNo = clsCommon.myCstr(fndDocNo.Value)
+                    obj.MCC = clsCommon.myCstr(txtMCC.Text)
+                    obj.FormLoad()
+                    'obj.Print(True, fndDocNo.Value, txtMCC.Text)
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Document code can't be blank !", Me.Text)
             End If
@@ -549,8 +640,13 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
         Try
             If clsCommon.myCDecimal(txtApplyPer.Value) > 0 AndAlso clsCommon.myCDecimal(txtApplyPer.Value) <= 100 Then
                 If gv1.Rows.Count > 0 Then
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("select RO_Increase_After,RO_Decimal_Places from TSPL_DCS_ADDITION_DEDUCTION where 2=2  and isnull(Inactive,0) = 0 and Nature_Type= 0 and saving=1 ")
                     For Each grow As GridViewRowInfo In gv1.Rows
                         grow.Cells(colPartialAmt).Value = (grow.Cells(colBalanceAmt).Value * clsCommon.myCDecimal(txtApplyPer.Value)) / 100
+                        grow.Cells(colSavingPartialAmt).Value = (grow.Cells(colSavingAmt).Value * clsCommon.myCDecimal(txtApplyPer.Value)) / 100
+                        If dt.Rows.Count > 0 Then
+                            grow.Cells(colSavingPartialAmt).Value = clsCommon.myRoundOFF(Math.Abs(clsCommon.myCDecimal(grow.Cells(colSavingPartialAmt).Value)), IIf(clsCommon.myCDecimal(dt.Rows(0)("RO_Decimal_Places")) >= 0, clsCommon.myCDecimal(dt.Rows(0)("RO_Decimal_Places")), objCommonVar.DCSAddDedRODecimalPlace), IIf(clsCommon.myCDecimal(dt.Rows(0)("RO_Increase_After")) >= 0, clsCommon.myCDecimal(dt.Rows(0)("RO_Increase_After")), objCommonVar.DCSAddDedROIncreaseAfter))
+                        End If
                     Next
                 End If
             ElseIf clsCommon.myCDecimal(txtApplyPer.Value) <= 0 Then
