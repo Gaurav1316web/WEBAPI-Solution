@@ -101,6 +101,8 @@ Public Class clsBankAdvise
                         objTr.Payment_Process_PP_Detail_No = clsCommon.myCstr(dr("Payment_Process_PP_Detail_No"))
                         objTr.Balance_Amt = clsCommon.myCDecimal(dr("Balance_Amt"))
                         objTr.Partial_Amt = clsCommon.myCDecimal(dr("Partial_Amt"))
+                        objTr.Saving_Amt = clsCommon.myCDecimal(dr("Saving_Amt"))
+                        objTr.Saving_Partial_Amt = clsCommon.myCDecimal(dr("Saving_Partial_Amt"))
                         obj.Arr.Add(objTr)
                     Next
                 End If
@@ -135,7 +137,7 @@ Public Class clsBankAdvise
         Return True
     End Function
     Public Shared Function paymentProcessDetails(ByVal PPDocNo As String) As String
-        Dim Qry As String = "Select TSPL_PAYMENT_PROCESS_HEAD.Doc_No As  [Document Code],TSPL_PAYMENT_PROCESS_HEAD.From_Date As [From Date],TSPL_PAYMENT_PROCESS_HEAD.To_Date As [To Date],TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader As [DCS Code],TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as [DCS Name],TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount as [Balanace Amt],TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code As [MCC Code],TSPL_LOCATION_MASTER.Location_Desc As [Area], 1 as RI from TSPL_PAYMENT_PROCESS_DETAIL
+        Dim Qry As String = "Select TSPL_PAYMENT_PROCESS_HEAD.Doc_No As  [Document Code],TSPL_PAYMENT_PROCESS_HEAD.From_Date As [From Date],TSPL_PAYMENT_PROCESS_HEAD.To_Date As [To Date],TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader As [DCS Code],TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as [DCS Name],TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount as [Balanace Amt],TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount as [Saving Amt],TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code As [MCC Code],TSPL_LOCATION_MASTER.Location_Desc As [Area], 1 as RI from TSPL_PAYMENT_PROCESS_DETAIL
                                 Left Outer Join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                 left outer join TSPL_LOCATION_MASTER  On TSPL_LOCATION_MASTER.Location_Code=TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code "
         If clsCommon.myLen(PPDocNo) > 0 Then
@@ -147,7 +149,7 @@ Public Class clsBankAdvise
     Public Function GetPaymentProcessDCSWiseDetails(ByVal paymentProcessDocNo As String, ByVal isLoadData As Boolean, ByVal strDocNo As String, ByVal IsCheckDCSBal As Boolean) As String
         Try
             Dim BaseQry As String = " "
-            Dim Qry As String = "  select [Document Code],max([From Date])[From Date],max([To Date])[To Date],[DCS Code],max([DCS Name])[DCS Name],PP_Detail_No as [PP Detail No],cast(sum(ri* [Balanace Amt]) as decimal (18,2)) as [Balanace Amt],max([MCC Code])[MCC Code],max([Area])[Area] from ( "
+            Dim Qry As String = "  select [Document Code],max([From Date])[From Date],max([To Date])[To Date],[DCS Code],max([DCS Name])[DCS Name],PP_Detail_No as [PP Detail No],cast(sum(ri* [Balanace Amt]) as decimal (18,2)) as [Balanace Amt],sum(ri* [Saving Amt]) as [Saving Amt],max([MCC Code])[MCC Code],max([Area])[Area] from ( "
             Qry += paymentProcessDetails("")
             Qry += " where FarmType='PP' And TSPL_PAYMENT_PROCESS_HEAD.isPrePosted=1 And TSPL_PAYMENT_PROCESS_HEAD.Doc_No Not In ( Select Payment_Process_Document_No from TSPL_BANK_ADVISE where Is_Partial = 0 ) "
             If clsCommon.myLen(paymentProcessDocNo) > 0 Then
@@ -155,7 +157,7 @@ Public Class clsBankAdvise
             End If
             Qry += "" & Environment.NewLine & " union all " & Environment.NewLine & ""
 
-            BaseQry = " select TSPL_PAYMENT_PROCESS_HEAD.Doc_No As  [Document Code],TSPL_PAYMENT_PROCESS_HEAD.From_Date As [From Date],TSPL_PAYMENT_PROCESS_HEAD.To_Date As [To Date],TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader As [DCS Code],TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as [DCS Name],TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No,TSPL_BANK_ADVISE_DETAIL.partial_amt as [Balanace Amt],TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code As [MCC Code],TSPL_LOCATION_MASTER.Location_Desc As [Area],-1 as RI
+            BaseQry = " select TSPL_PAYMENT_PROCESS_HEAD.Doc_No As  [Document Code],TSPL_PAYMENT_PROCESS_HEAD.From_Date As [From Date],TSPL_PAYMENT_PROCESS_HEAD.To_Date As [To Date],TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader As [DCS Code],TSPL_PAYMENT_PROCESS_DETAIL.VLC_Name as [DCS Name],TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No,TSPL_BANK_ADVISE_DETAIL.partial_amt as [Balanace Amt],isnull(TSPL_BANK_ADVISE_DETAIL.Saving_Partial_Amt,0) as [Saving Amt],TSPL_PAYMENT_PROCESS_DETAIL.MCC_Code As [MCC Code],TSPL_LOCATION_MASTER.Location_Desc As [Area],-1 as RI
 								from TSPL_BANK_ADVISE_DETAIL 
 								LEFT JOIN TSPL_BANK_ADVISE ON TSPL_BANK_ADVISE.Document_No = TSPL_BANK_ADVISE_DETAIL.Document_No
 								 Left Outer Join TSPL_PAYMENT_PROCESS_DETAIL On TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No=TSPL_BANK_ADVISE_DETAIL.Payment_Process_PP_Detail_No Left Outer Join TSPL_PAYMENT_PROCESS_HEAD On TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
@@ -174,9 +176,9 @@ Public Class clsBankAdvise
 
             Qry += "group by [Document Code],[DCS Code],PP_Detail_No "
             If IsCheckDCSBal Then
-                Qry += " having sum(ri*[Balanace Amt])< 0 "
+                Qry += " having (cast(sum(ri* [Balanace Amt]) as decimal (18,2)) < 0 ) or sum(ri* [Saving Amt]) < 0  "
             Else
-                Qry += " having sum(ri*[Balanace Amt])>0 "
+                Qry += " having (cast(sum(ri* [Balanace Amt]) as decimal (18,2)) > 0 ) or sum(ri* [Saving Amt]) >0 "
             End If
             If isLoadData Then
                 Return BaseQry
@@ -419,6 +421,8 @@ Public Class clsBankAdviseDetail
     Public Payment_Process_PP_Detail_No As String = Nothing
     Public Balance_Amt As Decimal = 0
     Public Partial_Amt As Decimal = 0
+    Public Saving_Amt As Decimal = 0
+    Public Saving_Partial_Amt As Decimal = 0
 #End Region
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBankAdviseDetail), ByVal paymentProcessDocNo As String, ByVal trans As SqlTransaction) As Boolean
 
@@ -430,6 +434,8 @@ Public Class clsBankAdviseDetail
                 clsCommon.AddColumnsForChange(coll, "Payment_Process_PP_Detail_No", obj.Payment_Process_PP_Detail_No)
                 clsCommon.AddColumnsForChange(coll, "Balance_Amt", obj.Balance_Amt)
                 clsCommon.AddColumnsForChange(coll, "Partial_Amt", obj.Partial_Amt)
+                clsCommon.AddColumnsForChange(coll, "Saving_Amt", obj.Saving_Amt)
+                clsCommon.AddColumnsForChange(coll, "Saving_Partial_Amt", obj.Saving_Partial_Amt)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BANK_ADVISE_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(objHead.GetPaymentProcessDCSWiseDetails(paymentProcessDocNo, False, "", True), trans)
