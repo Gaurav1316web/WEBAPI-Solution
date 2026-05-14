@@ -4494,7 +4494,11 @@ Public Class MDI
                     Case clsUserMgtCode.ItemRateStatusReport
                         frm = New ItemRateStatusReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    'Case clsUserMgtCode.rptStockReport
+                    Case clsUserMgtCode.rptDailySTAFGSStatement
+                        frm = New rptDailySTAFGSStatement()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                        'Case clsUserMgtCode.rptStockReport
                     '    frm = New rptStockReport()
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
