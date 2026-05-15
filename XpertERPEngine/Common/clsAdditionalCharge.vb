@@ -3700,6 +3700,14 @@ where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + PrevRoute + "' and TSPL_DEMAND_BO
         End If
         Return False
     End Function
+    Public Shared Function IsCreditCustomer(CustCode As String, ByVal trans As SqlTransaction) As Boolean
+        Dim qry As String = "select  Credit_Customer from tspl_customer_master where Cust_Code='" + CustCode + "'"
+        qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+        If clsCommon.CompairString(qry, "Y") = CompairStringResult.Equal Then
+            Return True
+        End If
+        Return False
+    End Function
     ''richa BHA/19/09/18-000561 ERO/30/11/18-000424 30 Nov,2018 richa 
     Public Shared Function getCustomerOutstandingOfAmt_Can_Crate(ByVal strCustomer As String, ByVal strfromdate As String, ByVal strtodate As String) As DataTable
         Dim dt As DataTable = Nothing
