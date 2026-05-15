@@ -472,7 +472,7 @@ Public Class frmMCCMaterialSale
         txtEWayBillNo.Text = ""
         txtEWayBillDate.Checked = False
         txtTPTAmt.Text = 0
-        txtEWayBillDate.Value = clsCommon.GETSERVERDATE
+        txtEWayBillDate.Value = clsCommon.GETSERVERDATE()
         txtDiscAmt.Text = 0
         txtDiscPer.Text = 0
         lblDiscountAmt.Text = 0

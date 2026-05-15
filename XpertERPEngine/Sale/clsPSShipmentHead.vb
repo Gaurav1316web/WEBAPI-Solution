@@ -1884,6 +1884,25 @@ Public Class clsPSShipmentHead
         End Try
         Return True
     End Function
+    Public Shared Function LoadOutstanding(ByVal strVendorNo As String, ByVal DocDate As DateTime, ByVal strDocNo As String, ByVal trans As SqlTransaction) As Double
+        Dim OutstandingAmt As Double = 0
+        Try
+            Dim qry As String = "Select  case when (( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt)) )>=0 then -abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) else abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) end  as BalAmt From ( " &
+                    "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
+                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
+                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
+                    "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
+                    "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", "'" + strVendorNo + "'", True, clsCommon.GetPrintDate(DocDate.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False, strDocNo) & "   " &
+                    " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
+                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
+                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & strVendorNo & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
+                    ") XXX GROUP BY ACode ORDER BY ACode"
+            OutstandingAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return OutstandingAmt
+    End Function
     Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, Optional ByVal IsDairyModule As Boolean = False) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -1891,6 +1910,8 @@ Public Class clsPSShipmentHead
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
+
+
                     PostData(FormId, clsCommon.myCstr(dr("Document_Code")), trans, Nothing, IsDairyModule, "")
                 Next
             Else
@@ -1954,6 +1975,23 @@ Public Class clsPSShipmentHead
                 obj = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False, False)
             Else
                 obj = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, False, IsDairyModule)
+            End If
+            Dim CheckCustomeroutStandingAmt As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckCustomeroutStandingAmt, clsFixedParameterCode.CheckCustomeroutStandingAmt, trans)) = 1, True, False)
+            If CheckCustomeroutStandingAmt Then
+                If Not clsCustomerMaster.IsCreditCustomer(obj.Customer_Code, trans) Then
+
+                    Dim OutStandingAmt As Double = LoadOutstanding(obj.Customer_Code, obj.Document_Date, obj.Document_Code, trans)
+
+                    Dim custOutStanding As Double = clsCommon.myCdbl(OutStandingAmt)
+                    If custOutStanding <= 0 Then
+                        Throw New Exception("Insufficient Balance.")
+                    End If
+                    custOutStanding = Math.Abs(custOutStanding)
+                    Dim TotalDocAmt As Double = clsCommon.myCdbl(obj.Total_Amt)
+                    If TotalDocAmt > custOutStanding Then
+                        Throw New Exception("Insufficient Balance.")
+                    End If
+                End If
             End If
             Dim StockCheckOnPostForDairyDispatchMultiple As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StockCheckOnPostForDairyDispatchMultiple, clsFixedParameterCode.StockCheckOnPostForDairyDispatchMultiple, trans)) = 1, True, False)
             If StockCheckOnPostForDairyDispatchMultiple = True Then
