@@ -2923,11 +2923,14 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
                     dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
                     gv1.CurrentRow.Cells(colConvF).Value = dblConvF
                     If chkTaxable.Checked Then
-                        txtTaxGroup.Value = clsDBFuncationality.getSingleValue("select Top 1 TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code from TSPL_ITEM_WISE_TAX 
-Inner Join TSPL_ITEM_WISE_TAX_AUTHORITY On TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE=TSPL_ITEM_WISE_TAX.HCODE
+                        Dim qry1 As String = " select Top 1 TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code from TSPL_ITEM_WISE_TAX Inner Join TSPL_ITEM_WISE_TAX_AUTHORITY On TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE=TSPL_ITEM_WISE_TAX.HCODE
 Inner Join TSPL_ITEM_WISE_TAX_GROUP On TSPL_ITEM_WISE_TAX_GROUP.HCODE=TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE
-where TSPL_ITEM_WISE_TAX.Type='S' And TSPL_ITEM_WISE_TAX.Status=1 And TSPL_ITEM_WISE_TAX_GROUP.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' Group By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103),TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code 
-Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
+where TSPL_ITEM_WISE_TAX.Type='S' And TSPL_ITEM_WISE_TAX.Status=1 And TSPL_ITEM_WISE_TAX_GROUP.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' Group By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103),TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code "
+                        If clsCommon.myLen(txtTaxGroup.Value) > 0 Then
+                            qry += "  and TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code ='" & txtTaxGroup.Value & "'"
+                        End If
+                        qry += " Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc"
+                        txtTaxGroup.Value = clsDBFuncationality.getSingleValue(qry1)
                         SetTaxDetails()
                         If clsCommon.myLen(chkTaxGroup) > 0 Then
                             If clsCommon.CompairString(txtTaxGroup.Value, chkTaxGroup) <> CompairStringResult.Equal Then
