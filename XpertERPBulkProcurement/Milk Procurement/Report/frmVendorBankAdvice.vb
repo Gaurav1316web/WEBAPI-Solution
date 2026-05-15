@@ -1281,12 +1281,13 @@ SELECT ca.RI,t.[Bank Advise No],t.[Bank Advise Date],t.VLC_CODE_Uploader,ca.Bank
             qry += " TSPL_Vendor_MASTER.Bank_Code,case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,
                      TSPL_VENDOR_MASTER.BankCode2 as Bank_Code_Saving,TSPL_VENDOR_MASTER.BankName2 as Bank_Desc_Saving,TSPL_VENDOR_MASTER.Branch_Name,TSPL_VENDOR_MASTER.IFSC_Code,TSPL_VENDOR_MASTER.IFSCCode2,TSPL_VENDOR_MASTER.AccNo2 as Bank_Account_No_Saving "
         End If
-        qry += " ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
-                         ---   (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)+isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0))  as Payable_Amount,
-(isnull(TSPL_BANK_ADVISE_DETAIL.Partial_Amt,0)+isnull(TSPL_BANK_ADVISE_DETAIL.Saving_Partial_Amt,0))  as Payable_Amount,
-						---	isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0) as Saving_Amount
-isnull(TSPL_BANK_ADVISE_DETAIL.Saving_Partial_Amt,0) as Saving_Amount
-							  from TSPL_PAYMENT_PROCESS_DETAIL 
+        qry += " ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,"
+        If dtBankAdvise IsNot Nothing AndAlso dtBankAdvise.Rows.Count > 1 Then
+            qry += " (isnull(TSPL_BANK_ADVISE_DETAIL.Partial_Amt,0)+isnull(TSPL_BANK_ADVISE_DETAIL.Saving_Partial_Amt,0))  as Payable_Amount,isnull(TSPL_BANK_ADVISE_DETAIL.Saving_Partial_Amt,0) as Saving_Amount "
+        Else
+            qry += "   (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)+isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0))  as Payable_Amount,	isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0) as Saving_Amount "
+        End If
+        qry += "	 from TSPL_PAYMENT_PROCESS_DETAIL 
                             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                             left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE								
                             left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
@@ -2185,7 +2186,7 @@ MAX(Bank_Account_No_Saving)Bank_Account_No_Saving,max(Bank_Code_Saving)Bank_Code
         LoadBankAdviseNo()
     End Sub
     Sub LoadBankAdviseNo()
-        dtBankAdvise = clsDBFuncationality.GetDataTable("select Document_No from TSPL_BANK_ADVISE left join TSPL_PAYMENT_PROCESS_HEAD ON TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_BANK_ADVISE.Payment_Process_Document_No where TSPL_PAYMENT_PROCESS_HEAD.From_Date >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and TSPL_PAYMENT_PROCESS_HEAD.To_Date <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "' and TSPL_BANK_ADVISE.Status = 1 ")
+        dtBankAdvise = clsDBFuncationality.GetDataTable("select TSPL_BANK_ADVISE_DETAIL.Document_No from TSPL_BANK_ADVISE_DETAIL left join TSPL_BANK_ADVISE on TSPL_BANK_ADVISe.Document_No = TSPL_BANK_ADVISE_DETAIL.Document_No left join TSPL_PAYMENT_PROCESS_HEAD ON TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_BANK_ADVISE.Payment_Process_Document_No where TSPL_PAYMENT_PROCESS_HEAD.From_Date >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' and TSPL_PAYMENT_PROCESS_HEAD.To_Date <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "' and TSPL_BANK_ADVISE.Status = 1 group by TSPL_BANK_ADVISE_DETAIL.Document_No ")
         If dtBankAdvise IsNot Nothing AndAlso dtBankAdvise.Rows.Count > 1 Then
             lblBankAdviseNo.Visible = True
             txtBankAdviseNo.Visible = True
