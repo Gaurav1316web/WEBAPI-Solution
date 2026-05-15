@@ -46,6 +46,7 @@ Public Class rptTemporaryPaymentDeductionSummary
         chkDCSWise.Enabled = val
         RadGroupBox1.Enabled = val
         fndMultDCS.Enabled = val
+        TxtMultiZone.Enabled = val
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -632,15 +633,16 @@ where 2=2 and TSPL_PAYMENT_PROCESS_HEAD.From_Date='" + clsCommon.GetPrintDate(cl
             Else
                 subQry = "Select "
             End If
-            qry = subQry + " case when Document_Type='D' then 'Deduction' else 'Addition'  end Type,DCSCode,[DCS Name] ,(DeductionCode+'-'+DeductionName) as DeductionName,TotalSubsidyAmt,cast((OP+Sale) as  decimal(18,2)) as [Opening+Sale],AMTDeducted as [Amt Deducted],cast((OP+Sale-AMTDeducted) as decimal(18,2)) as [Balance Amount],Active from (
-select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName,TSPL_VENDOR_MASTER.Vendor_Code,max(VLC_Code_VLC_Uploader) as DCSCode,max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name]
+            qry = subQry + " case when Document_Type='D' then 'Deduction' else 'Addition'  end Type,DCSCode,Zone_Code,Zone_Name,[DCS Name] ,(DeductionCode+'-'+DeductionName) as DeductionName,TotalSubsidyAmt,cast((OP+Sale) as  decimal(18,2)) as [Opening+Sale],AMTDeducted as [Amt Deducted],cast((OP+Sale-AMTDeducted) as decimal(18,2)) as [Balance Amount],Active from (
+select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName,TSPL_VENDOR_MASTER.Vendor_Code,max(VLC_Code_VLC_Uploader) as DCSCode,MAX(TSPL_VENDOR_MASTER.Zone_Code)Zone_Code,max(TSPL_ZONE_MASTER.Description)Zone_Name,max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name]
 ,sum((Amount-Reduce_Deduc_Amt) * (case when  Document_Date<'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 or RI=4 or RI=6 or RI=10 then 1 else -1 end)) as OP 
 ,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when (RI=1 or RI=4 or RI=6 or RI=10) then 1 else 0 end)) as Sale
 ,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when (RI=1 or RI=4 or RI=6 or RI=8 ) then 0 else 1 end)) as AMTDeducted ,max(Active)Active
 ,sum(TotalSubsidyAmt * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end)) as TotalSubsidyAmt
 from (" + BaseQry + ")xx
 left  join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
-left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
+left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code
+LEFT  JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code =TSPL_VENDOR_MASTER.Zone_Code "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 qry += " where 2=2 and TSPL_DEDUCTION_MASTER.Code !='PDP' "
             End If
@@ -661,19 +663,23 @@ left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
             Else
                 qry += Nothing
             End If
+            If TxtMultiZone.arrValueMember IsNot Nothing AndAlso TxtMultiZone.arrValueMember.Count > 0 Then
+                qry += " and Zone_Code In(" + clsCommon.GetMulcallString(TxtMultiZone.arrDispalyMember) + ")" + Environment.NewLine
+            End If
 
 
             'where (OP+Sale-AMTDeducted)>0"
         Else
-            qry = "select case when Document_Type='D' then 'Deduction' else 'Addition'  end Type ,(DeductionCode+'-'+DeductionName) as DeductionName,TotalSubsidyAmt,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount],Active from (
-select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName
+            qry = "select case when Document_Type='D' then 'Deduction' else 'Addition'  end Type,Zone_Code,Zone_Name,(DeductionCode+'-'+DeductionName) as DeductionName,TotalSubsidyAmt,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount],Active from (
+select Document_Type,xx.DeductionCode,MAX(TSPL_VENDOR_MASTER.Zone_Code)Zone_Code,max(TSPL_ZONE_MASTER.Description)Zone_Name,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName
 ,sum((Amount-Reduce_Deduc_Amt) * (case when  Document_Date<'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 or RI=4 or RI=6 or RI=10 then 1 else -1 end)) as OP 
 ,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 or RI=4 or RI=6 or RI=10 then 1 else 0 end)) as Sale
 ,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 or RI=4 or RI=6 or RI=8 then 0 else 1 end)) as AMTDeducted ,max(Active)Active
 ,sum(TotalSubsidyAmt * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end)) as TotalSubsidyAmt
 from (" + BaseQry + ")xx
 left  join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
-left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
+left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code
+LEFT  JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code =TSPL_VENDOR_MASTER.Zone_Code"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 qry += " where 2=2 and TSPL_DEDUCTION_MASTER.Code !='PDP' "
@@ -695,6 +701,9 @@ left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
                 qry += " And xxx.Active=0 "
             Else
                 qry += Nothing
+            End If
+            If TxtMultiZone.arrValueMember IsNot Nothing AndAlso TxtMultiZone.arrValueMember.Count > 0 Then
+                qry += " and Zone_Code In(" + clsCommon.GetMulcallString(TxtMultiZone.arrDispalyMember) + ")" + Environment.NewLine
             End If
 
         End If
@@ -1356,6 +1365,12 @@ union all
             Gv1.Columns("TotalSubsidyAmt").IsVisible = False
             Gv1.Columns("TotalSubsidyAmt").VisibleInColumnChooser = True
             Gv1.Columns("TotalSubsidyAmt").HeaderText = "Subsidy Amount"
+
+            Gv1.Columns("Zone_Code").IsVisible = False
+            Gv1.Columns("Zone_Code").VisibleInColumnChooser = True
+            Gv1.Columns("Zone_Code").HeaderText = "Zone Code"
+
+            Gv1.Columns("Zone_Name").HeaderText = "Zone Name"
         End If
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
@@ -1730,8 +1745,12 @@ union all
         Try
             If rdbOldCurrent.Checked Then
                 btnPrint.Visible = True
+                TxtMultiZone.Visible = True
+                MyLabel5.Visible = True
             Else
                 btnPrint.Visible = False
+                TxtMultiZone.Visible = False
+                MyLabel5.Visible = False
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
@@ -2191,6 +2210,31 @@ left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
             '    qry += " Where Cust_Type_Code In (" + clsCommon.GetMulcallString(TxtCustomerType.arrValueMember) + ")"
             'End If
             fndMultDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", fndMultDCS.arrValueMember, fndMultDCS.arrDispalyMember)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rdbOldCurrent_CheckedChanged(sender As Object, e As EventArgs) Handles rdbOldCurrent.CheckedChanged
+        If rdbOldCurrent.Checked Then
+            btnPrint.Visible = True
+            TxtMultiZone.Visible = True
+            MyLabel5.Visible = True
+        Else
+            btnPrint.Visible = False
+            TxtMultiZone.Visible = False
+            MyLabel5.Visible = False
+        End If
+    End Sub
+
+    Private Sub TxtMultiZone__My_Click(sender As Object, e As EventArgs) Handles TxtMultiZone._My_Click
+        Try
+            Dim qry As String = " select Zone_Code as Code,Description as Name from TSPL_ZONE_MASTER  "
+            'If TxtCustomerType.arrValueMember IsNot Nothing AndAlso TxtCustomerType.arrValueMember.Count > 0 Then
+            '    qry += " Where Cust_Type_Code In (" + clsCommon.GetMulcallString(TxtCustomerType.arrValueMember) + ")"
+            'End If
+            TxtMultiZone.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", TxtMultiZone.arrValueMember, TxtMultiZone.arrDispalyMember)
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

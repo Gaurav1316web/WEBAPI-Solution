@@ -30,6 +30,8 @@ Public Class clsBMCTransporterBill
     Public KM_Rate As Double = 0
     Public Total_Amount As Double = 0
     Public Gross_Amount As Double = 0
+    Public Total_Addition As Double = 0
+    Public Total_Deduction As Double = 0
     Public Diesel_Rate_Plus As Double = 0
     Public Diesel_Rate_Minus As Double = 0
     Public Total_Diesel As Double = 0
@@ -119,6 +121,8 @@ Public Class clsBMCTransporterBill
         clsCommon.AddColumnsForChange(coll, "KM_Rate", obj.KM_Rate)
         clsCommon.AddColumnsForChange(coll, "Total_Amount", obj.Total_Amount)
         clsCommon.AddColumnsForChange(coll, "Gross_Amount", obj.Gross_Amount)
+        clsCommon.AddColumnsForChange(coll, "Total_Addition", obj.Total_Addition)
+        clsCommon.AddColumnsForChange(coll, "Total_Deduction", obj.Total_Deduction)
         clsCommon.AddColumnsForChange(coll, "Diesel_Rate_Plus", obj.Diesel_Rate_Plus)
         clsCommon.AddColumnsForChange(coll, "Diesel_Rate_Minus", obj.Diesel_Rate_Minus)
         clsCommon.AddColumnsForChange(coll, "Total_Diesel", obj.Total_Diesel)
@@ -194,6 +198,8 @@ Public Class clsBMCTransporterBill
             obj.KM_Rate = clsCommon.myCdbl(dt.Rows(0)("KM_Rate"))
             obj.Total_Amount = clsCommon.myCdbl(dt.Rows(0)("Total_Amount"))
             obj.Gross_Amount = clsCommon.myCdbl(dt.Rows(0)("Gross_Amount"))
+            obj.Total_Addition = clsCommon.myCdbl(dt.Rows(0)("Total_Addition"))
+            obj.Total_Deduction = clsCommon.myCdbl(dt.Rows(0)("Total_Deduction"))
             obj.Diesel_Rate_Plus = clsCommon.myCdbl(dt.Rows(0)("Diesel_Rate_Plus"))
             obj.Diesel_Rate_Minus = clsCommon.myCdbl(dt.Rows(0)("Diesel_Rate_Minus"))
             obj.Total_Diesel = clsCommon.myCdbl(dt.Rows(0)("Total_Diesel"))
