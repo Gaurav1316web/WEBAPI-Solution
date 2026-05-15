@@ -205,6 +205,12 @@
     <Compile Include="Reports\ItemStockReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Reports\rptDailySTAFGSStatement.Designer.vb">
+      <DependentUpon>rptDailySTAFGSStatement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptDailySTAFGSStatement.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Setup\frmBudgetMaintenance.Designer.vb">
       <DependentUpon>frmBudgetMaintenance.vb</DependentUpon>
     </Compile>
@@ -321,6 +327,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ItemStockReport.resx">
       <DependentUpon>ItemStockReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptDailySTAFGSStatement.resx">
+      <DependentUpon>rptDailySTAFGSStatement.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setup\frmBudgetMaintenance.resx">
       <DependentUpon>frmBudgetMaintenance.vb</DependentUpon>

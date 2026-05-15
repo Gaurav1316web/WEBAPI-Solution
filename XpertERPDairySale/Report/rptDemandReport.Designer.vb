@@ -23,14 +23,29 @@ Partial Class rptDemandReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkGatePass = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkRouteBoothWise = New Telerik.WinControls.UI.RadCheckBox()
+        Me.ChkDayWiseSummary = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkFirstAndSecondSpellAbstract = New Telerik.WinControls.UI.RadCheckBox()
+        Me.rbtnDateWise = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkRouteSummary = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkFirstAndSecondSpell = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkFilterByCreatedDate = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkSummary = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkSaleInvoiceWise = New Telerik.WinControls.UI.RadCheckBox()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.lblCustomer = New common.Controls.MyLabel()
+        Me.TxtRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
         Me.chkBookingWise = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
@@ -49,27 +64,27 @@ Partial Class rptDemandReport
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
-        Me.TxtRoute = New common.UserControls.txtMultiSelectFinder()
-        Me.lblCustomer = New common.Controls.MyLabel()
-        Me.MyLabel10 = New common.Controls.MyLabel()
-        Me.chkFirstAndSecondSpell = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkFilterByCreatedDate = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkSummary = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkSaleInvoiceWise = New Telerik.WinControls.UI.RadCheckBox()
-        Me.rbtnDateWise = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkRouteSummary = New Telerik.WinControls.UI.RadCheckBox()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.chkGatePass = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkRouteBoothWise = New Telerik.WinControls.UI.RadCheckBox()
-        Me.ChkDayWiseSummary = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkFirstAndSecondSpellAbstract = New Telerik.WinControls.UI.RadCheckBox()
+        Me.rbdMobile = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkGatePass, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkRouteBoothWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChkDayWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkFirstAndSecondSpellAbstract, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDateWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkRouteSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkFirstAndSecondSpell, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkFilterByCreatedDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSaleInvoiceWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkBookingWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
@@ -87,20 +102,7 @@ Partial Class rptDemandReport
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkFirstAndSecondSpell, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkFilterByCreatedDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSaleInvoiceWise, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnDateWise, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkRouteSummary, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
-        CType(Me.chkGatePass, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkRouteBoothWise, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChkDayWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkFirstAndSecondSpellAbstract, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbdMobile, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -145,6 +147,7 @@ Partial Class rptDemandReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.rbdMobile)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.rbtnDateWise)
         Me.RadPageViewPage1.Controls.Add(Me.chkRouteSummary)
@@ -164,6 +167,168 @@ Partial Class rptDemandReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 354)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkGatePass)
+        Me.RadGroupBox1.Controls.Add(Me.chkRouteBoothWise)
+        Me.RadGroupBox1.Controls.Add(Me.ChkDayWiseSummary)
+        Me.RadGroupBox1.Controls.Add(Me.chkFirstAndSecondSpellAbstract)
+        Me.RadGroupBox1.HeaderText = "RadGroupBox1"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(259, 231)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(345, 86)
+        Me.RadGroupBox1.TabIndex = 443
+        Me.RadGroupBox1.Text = "RadGroupBox1"
+        Me.RadGroupBox1.Visible = False
+        '
+        'chkGatePass
+        '
+        Me.chkGatePass.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkGatePass.Enabled = False
+        Me.chkGatePass.Location = New System.Drawing.Point(5, 21)
+        Me.chkGatePass.Name = "chkGatePass"
+        Me.chkGatePass.Size = New System.Drawing.Size(95, 18)
+        Me.chkGatePass.TabIndex = 425
+        Me.chkGatePass.Text = "Only Gate Pass"
+        Me.chkGatePass.Visible = False
+        '
+        'chkRouteBoothWise
+        '
+        Me.chkRouteBoothWise.Location = New System.Drawing.Point(5, 36)
+        Me.chkRouteBoothWise.Name = "chkRouteBoothWise"
+        Me.chkRouteBoothWise.Size = New System.Drawing.Size(114, 18)
+        Me.chkRouteBoothWise.TabIndex = 422
+        Me.chkRouteBoothWise.Text = "Route/Booth Wise "
+        Me.chkRouteBoothWise.Visible = False
+        '
+        'ChkDayWiseSummary
+        '
+        Me.ChkDayWiseSummary.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ChkDayWiseSummary.Location = New System.Drawing.Point(5, 51)
+        Me.ChkDayWiseSummary.Name = "ChkDayWiseSummary"
+        Me.ChkDayWiseSummary.Size = New System.Drawing.Size(117, 18)
+        Me.ChkDayWiseSummary.TabIndex = 423
+        Me.ChkDayWiseSummary.Text = "Day Wise Summary"
+        Me.ChkDayWiseSummary.Visible = False
+        '
+        'chkFirstAndSecondSpellAbstract
+        '
+        Me.chkFirstAndSecondSpellAbstract.Location = New System.Drawing.Point(5, 66)
+        Me.chkFirstAndSecondSpellAbstract.Name = "chkFirstAndSecondSpellAbstract"
+        Me.chkFirstAndSecondSpellAbstract.Size = New System.Drawing.Size(226, 18)
+        Me.chkFirstAndSecondSpellAbstract.TabIndex = 424
+        Me.chkFirstAndSecondSpellAbstract.Text = "First And Second Spell Card Sale Abstract"
+        Me.chkFirstAndSecondSpellAbstract.Visible = False
+        '
+        'rbtnDateWise
+        '
+        Me.rbtnDateWise.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.rbtnDateWise.Location = New System.Drawing.Point(425, 168)
+        Me.rbtnDateWise.Name = "rbtnDateWise"
+        Me.rbtnDateWise.Size = New System.Drawing.Size(71, 18)
+        Me.rbtnDateWise.TabIndex = 442
+        Me.rbtnDateWise.Text = "Date Wise"
+        Me.rbtnDateWise.Visible = False
+        '
+        'chkRouteSummary
+        '
+        Me.chkRouteSummary.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkRouteSummary.Location = New System.Drawing.Point(283, 168)
+        Me.chkRouteSummary.Name = "chkRouteSummary"
+        Me.chkRouteSummary.Size = New System.Drawing.Size(126, 18)
+        Me.chkRouteSummary.TabIndex = 441
+        Me.chkRouteSummary.Text = "Route Summary Print"
+        Me.chkRouteSummary.Visible = False
+        '
+        'chkFirstAndSecondSpell
+        '
+        Me.chkFirstAndSecondSpell.Location = New System.Drawing.Point(404, 196)
+        Me.chkFirstAndSecondSpell.Name = "chkFirstAndSecondSpell"
+        Me.chkFirstAndSecondSpell.Size = New System.Drawing.Size(232, 18)
+        Me.chkFirstAndSecondSpell.TabIndex = 440
+        Me.chkFirstAndSecondSpell.Text = "First And Second Spell Card Sale Summary"
+        Me.chkFirstAndSecondSpell.Visible = False
+        '
+        'chkFilterByCreatedDate
+        '
+        Me.chkFilterByCreatedDate.Location = New System.Drawing.Point(390, 141)
+        Me.chkFilterByCreatedDate.Name = "chkFilterByCreatedDate"
+        Me.chkFilterByCreatedDate.Size = New System.Drawing.Size(129, 18)
+        Me.chkFilterByCreatedDate.TabIndex = 439
+        Me.chkFilterByCreatedDate.Text = "Filter By Created Date"
+        Me.chkFilterByCreatedDate.Visible = False
+        '
+        'chkSummary
+        '
+        Me.chkSummary.Location = New System.Drawing.Point(404, 172)
+        Me.chkSummary.Name = "chkSummary"
+        Me.chkSummary.Size = New System.Drawing.Size(67, 18)
+        Me.chkSummary.TabIndex = 438
+        Me.chkSummary.Text = "Summary"
+        Me.chkSummary.Visible = False
+        '
+        'chkSaleInvoiceWise
+        '
+        Me.chkSaleInvoiceWise.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkSaleInvoiceWise.Location = New System.Drawing.Point(143, 196)
+        Me.chkSaleInvoiceWise.Name = "chkSaleInvoiceWise"
+        Me.chkSaleInvoiceWise.Size = New System.Drawing.Size(106, 18)
+        Me.chkSaleInvoiceWise.TabIndex = 437
+        Me.chkSaleInvoiceWise.Text = "Sale Invoice Wise"
+        Me.chkSaleInvoiceWise.Visible = False
+        '
+        'MyLabel10
+        '
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel10.Location = New System.Drawing.Point(14, 129)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(36, 18)
+        Me.MyLabel10.TabIndex = 435
+        Me.MyLabel10.Text = "Route"
+        '
+        'lblCustomer
+        '
+        Me.lblCustomer.FieldName = Nothing
+        Me.lblCustomer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCustomer.Location = New System.Drawing.Point(14, 102)
+        Me.lblCustomer.Name = "lblCustomer"
+        Me.lblCustomer.Size = New System.Drawing.Size(55, 18)
+        Me.lblCustomer.TabIndex = 434
+        Me.lblCustomer.Text = "Customer"
+        '
+        'TxtRoute
+        '
+        Me.TxtRoute.arrDispalyMember = Nothing
+        Me.TxtRoute.arrValueMember = Nothing
+        Me.TxtRoute.Location = New System.Drawing.Point(100, 128)
+        Me.TxtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtRoute.MyLinkLable1 = Nothing
+        Me.TxtRoute.MyLinkLable2 = Nothing
+        Me.TxtRoute.MyNullText = "All"
+        Me.TxtRoute.Name = "TxtRoute"
+        Me.TxtRoute.Size = New System.Drawing.Size(332, 19)
+        Me.TxtRoute.TabIndex = 433
+        '
+        'txtCustomer
+        '
+        Me.txtCustomer.arrDispalyMember = Nothing
+        Me.txtCustomer.arrValueMember = Nothing
+        Me.txtCustomer.Location = New System.Drawing.Point(100, 103)
+        Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCustomer.MyLinkLable1 = Nothing
+        Me.txtCustomer.MyLinkLable2 = Nothing
+        Me.txtCustomer.MyNullText = "All"
+        Me.txtCustomer.Name = "txtCustomer"
+        Me.txtCustomer.Size = New System.Drawing.Size(332, 19)
+        Me.txtCustomer.TabIndex = 432
         '
         'chkBookingWise
         '
@@ -286,14 +451,14 @@ Partial Class rptDemandReport
         Me.cboShift.AutoCompleteValueMember = Nothing
         Me.cboShift.DropDownAnimationEnabled = True
         Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Text = "Both"
-        RadListDataItem2.Text = "Morning"
-        RadListDataItem3.Text = "Evening"
-        RadListDataItem4.Text = "Shift Wise"
-        Me.cboShift.Items.Add(RadListDataItem1)
-        Me.cboShift.Items.Add(RadListDataItem2)
-        Me.cboShift.Items.Add(RadListDataItem3)
-        Me.cboShift.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Both"
+        RadListDataItem6.Text = "Morning"
+        RadListDataItem7.Text = "Evening"
+        RadListDataItem8.Text = "Shift Wise"
+        Me.cboShift.Items.Add(RadListDataItem5)
+        Me.cboShift.Items.Add(RadListDataItem6)
+        Me.cboShift.Items.Add(RadListDataItem7)
+        Me.cboShift.Items.Add(RadListDataItem8)
         Me.cboShift.Location = New System.Drawing.Point(122, 25)
         Me.cboShift.Name = "cboShift"
         Me.cboShift.Size = New System.Drawing.Size(91, 20)
@@ -337,7 +502,7 @@ Partial Class rptDemandReport
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 355)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 354)
         Me.RadPageViewPage2.Text = "Report"
         '
         'gv1
@@ -357,13 +522,15 @@ Partial Class rptDemandReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyExportAPI = False
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(779, 355)
+        Me.gv1.Size = New System.Drawing.Size(779, 354)
         Me.gv1.TabIndex = 3
         Me.gv1.VarID = ""
         '
@@ -387,167 +554,15 @@ Partial Class rptDemandReport
         Me.btnReset.TabIndex = 149
         Me.btnReset.Text = "Reset"
         '
-        'txtCustomer
+        'rbdMobile
         '
-        Me.txtCustomer.arrDispalyMember = Nothing
-        Me.txtCustomer.arrValueMember = Nothing
-        Me.txtCustomer.Location = New System.Drawing.Point(100, 103)
-        Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCustomer.MyLinkLable1 = Nothing
-        Me.txtCustomer.MyLinkLable2 = Nothing
-        Me.txtCustomer.MyNullText = "All"
-        Me.txtCustomer.Name = "txtCustomer"
-        Me.txtCustomer.Size = New System.Drawing.Size(332, 19)
-        Me.txtCustomer.TabIndex = 432
-        '
-        'TxtRoute
-        '
-        Me.TxtRoute.arrDispalyMember = Nothing
-        Me.TxtRoute.arrValueMember = Nothing
-        Me.TxtRoute.Location = New System.Drawing.Point(100, 128)
-        Me.TxtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtRoute.MyLinkLable1 = Nothing
-        Me.TxtRoute.MyLinkLable2 = Nothing
-        Me.TxtRoute.MyNullText = "All"
-        Me.TxtRoute.Name = "TxtRoute"
-        Me.TxtRoute.Size = New System.Drawing.Size(332, 19)
-        Me.TxtRoute.TabIndex = 433
-        '
-        'lblCustomer
-        '
-        Me.lblCustomer.FieldName = Nothing
-        Me.lblCustomer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomer.Location = New System.Drawing.Point(14, 102)
-        Me.lblCustomer.Name = "lblCustomer"
-        Me.lblCustomer.Size = New System.Drawing.Size(55, 18)
-        Me.lblCustomer.TabIndex = 434
-        Me.lblCustomer.Text = "Customer"
-        '
-        'MyLabel10
-        '
-        Me.MyLabel10.FieldName = Nothing
-        Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(14, 129)
-        Me.MyLabel10.Name = "MyLabel10"
-        Me.MyLabel10.Size = New System.Drawing.Size(36, 18)
-        Me.MyLabel10.TabIndex = 435
-        Me.MyLabel10.Text = "Route"
-        '
-        'chkFirstAndSecondSpell
-        '
-        Me.chkFirstAndSecondSpell.Location = New System.Drawing.Point(404, 196)
-        Me.chkFirstAndSecondSpell.Name = "chkFirstAndSecondSpell"
-        Me.chkFirstAndSecondSpell.Size = New System.Drawing.Size(232, 18)
-        Me.chkFirstAndSecondSpell.TabIndex = 440
-        Me.chkFirstAndSecondSpell.Text = "First And Second Spell Card Sale Summary"
-        Me.chkFirstAndSecondSpell.Visible = False
-        '
-        'chkFilterByCreatedDate
-        '
-        Me.chkFilterByCreatedDate.Location = New System.Drawing.Point(390, 141)
-        Me.chkFilterByCreatedDate.Name = "chkFilterByCreatedDate"
-        Me.chkFilterByCreatedDate.Size = New System.Drawing.Size(129, 18)
-        Me.chkFilterByCreatedDate.TabIndex = 439
-        Me.chkFilterByCreatedDate.Text = "Filter By Created Date"
-        Me.chkFilterByCreatedDate.Visible = False
-        '
-        'chkSummary
-        '
-        Me.chkSummary.Location = New System.Drawing.Point(404, 172)
-        Me.chkSummary.Name = "chkSummary"
-        Me.chkSummary.Size = New System.Drawing.Size(67, 18)
-        Me.chkSummary.TabIndex = 438
-        Me.chkSummary.Text = "Summary"
-        Me.chkSummary.Visible = False
-        '
-        'chkSaleInvoiceWise
-        '
-        Me.chkSaleInvoiceWise.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.rbdMobile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkSaleInvoiceWise.Location = New System.Drawing.Point(143, 196)
-        Me.chkSaleInvoiceWise.Name = "chkSaleInvoiceWise"
-        Me.chkSaleInvoiceWise.Size = New System.Drawing.Size(106, 18)
-        Me.chkSaleInvoiceWise.TabIndex = 437
-        Me.chkSaleInvoiceWise.Text = "Sale Invoice Wise"
-        Me.chkSaleInvoiceWise.Visible = False
-        '
-        'rbtnDateWise
-        '
-        Me.rbtnDateWise.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.rbtnDateWise.Location = New System.Drawing.Point(425, 168)
-        Me.rbtnDateWise.Name = "rbtnDateWise"
-        Me.rbtnDateWise.Size = New System.Drawing.Size(71, 18)
-        Me.rbtnDateWise.TabIndex = 442
-        Me.rbtnDateWise.Text = "Date Wise"
-        Me.rbtnDateWise.Visible = False
-        '
-        'chkRouteSummary
-        '
-        Me.chkRouteSummary.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkRouteSummary.Location = New System.Drawing.Point(283, 168)
-        Me.chkRouteSummary.Name = "chkRouteSummary"
-        Me.chkRouteSummary.Size = New System.Drawing.Size(126, 18)
-        Me.chkRouteSummary.TabIndex = 441
-        Me.chkRouteSummary.Text = "Route Summary Print"
-        Me.chkRouteSummary.Visible = False
-        '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.chkGatePass)
-        Me.RadGroupBox1.Controls.Add(Me.chkRouteBoothWise)
-        Me.RadGroupBox1.Controls.Add(Me.ChkDayWiseSummary)
-        Me.RadGroupBox1.Controls.Add(Me.chkFirstAndSecondSpellAbstract)
-        Me.RadGroupBox1.HeaderText = "RadGroupBox1"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(259, 231)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(345, 86)
-        Me.RadGroupBox1.TabIndex = 443
-        Me.RadGroupBox1.Text = "RadGroupBox1"
-        Me.RadGroupBox1.Visible = False
-        '
-        'chkGatePass
-        '
-        Me.chkGatePass.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkGatePass.Enabled = False
-        Me.chkGatePass.Location = New System.Drawing.Point(5, 21)
-        Me.chkGatePass.Name = "chkGatePass"
-        Me.chkGatePass.Size = New System.Drawing.Size(95, 18)
-        Me.chkGatePass.TabIndex = 425
-        Me.chkGatePass.Text = "Only Gate Pass"
-        Me.chkGatePass.Visible = False
-        '
-        'chkRouteBoothWise
-        '
-        Me.chkRouteBoothWise.Location = New System.Drawing.Point(5, 36)
-        Me.chkRouteBoothWise.Name = "chkRouteBoothWise"
-        Me.chkRouteBoothWise.Size = New System.Drawing.Size(114, 18)
-        Me.chkRouteBoothWise.TabIndex = 422
-        Me.chkRouteBoothWise.Text = "Route/Booth Wise "
-        Me.chkRouteBoothWise.Visible = False
-        '
-        'ChkDayWiseSummary
-        '
-        Me.ChkDayWiseSummary.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ChkDayWiseSummary.Location = New System.Drawing.Point(5, 51)
-        Me.ChkDayWiseSummary.Name = "ChkDayWiseSummary"
-        Me.ChkDayWiseSummary.Size = New System.Drawing.Size(117, 18)
-        Me.ChkDayWiseSummary.TabIndex = 423
-        Me.ChkDayWiseSummary.Text = "Day Wise Summary"
-        Me.ChkDayWiseSummary.Visible = False
-        '
-        'chkFirstAndSecondSpellAbstract
-        '
-        Me.chkFirstAndSecondSpellAbstract.Location = New System.Drawing.Point(5, 66)
-        Me.chkFirstAndSecondSpellAbstract.Name = "chkFirstAndSecondSpellAbstract"
-        Me.chkFirstAndSecondSpellAbstract.Size = New System.Drawing.Size(226, 18)
-        Me.chkFirstAndSecondSpellAbstract.TabIndex = 424
-        Me.chkFirstAndSecondSpellAbstract.Text = "First And Second Spell Card Sale Abstract"
-        Me.chkFirstAndSecondSpellAbstract.Visible = False
+        Me.rbdMobile.Location = New System.Drawing.Point(109, 66)
+        Me.rbdMobile.Name = "rbdMobile"
+        Me.rbdMobile.Size = New System.Drawing.Size(70, 18)
+        Me.rbdMobile.TabIndex = 444
+        Me.rbdMobile.Text = "Mobile By"
         '
         'rptDemandReport
         '
@@ -568,6 +583,21 @@ Partial Class rptDemandReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkGatePass, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkRouteBoothWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChkDayWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkFirstAndSecondSpellAbstract, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDateWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkRouteSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkFirstAndSecondSpell, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkFilterByCreatedDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSaleInvoiceWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkBookingWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
@@ -587,21 +617,7 @@ Partial Class rptDemandReport
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkFirstAndSecondSpell, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkFilterByCreatedDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSummary, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSaleInvoiceWise, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnDateWise, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkRouteSummary, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
-        CType(Me.chkGatePass, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkRouteBoothWise, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChkDayWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkFirstAndSecondSpellAbstract, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbdMobile, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -643,4 +659,5 @@ Partial Class rptDemandReport
     Friend WithEvents chkRouteBoothWise As RadCheckBox
     Friend WithEvents ChkDayWiseSummary As RadCheckBox
     Friend WithEvents chkFirstAndSecondSpellAbstract As RadCheckBox
+    Friend WithEvents rbdMobile As RadCheckBox
 End Class

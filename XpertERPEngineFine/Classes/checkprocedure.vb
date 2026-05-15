@@ -806,6 +806,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptCustomerWiseStockReco, "Customer Wise Stock Reco", "1.05.03.43", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.ItemStockReport, "Item Stock Report", "1.05.03.44", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.ItemRateStatusReport, "Item Rate Status Report", "1.05.03.45", clsUserMgtCode.SubModuleMaterialReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDailySTAFGSStatement, "Daily STA FGS Statement Report", "1.05.03.46", clsUserMgtCode.SubModuleMaterialReport, 37)
+
 
         'InsertDefaultValue(clsUserMgtCode.rptStockReport, " Stocks Report", "1.05.03.45", clsUserMgtCode.SubModuleMaterialReport, 37)
         '

@@ -868,10 +868,14 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
         End Try
     End Sub
     Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
-        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" & objCommonVar.CurrentUserCode & "' "))
-        lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & txtLocation.Value & "'"))
-        AddNew()
-        gv1.DataSource = Nothing
+        Try
+            txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" & objCommonVar.CurrentUserCode & "' "))
+            lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & txtLocation.Value & "'"))
+            AddNew()
+            gv1.DataSource = Nothing
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
         Try
