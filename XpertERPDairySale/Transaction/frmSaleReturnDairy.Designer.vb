@@ -22,11 +22,11 @@ Partial Class frmSaleReturnDairy
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -188,6 +188,17 @@ Partial Class frmSaleReturnDairy
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.TxtEInvoiceUpdateAckDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel64 = New common.Controls.MyLabel()
+        Me.MyLabel63 = New common.Controls.MyLabel()
+        Me.TxtEInvoiceUpdateAckNo = New common.Controls.MyTextBox()
+        Me.MyLabel62 = New common.Controls.MyLabel()
+        Me.TxtEInvoiceUpdateIRNNo = New common.Controls.MyTextBox()
+        Me.MyLabel61 = New common.Controls.MyLabel()
+        Me.btnUpdateEinvoice = New Telerik.WinControls.UI.RadButton()
+        Me.TxtEInvoiceUpdateQCCode = New common.Controls.MyTextBox()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
         Me.btnReverseAndUnpost = New Telerik.WinControls.UI.RadButton()
@@ -212,17 +223,6 @@ Partial Class frmSaleReturnDairy
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.TxtEInvoiceUpdateAckDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel64 = New common.Controls.MyLabel()
-        Me.MyLabel63 = New common.Controls.MyLabel()
-        Me.TxtEInvoiceUpdateAckNo = New common.Controls.MyTextBox()
-        Me.MyLabel62 = New common.Controls.MyLabel()
-        Me.TxtEInvoiceUpdateIRNNo = New common.Controls.MyTextBox()
-        Me.MyLabel61 = New common.Controls.MyLabel()
-        Me.btnUpdateEinvoice = New Telerik.WinControls.UI.RadButton()
-        Me.TxtEInvoiceUpdateQCCode = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -379,6 +379,17 @@ Partial Class frmSaleReturnDairy
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage6.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        CType(Me.TxtEInvoiceUpdateAckDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEInvoiceUpdateAckNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEInvoiceUpdateIRNNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdateEinvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -395,17 +406,6 @@ Partial Class frmSaleReturnDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage6.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
-        CType(Me.TxtEInvoiceUpdateAckDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtEInvoiceUpdateAckNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtEInvoiceUpdateIRNNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdateEinvoice, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -456,7 +456,7 @@ Partial Class frmSaleReturnDairy
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1218, 480)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -541,7 +541,7 @@ Partial Class frmSaleReturnDairy
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(76.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1197, 353)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1197, 434)
         Me.RadPageViewPage1.Text = "Sale Return"
         '
         'Panel3
@@ -597,7 +597,6 @@ Partial Class frmSaleReturnDairy
         'txtSubLocation
         '
         Me.txtSubLocation.CalculationExpression = Nothing
-        Me.txtSubLocation.Enabled = False
         Me.txtSubLocation.FieldCode = Nothing
         Me.txtSubLocation.FieldDesc = Nothing
         Me.txtSubLocation.FieldMaxLength = 0
@@ -981,7 +980,7 @@ Partial Class frmSaleReturnDairy
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 216)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1192, 96)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1192, 177)
         Me.RadGroupBox2.TabIndex = 29
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1002,14 +1001,15 @@ Partial Class frmSaleReturnDairy
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1172, 66)
+        Me.gv1.Size = New System.Drawing.Size(1172, 147)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -1237,7 +1237,7 @@ Partial Class frmSaleReturnDairy
         Me.MyLabel7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(3, 318)
+        Me.MyLabel7.Location = New System.Drawing.Point(3, 399)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(100, 16)
         Me.MyLabel7.TabIndex = 34
@@ -1277,7 +1277,7 @@ Partial Class frmSaleReturnDairy
         Me.lblTotRAmt1.BorderVisible = True
         Me.lblTotRAmt1.FieldName = Nothing
         Me.lblTotRAmt1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt1.Location = New System.Drawing.Point(105, 317)
+        Me.lblTotRAmt1.Location = New System.Drawing.Point(105, 398)
         Me.lblTotRAmt1.Name = "lblTotRAmt1"
         Me.lblTotRAmt1.Size = New System.Drawing.Size(110, 18)
         Me.lblTotRAmt1.TabIndex = 35
@@ -1567,7 +1567,7 @@ Partial Class frmSaleReturnDairy
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel5.Location = New System.Drawing.Point(1001, 328)
+        Me.MyLabel5.Location = New System.Drawing.Point(1001, 409)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(196, 16)
         Me.MyLabel5.TabIndex = 57
@@ -1627,7 +1627,7 @@ Partial Class frmSaleReturnDairy
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.ForeColor = System.Drawing.Color.Blue
-        Me.MyLabel2.Location = New System.Drawing.Point(1, 341)
+        Me.MyLabel2.Location = New System.Drawing.Point(1, 422)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(438, 16)
         Me.MyLabel2.TabIndex = 25
@@ -1823,7 +1823,7 @@ Partial Class frmSaleReturnDairy
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(879, 341)
+        Me.RadLabel12.Location = New System.Drawing.Point(879, 422)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(318, 16)
         Me.RadLabel12.TabIndex = 24
@@ -2139,7 +2139,8 @@ Partial Class frmSaleReturnDairy
         Me.gvBooth.MasterTemplate.AllowDeleteRow = False
         Me.gvBooth.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBooth.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBooth.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvBooth.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvBooth.MyExportAPI = False
         Me.gvBooth.MyExportFilePath = ""
         Me.gvBooth.MyStopExport = False
         Me.gvBooth.Name = "gvBooth"
@@ -2384,7 +2385,8 @@ Partial Class frmSaleReturnDairy
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv2.MyExportAPI = False
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -2438,7 +2440,8 @@ Partial Class frmSaleReturnDairy
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvAC.MyExportAPI = False
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
@@ -2954,6 +2957,189 @@ Partial Class frmSaleReturnDairy
         Me.RadLabel19.TabIndex = 119
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'RadPageViewPage6
+        '
+        Me.RadPageViewPage6.Controls.Add(Me.GroupBox2)
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(63.0!, 26.0!)
+        Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage6.Name = "RadPageViewPage6"
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(1197, 434)
+        Me.RadPageViewPage6.Text = "E Invoice"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateAckDate)
+        Me.GroupBox2.Controls.Add(Me.MyLabel64)
+        Me.GroupBox2.Controls.Add(Me.MyLabel63)
+        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateAckNo)
+        Me.GroupBox2.Controls.Add(Me.MyLabel62)
+        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateIRNNo)
+        Me.GroupBox2.Controls.Add(Me.MyLabel61)
+        Me.GroupBox2.Controls.Add(Me.btnUpdateEinvoice)
+        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateQCCode)
+        Me.GroupBox2.Location = New System.Drawing.Point(0, 3)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(759, 281)
+        Me.GroupBox2.TabIndex = 1442
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "E-Invoice Details"
+        '
+        'TxtEInvoiceUpdateAckDate
+        '
+        Me.TxtEInvoiceUpdateAckDate.CalculationExpression = Nothing
+        Me.TxtEInvoiceUpdateAckDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.TxtEInvoiceUpdateAckDate.FieldCode = Nothing
+        Me.TxtEInvoiceUpdateAckDate.FieldDesc = Nothing
+        Me.TxtEInvoiceUpdateAckDate.FieldMaxLength = 0
+        Me.TxtEInvoiceUpdateAckDate.FieldName = Nothing
+        Me.TxtEInvoiceUpdateAckDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtEInvoiceUpdateAckDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.TxtEInvoiceUpdateAckDate.isCalculatedField = False
+        Me.TxtEInvoiceUpdateAckDate.IsSourceFromTable = False
+        Me.TxtEInvoiceUpdateAckDate.IsSourceFromValueList = False
+        Me.TxtEInvoiceUpdateAckDate.IsUnique = False
+        Me.TxtEInvoiceUpdateAckDate.Location = New System.Drawing.Point(71, 63)
+        Me.TxtEInvoiceUpdateAckDate.MendatroryField = False
+        Me.TxtEInvoiceUpdateAckDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.TxtEInvoiceUpdateAckDate.MyLinkLable1 = Me.MyLabel64
+        Me.TxtEInvoiceUpdateAckDate.MyLinkLable2 = Nothing
+        Me.TxtEInvoiceUpdateAckDate.Name = "TxtEInvoiceUpdateAckDate"
+        Me.TxtEInvoiceUpdateAckDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.TxtEInvoiceUpdateAckDate.ReferenceFieldDesc = Nothing
+        Me.TxtEInvoiceUpdateAckDate.ReferenceFieldName = Nothing
+        Me.TxtEInvoiceUpdateAckDate.ReferenceTableName = Nothing
+        Me.TxtEInvoiceUpdateAckDate.Size = New System.Drawing.Size(125, 18)
+        Me.TxtEInvoiceUpdateAckDate.TabIndex = 1446
+        Me.TxtEInvoiceUpdateAckDate.TabStop = False
+        Me.TxtEInvoiceUpdateAckDate.Text = "13/06/2011 11:29 AM"
+        Me.TxtEInvoiceUpdateAckDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel64
+        '
+        Me.MyLabel64.FieldName = Nothing
+        Me.MyLabel64.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel64.Location = New System.Drawing.Point(6, 64)
+        Me.MyLabel64.Name = "MyLabel64"
+        Me.MyLabel64.Size = New System.Drawing.Size(52, 16)
+        Me.MyLabel64.TabIndex = 1445
+        Me.MyLabel64.Text = "Ack Date"
+        '
+        'MyLabel63
+        '
+        Me.MyLabel63.FieldName = Nothing
+        Me.MyLabel63.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel63.Location = New System.Drawing.Point(6, 43)
+        Me.MyLabel63.Name = "MyLabel63"
+        Me.MyLabel63.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel63.TabIndex = 1444
+        Me.MyLabel63.Text = "Ack No"
+        '
+        'TxtEInvoiceUpdateAckNo
+        '
+        Me.TxtEInvoiceUpdateAckNo.CalculationExpression = Nothing
+        Me.TxtEInvoiceUpdateAckNo.FieldCode = Nothing
+        Me.TxtEInvoiceUpdateAckNo.FieldDesc = Nothing
+        Me.TxtEInvoiceUpdateAckNo.FieldMaxLength = 0
+        Me.TxtEInvoiceUpdateAckNo.FieldName = Nothing
+        Me.TxtEInvoiceUpdateAckNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtEInvoiceUpdateAckNo.isCalculatedField = False
+        Me.TxtEInvoiceUpdateAckNo.IsSourceFromTable = False
+        Me.TxtEInvoiceUpdateAckNo.IsSourceFromValueList = False
+        Me.TxtEInvoiceUpdateAckNo.IsUnique = False
+        Me.TxtEInvoiceUpdateAckNo.Location = New System.Drawing.Point(71, 42)
+        Me.TxtEInvoiceUpdateAckNo.MaxLength = 0
+        Me.TxtEInvoiceUpdateAckNo.MendatroryField = False
+        Me.TxtEInvoiceUpdateAckNo.MyLinkLable1 = Me.MyLabel63
+        Me.TxtEInvoiceUpdateAckNo.MyLinkLable2 = Nothing
+        Me.TxtEInvoiceUpdateAckNo.Name = "TxtEInvoiceUpdateAckNo"
+        Me.TxtEInvoiceUpdateAckNo.ReferenceFieldDesc = Nothing
+        Me.TxtEInvoiceUpdateAckNo.ReferenceFieldName = Nothing
+        Me.TxtEInvoiceUpdateAckNo.ReferenceTableName = Nothing
+        Me.TxtEInvoiceUpdateAckNo.Size = New System.Drawing.Size(288, 18)
+        Me.TxtEInvoiceUpdateAckNo.TabIndex = 1443
+        '
+        'MyLabel62
+        '
+        Me.MyLabel62.FieldName = Nothing
+        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel62.Location = New System.Drawing.Point(6, 22)
+        Me.MyLabel62.Name = "MyLabel62"
+        Me.MyLabel62.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel62.TabIndex = 1442
+        Me.MyLabel62.Text = "IRN No"
+        '
+        'TxtEInvoiceUpdateIRNNo
+        '
+        Me.TxtEInvoiceUpdateIRNNo.CalculationExpression = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.FieldCode = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.FieldDesc = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.FieldMaxLength = 0
+        Me.TxtEInvoiceUpdateIRNNo.FieldName = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtEInvoiceUpdateIRNNo.isCalculatedField = False
+        Me.TxtEInvoiceUpdateIRNNo.IsSourceFromTable = False
+        Me.TxtEInvoiceUpdateIRNNo.IsSourceFromValueList = False
+        Me.TxtEInvoiceUpdateIRNNo.IsUnique = False
+        Me.TxtEInvoiceUpdateIRNNo.Location = New System.Drawing.Point(71, 21)
+        Me.TxtEInvoiceUpdateIRNNo.MaxLength = 0
+        Me.TxtEInvoiceUpdateIRNNo.MendatroryField = False
+        Me.TxtEInvoiceUpdateIRNNo.MyLinkLable1 = Me.MyLabel62
+        Me.TxtEInvoiceUpdateIRNNo.MyLinkLable2 = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.Name = "TxtEInvoiceUpdateIRNNo"
+        Me.TxtEInvoiceUpdateIRNNo.ReferenceFieldDesc = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.ReferenceFieldName = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.ReferenceTableName = Nothing
+        Me.TxtEInvoiceUpdateIRNNo.Size = New System.Drawing.Size(288, 18)
+        Me.TxtEInvoiceUpdateIRNNo.TabIndex = 1441
+        '
+        'MyLabel61
+        '
+        Me.MyLabel61.FieldName = Nothing
+        Me.MyLabel61.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel61.Location = New System.Drawing.Point(6, 84)
+        Me.MyLabel61.Name = "MyLabel61"
+        Me.MyLabel61.Size = New System.Drawing.Size(53, 16)
+        Me.MyLabel61.TabIndex = 1439
+        Me.MyLabel61.Text = "QR Code"
+        '
+        'btnUpdateEinvoice
+        '
+        Me.btnUpdateEinvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdateEinvoice.Location = New System.Drawing.Point(72, 253)
+        Me.btnUpdateEinvoice.Name = "btnUpdateEinvoice"
+        Me.btnUpdateEinvoice.Size = New System.Drawing.Size(156, 20)
+        Me.btnUpdateEinvoice.TabIndex = 1440
+        Me.btnUpdateEinvoice.Text = "Update"
+        '
+        'TxtEInvoiceUpdateQCCode
+        '
+        Me.TxtEInvoiceUpdateQCCode.CalculationExpression = Nothing
+        Me.TxtEInvoiceUpdateQCCode.FieldCode = Nothing
+        Me.TxtEInvoiceUpdateQCCode.FieldDesc = Nothing
+        Me.TxtEInvoiceUpdateQCCode.FieldMaxLength = 0
+        Me.TxtEInvoiceUpdateQCCode.FieldName = Nothing
+        Me.TxtEInvoiceUpdateQCCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtEInvoiceUpdateQCCode.isCalculatedField = False
+        Me.TxtEInvoiceUpdateQCCode.IsSourceFromTable = False
+        Me.TxtEInvoiceUpdateQCCode.IsSourceFromValueList = False
+        Me.TxtEInvoiceUpdateQCCode.IsUnique = False
+        Me.TxtEInvoiceUpdateQCCode.Location = New System.Drawing.Point(71, 84)
+        Me.TxtEInvoiceUpdateQCCode.MaxLength = 0
+        Me.TxtEInvoiceUpdateQCCode.MendatroryField = False
+        Me.TxtEInvoiceUpdateQCCode.Multiline = True
+        Me.TxtEInvoiceUpdateQCCode.MyLinkLable1 = Me.RadLabel6
+        Me.TxtEInvoiceUpdateQCCode.MyLinkLable2 = Nothing
+        Me.TxtEInvoiceUpdateQCCode.Name = "TxtEInvoiceUpdateQCCode"
+        Me.TxtEInvoiceUpdateQCCode.ReferenceFieldDesc = Nothing
+        Me.TxtEInvoiceUpdateQCCode.ReferenceFieldName = Nothing
+        Me.TxtEInvoiceUpdateQCCode.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.TxtEInvoiceUpdateQCCode.RootElement.StretchVertically = True
+        Me.TxtEInvoiceUpdateQCCode.Size = New System.Drawing.Size(682, 164)
+        Me.TxtEInvoiceUpdateQCCode.TabIndex = 1438
+        '
         'btnShowInventory
         '
         Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -3168,192 +3354,9 @@ Partial Class frmSaleReturnDairy
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
-        '
-        'RadPageViewPage6
-        '
-        Me.RadPageViewPage6.Controls.Add(Me.GroupBox2)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(63.0!, 26.0!)
-        Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 35)
-        Me.RadPageViewPage6.Name = "RadPageViewPage6"
-        Me.RadPageViewPage6.Size = New System.Drawing.Size(1197, 434)
-        Me.RadPageViewPage6.Text = "E Invoice"
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateAckDate)
-        Me.GroupBox2.Controls.Add(Me.MyLabel64)
-        Me.GroupBox2.Controls.Add(Me.MyLabel63)
-        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateAckNo)
-        Me.GroupBox2.Controls.Add(Me.MyLabel62)
-        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateIRNNo)
-        Me.GroupBox2.Controls.Add(Me.MyLabel61)
-        Me.GroupBox2.Controls.Add(Me.btnUpdateEinvoice)
-        Me.GroupBox2.Controls.Add(Me.TxtEInvoiceUpdateQCCode)
-        Me.GroupBox2.Location = New System.Drawing.Point(0, 3)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(759, 281)
-        Me.GroupBox2.TabIndex = 1442
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "E-Invoice Details"
-        '
-        'TxtEInvoiceUpdateAckDate
-        '
-        Me.TxtEInvoiceUpdateAckDate.CalculationExpression = Nothing
-        Me.TxtEInvoiceUpdateAckDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
-        Me.TxtEInvoiceUpdateAckDate.FieldCode = Nothing
-        Me.TxtEInvoiceUpdateAckDate.FieldDesc = Nothing
-        Me.TxtEInvoiceUpdateAckDate.FieldMaxLength = 0
-        Me.TxtEInvoiceUpdateAckDate.FieldName = Nothing
-        Me.TxtEInvoiceUpdateAckDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtEInvoiceUpdateAckDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.TxtEInvoiceUpdateAckDate.isCalculatedField = False
-        Me.TxtEInvoiceUpdateAckDate.IsSourceFromTable = False
-        Me.TxtEInvoiceUpdateAckDate.IsSourceFromValueList = False
-        Me.TxtEInvoiceUpdateAckDate.IsUnique = False
-        Me.TxtEInvoiceUpdateAckDate.Location = New System.Drawing.Point(71, 63)
-        Me.TxtEInvoiceUpdateAckDate.MendatroryField = False
-        Me.TxtEInvoiceUpdateAckDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.TxtEInvoiceUpdateAckDate.MyLinkLable1 = Me.MyLabel64
-        Me.TxtEInvoiceUpdateAckDate.MyLinkLable2 = Nothing
-        Me.TxtEInvoiceUpdateAckDate.Name = "TxtEInvoiceUpdateAckDate"
-        Me.TxtEInvoiceUpdateAckDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.TxtEInvoiceUpdateAckDate.ReferenceFieldDesc = Nothing
-        Me.TxtEInvoiceUpdateAckDate.ReferenceFieldName = Nothing
-        Me.TxtEInvoiceUpdateAckDate.ReferenceTableName = Nothing
-        Me.TxtEInvoiceUpdateAckDate.Size = New System.Drawing.Size(125, 18)
-        Me.TxtEInvoiceUpdateAckDate.TabIndex = 1446
-        Me.TxtEInvoiceUpdateAckDate.TabStop = False
-        Me.TxtEInvoiceUpdateAckDate.Text = "13/06/2011 11:29 AM"
-        Me.TxtEInvoiceUpdateAckDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'MyLabel64
-        '
-        Me.MyLabel64.FieldName = Nothing
-        Me.MyLabel64.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel64.Location = New System.Drawing.Point(6, 64)
-        Me.MyLabel64.Name = "MyLabel64"
-        Me.MyLabel64.Size = New System.Drawing.Size(52, 16)
-        Me.MyLabel64.TabIndex = 1445
-        Me.MyLabel64.Text = "Ack Date"
-        '
-        'MyLabel63
-        '
-        Me.MyLabel63.FieldName = Nothing
-        Me.MyLabel63.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel63.Location = New System.Drawing.Point(6, 43)
-        Me.MyLabel63.Name = "MyLabel63"
-        Me.MyLabel63.Size = New System.Drawing.Size(43, 16)
-        Me.MyLabel63.TabIndex = 1444
-        Me.MyLabel63.Text = "Ack No"
-        '
-        'TxtEInvoiceUpdateAckNo
-        '
-        Me.TxtEInvoiceUpdateAckNo.CalculationExpression = Nothing
-        Me.TxtEInvoiceUpdateAckNo.FieldCode = Nothing
-        Me.TxtEInvoiceUpdateAckNo.FieldDesc = Nothing
-        Me.TxtEInvoiceUpdateAckNo.FieldMaxLength = 0
-        Me.TxtEInvoiceUpdateAckNo.FieldName = Nothing
-        Me.TxtEInvoiceUpdateAckNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtEInvoiceUpdateAckNo.isCalculatedField = False
-        Me.TxtEInvoiceUpdateAckNo.IsSourceFromTable = False
-        Me.TxtEInvoiceUpdateAckNo.IsSourceFromValueList = False
-        Me.TxtEInvoiceUpdateAckNo.IsUnique = False
-        Me.TxtEInvoiceUpdateAckNo.Location = New System.Drawing.Point(71, 42)
-        Me.TxtEInvoiceUpdateAckNo.MaxLength = 0
-        Me.TxtEInvoiceUpdateAckNo.MendatroryField = False
-        Me.TxtEInvoiceUpdateAckNo.MyLinkLable1 = Me.MyLabel63
-        Me.TxtEInvoiceUpdateAckNo.MyLinkLable2 = Nothing
-        Me.TxtEInvoiceUpdateAckNo.Name = "TxtEInvoiceUpdateAckNo"
-        Me.TxtEInvoiceUpdateAckNo.ReferenceFieldDesc = Nothing
-        Me.TxtEInvoiceUpdateAckNo.ReferenceFieldName = Nothing
-        Me.TxtEInvoiceUpdateAckNo.ReferenceTableName = Nothing
-        Me.TxtEInvoiceUpdateAckNo.Size = New System.Drawing.Size(288, 18)
-        Me.TxtEInvoiceUpdateAckNo.TabIndex = 1443
-        '
-        'MyLabel62
-        '
-        Me.MyLabel62.FieldName = Nothing
-        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel62.Location = New System.Drawing.Point(6, 22)
-        Me.MyLabel62.Name = "MyLabel62"
-        Me.MyLabel62.Size = New System.Drawing.Size(43, 16)
-        Me.MyLabel62.TabIndex = 1442
-        Me.MyLabel62.Text = "IRN No"
-        '
-        'TxtEInvoiceUpdateIRNNo
-        '
-        Me.TxtEInvoiceUpdateIRNNo.CalculationExpression = Nothing
-        Me.TxtEInvoiceUpdateIRNNo.FieldCode = Nothing
-        Me.TxtEInvoiceUpdateIRNNo.FieldDesc = Nothing
-        Me.TxtEInvoiceUpdateIRNNo.FieldMaxLength = 0
-        Me.TxtEInvoiceUpdateIRNNo.FieldName = Nothing
-        Me.TxtEInvoiceUpdateIRNNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtEInvoiceUpdateIRNNo.isCalculatedField = False
-        Me.TxtEInvoiceUpdateIRNNo.IsSourceFromTable = False
-        Me.TxtEInvoiceUpdateIRNNo.IsSourceFromValueList = False
-        Me.TxtEInvoiceUpdateIRNNo.IsUnique = False
-        Me.TxtEInvoiceUpdateIRNNo.Location = New System.Drawing.Point(71, 21)
-        Me.TxtEInvoiceUpdateIRNNo.MaxLength = 0
-        Me.TxtEInvoiceUpdateIRNNo.MendatroryField = False
-        Me.TxtEInvoiceUpdateIRNNo.MyLinkLable1 = Me.MyLabel62
-        Me.TxtEInvoiceUpdateIRNNo.MyLinkLable2 = Nothing
-        Me.TxtEInvoiceUpdateIRNNo.Name = "TxtEInvoiceUpdateIRNNo"
-        Me.TxtEInvoiceUpdateIRNNo.ReferenceFieldDesc = Nothing
-        Me.TxtEInvoiceUpdateIRNNo.ReferenceFieldName = Nothing
-        Me.TxtEInvoiceUpdateIRNNo.ReferenceTableName = Nothing
-        Me.TxtEInvoiceUpdateIRNNo.Size = New System.Drawing.Size(288, 18)
-        Me.TxtEInvoiceUpdateIRNNo.TabIndex = 1441
-        '
-        'MyLabel61
-        '
-        Me.MyLabel61.FieldName = Nothing
-        Me.MyLabel61.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel61.Location = New System.Drawing.Point(6, 84)
-        Me.MyLabel61.Name = "MyLabel61"
-        Me.MyLabel61.Size = New System.Drawing.Size(53, 16)
-        Me.MyLabel61.TabIndex = 1439
-        Me.MyLabel61.Text = "QR Code"
-        '
-        'btnUpdateEinvoice
-        '
-        Me.btnUpdateEinvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateEinvoice.Location = New System.Drawing.Point(72, 253)
-        Me.btnUpdateEinvoice.Name = "btnUpdateEinvoice"
-        Me.btnUpdateEinvoice.Size = New System.Drawing.Size(156, 20)
-        Me.btnUpdateEinvoice.TabIndex = 1440
-        Me.btnUpdateEinvoice.Text = "Update"
-        '
-        'TxtEInvoiceUpdateQCCode
-        '
-        Me.TxtEInvoiceUpdateQCCode.CalculationExpression = Nothing
-        Me.TxtEInvoiceUpdateQCCode.FieldCode = Nothing
-        Me.TxtEInvoiceUpdateQCCode.FieldDesc = Nothing
-        Me.TxtEInvoiceUpdateQCCode.FieldMaxLength = 0
-        Me.TxtEInvoiceUpdateQCCode.FieldName = Nothing
-        Me.TxtEInvoiceUpdateQCCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtEInvoiceUpdateQCCode.isCalculatedField = False
-        Me.TxtEInvoiceUpdateQCCode.IsSourceFromTable = False
-        Me.TxtEInvoiceUpdateQCCode.IsSourceFromValueList = False
-        Me.TxtEInvoiceUpdateQCCode.IsUnique = False
-        Me.TxtEInvoiceUpdateQCCode.Location = New System.Drawing.Point(71, 84)
-        Me.TxtEInvoiceUpdateQCCode.MaxLength = 0
-        Me.TxtEInvoiceUpdateQCCode.MendatroryField = False
-        Me.TxtEInvoiceUpdateQCCode.Multiline = True
-        Me.TxtEInvoiceUpdateQCCode.MyLinkLable1 = Me.RadLabel6
-        Me.TxtEInvoiceUpdateQCCode.MyLinkLable2 = Nothing
-        Me.TxtEInvoiceUpdateQCCode.Name = "TxtEInvoiceUpdateQCCode"
-        Me.TxtEInvoiceUpdateQCCode.ReferenceFieldDesc = Nothing
-        Me.TxtEInvoiceUpdateQCCode.ReferenceFieldName = Nothing
-        Me.TxtEInvoiceUpdateQCCode.ReferenceTableName = Nothing
-        '
-        '
-        '
-        Me.TxtEInvoiceUpdateQCCode.RootElement.StretchVertically = True
-        Me.TxtEInvoiceUpdateQCCode.Size = New System.Drawing.Size(682, 164)
-        Me.TxtEInvoiceUpdateQCCode.TabIndex = 1438
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'frmSaleReturnDairy
         '
@@ -3541,6 +3544,18 @@ Partial Class frmSaleReturnDairy
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage6.ResumeLayout(False)
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        CType(Me.TxtEInvoiceUpdateAckDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEInvoiceUpdateAckNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEInvoiceUpdateIRNNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdateEinvoice, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3557,18 +3572,6 @@ Partial Class frmSaleReturnDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage6.ResumeLayout(False)
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
-        CType(Me.TxtEInvoiceUpdateAckDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtEInvoiceUpdateAckNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtEInvoiceUpdateIRNNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdateEinvoice, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
