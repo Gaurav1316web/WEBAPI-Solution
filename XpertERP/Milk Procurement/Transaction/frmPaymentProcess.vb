@@ -8,6 +8,7 @@ Public Class FrmPaymentProcess
     Inherits FrmMainTranScreen
     'Check out prabhakar 22/06/2020
 #Region "Variables"
+    Dim ApplyPartialBankAdvise As Boolean = False
     Dim IsBankAdviseStartDate As String
     Public isEmpOnAmtOnly As Boolean = False
     Public Const colSlno As String = "colSlno"
@@ -214,6 +215,7 @@ Public Class FrmPaymentProcess
         Else
             pnlLocation.Visible = False
         End If
+        ApplyPartialBankAdvise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyPartialBankAdvise, clsFixedParameterCode.ApplyPartialBankAdvise, Nothing)) = "1", True, False))
         SettRecalculatePaymentProcessOnSave = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RecalculatePaymentProcessOnSave, clsFixedParameterCode.RecalculatePaymentProcessOnSave, Nothing)) = 1)
         SettRemoveSavingDocumentWhenPayableAmtZero = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RemoveSavingDocumentWhenPayableAmtZero, clsFixedParameterCode.RemoveSavingDocumentWhenPayableAmtZero, Nothing)) = 1)
         settNoOfDCSForDeduction = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, Nothing))
@@ -6050,7 +6052,10 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                     End If
                 End If
                 clsPaymentProcessHead.PrePostData(fndDocNo.Value, arrSavingDocs)
-                clsPaymentProcessHead.CreateBankAdvise(clsCommon.myCstr(fndDocNo.Value), dtpDate.Value)
+                If Not ApplyPartialBankAdvise Then
+                    clsPaymentProcessHead.CreateBankAdvise(clsCommon.myCstr(fndDocNo.Value), dtpDate.Value)
+                End If
+
                 clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
                 LoadData(fndDocNo.Value, NavigatorType.Current)
             End If
