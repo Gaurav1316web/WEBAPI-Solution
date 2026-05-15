@@ -5000,10 +5000,11 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             '-----------------------------------------------------
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                    If UseDescInsteadOFCodeOnMCCMAterialSale = True Then
-                        txtVendorNo.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
-                    End If
+                If UseDescInsteadOFCodeOnMCCMAterialSale = True Then
                     txtVendorNo.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
+                End If
+                txtVendorNo.Enabled = False
+                txtVendorNo.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
                     lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
                     txtTermCode.Value = clsCommon.myCstr(dt.Rows(0)("Term Code"))
                     lblTermName.Text = clsCommon.myCstr(dt.Rows(0)("Term Description"))
