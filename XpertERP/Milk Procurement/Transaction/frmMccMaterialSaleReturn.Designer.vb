@@ -209,6 +209,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.MyLabel61 = New common.Controls.MyLabel()
         Me.btnUpdateEinvoice = New Telerik.WinControls.UI.RadButton()
         Me.TxtEInvoiceUpdateQCCode = New common.Controls.MyTextBox()
+        Me.rbtnCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory1 = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.bntInvoiceJE = New Telerik.WinControls.UI.RadButton()
@@ -233,7 +234,6 @@ Partial Class frmMccMaterialSaleReturn
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.rbtnCancel = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -406,6 +406,7 @@ Partial Class frmMccMaterialSaleReturn
         CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdateEinvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.bntInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -422,7 +423,6 @@ Partial Class frmMccMaterialSaleReturn
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -473,7 +473,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1191, 498)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2435,7 +2435,7 @@ Partial Class frmMccMaterialSaleReturn
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(949, 452)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1170, 452)
         Me.RadPageViewPage4.Text = "Total"
         '
         'txtTPTAmt
@@ -2890,7 +2890,7 @@ Partial Class frmMccMaterialSaleReturn
         'chkVendorGrossReceipt
         '
         Me.chkVendorGrossReceipt.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkVendorGrossReceipt.Location = New System.Drawing.Point(818, 3)
+        Me.chkVendorGrossReceipt.Location = New System.Drawing.Point(1039, 3)
         Me.chkVendorGrossReceipt.MyLinkLable1 = Nothing
         Me.chkVendorGrossReceipt.MyLinkLable2 = Nothing
         Me.chkVendorGrossReceipt.Name = "chkVendorGrossReceipt"
@@ -3246,6 +3246,16 @@ Partial Class frmMccMaterialSaleReturn
         Me.TxtEInvoiceUpdateQCCode.Size = New System.Drawing.Size(682, 164)
         Me.TxtEInvoiceUpdateQCCode.TabIndex = 1438
         '
+        'rbtnCancel
+        '
+        Me.rbtnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.rbtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtnCancel.Location = New System.Drawing.Point(931, 4)
+        Me.rbtnCancel.Name = "rbtnCancel"
+        Me.rbtnCancel.Size = New System.Drawing.Size(69, 20)
+        Me.rbtnCancel.TabIndex = 1424
+        Me.rbtnCancel.Text = "Cancel"
+        '
         'btnHistory1
         '
         Me.btnHistory1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -3464,16 +3474,6 @@ Partial Class frmMccMaterialSaleReturn
         WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
         Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
-        'rbtnCancel
-        '
-        Me.rbtnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.rbtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnCancel.Location = New System.Drawing.Point(931, 4)
-        Me.rbtnCancel.Name = "rbtnCancel"
-        Me.rbtnCancel.Size = New System.Drawing.Size(69, 20)
-        Me.rbtnCancel.TabIndex = 1424
-        Me.rbtnCancel.Text = "Cancel"
-        '
         'frmMccMaterialSaleReturn
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3674,6 +3674,7 @@ Partial Class frmMccMaterialSaleReturn
         CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdateEinvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.bntInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3690,7 +3691,6 @@ Partial Class frmMccMaterialSaleReturn
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

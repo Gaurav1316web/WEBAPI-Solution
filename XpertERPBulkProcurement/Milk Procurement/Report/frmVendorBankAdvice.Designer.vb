@@ -22,8 +22,8 @@ Partial Class frmVendorBankAdvice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -78,6 +78,8 @@ Partial Class frmVendorBankAdvice
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.txtBankAdviseNo = New common.UserControls.txtFinder()
+        Me.lblBankAdviseNo = New common.Controls.MyLabel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -123,6 +125,7 @@ Partial Class frmVendorBankAdvice
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBankAdviseNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -191,6 +194,8 @@ Partial Class frmVendorBankAdvice
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtBankAdviseNo)
+        Me.RadPageViewPage1.Controls.Add(Me.lblBankAdviseNo)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
         Me.RadPageViewPage1.Controls.Add(Me.txtDCS)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel2)
@@ -699,7 +704,8 @@ Partial Class frmVendorBankAdvice
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.Gv1.MyExportAPI = False
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -733,7 +739,8 @@ Partial Class frmVendorBankAdvice
         Me.Gv2.MasterTemplate.AllowAddNewRow = False
         Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.Gv2.MyExportAPI = False
         Me.Gv2.MyExportFilePath = ""
         Me.Gv2.MyStopExport = False
         Me.Gv2.Name = "Gv2"
@@ -836,6 +843,42 @@ Partial Class frmVendorBankAdvice
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'txtBankAdviseNo
+        '
+        Me.txtBankAdviseNo.CalculationExpression = Nothing
+        Me.txtBankAdviseNo.FieldCode = Nothing
+        Me.txtBankAdviseNo.FieldDesc = Nothing
+        Me.txtBankAdviseNo.FieldMaxLength = 0
+        Me.txtBankAdviseNo.FieldName = Nothing
+        Me.txtBankAdviseNo.isCalculatedField = False
+        Me.txtBankAdviseNo.IsSourceFromTable = False
+        Me.txtBankAdviseNo.IsSourceFromValueList = False
+        Me.txtBankAdviseNo.IsUnique = False
+        Me.txtBankAdviseNo.Location = New System.Drawing.Point(123, 248)
+        Me.txtBankAdviseNo.MendatroryField = False
+        Me.txtBankAdviseNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBankAdviseNo.MyLinkLable1 = Me.RadLabel1
+        Me.txtBankAdviseNo.MyLinkLable2 = Nothing
+        Me.txtBankAdviseNo.MyReadOnly = False
+        Me.txtBankAdviseNo.MyShowMasterFormButton = False
+        Me.txtBankAdviseNo.Name = "txtBankAdviseNo"
+        Me.txtBankAdviseNo.ReferenceFieldDesc = Nothing
+        Me.txtBankAdviseNo.ReferenceFieldName = Nothing
+        Me.txtBankAdviseNo.ReferenceTableName = Nothing
+        Me.txtBankAdviseNo.Size = New System.Drawing.Size(380, 20)
+        Me.txtBankAdviseNo.TabIndex = 1082
+        Me.txtBankAdviseNo.Value = ""
+        Me.txtBankAdviseNo.Visible = False
+        '
+        'lblBankAdviseNo
+        '
+        Me.lblBankAdviseNo.FieldName = Nothing
+        Me.lblBankAdviseNo.Location = New System.Drawing.Point(7, 249)
+        Me.lblBankAdviseNo.Name = "lblBankAdviseNo"
+        Me.lblBankAdviseNo.Size = New System.Drawing.Size(85, 18)
+        Me.lblBankAdviseNo.TabIndex = 1081
+        Me.lblBankAdviseNo.Text = "Bank Advise No"
+        '
         'frmVendorBankAdvice
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -896,6 +939,7 @@ Partial Class frmVendorBankAdvice
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBankAdviseNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -955,5 +999,7 @@ Partial Class frmVendorBankAdvice
     Friend WithEvents txtDCS As common.UserControls.txtMultiSelectFinder
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents Gv2 As common.UserControls.MyRadGridView
+    Friend WithEvents txtBankAdviseNo As common.UserControls.txtFinder
+    Friend WithEvents lblBankAdviseNo As common.Controls.MyLabel
 End Class
 

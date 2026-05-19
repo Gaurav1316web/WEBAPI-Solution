@@ -8230,6 +8230,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Trip_No", "Integer NULL")
             coll.Add("Empty_Can", "Integer NULL")
             coll.Add("Filled_Can", "Integer NULL")
+            coll.Add("Against_Skada", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY", coll, "", True, True, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -60066,7 +60067,20 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Snf_Shortage_NMG", "decimal(18,2) NULL ")
             coll.Add("Fat_Rate_NMG", "decimal(18,2) NULL ")
             coll.Add("Snf_Rate_NMG", "decimal(18,2) NULL ")
+            coll.Add("Total_Addition", "decimal(18,2) NULL ")
+            coll.Add("Total_Deduction", "decimal(18,2) NULL ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_TRANSPORTER_BILL_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date", True)
+            Try
+                qry = " ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_HEAD ALTER COLUMN Fat_Shortage_NMG Decimal(18,3)"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = " ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_HEAD ALTER COLUMN Snf_Shortage_NMG Decimal(18,3)"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = " ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_HEAD ALTER COLUMN Fat_Shortage Decimal(18,3)"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = " ALTER TABLE TSPL_BMC_TRANSPORTER_BILL_HEAD ALTER COLUMN Snf_Shortage Decimal(18,3)"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            Catch ex As Exception
+            End Try
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION PRIMARY KEY")
