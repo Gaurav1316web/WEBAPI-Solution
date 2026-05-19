@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const SkadaIntegration As String = "Skada Integration"
     Public Const SkipDebitNoteforRejectInBMCTruckSheet As String = "Skip Debit Note for Reject In BMC Truck Sheet"
     Public Const GatepassForTaxableandNonTaxableItems As String = "Gatepass For Taxable and NonTaxable Items"
     Public Const PickDataFromMasterOrTransaction As String = "Pick Data From Master Or Transaction"
@@ -1408,6 +1409,9 @@ Public Class clsFixedParameterType
     Public Const ServerDateTimeForTaxableInvoice = "Server DateTime For Taxable Invoice"
 End Class
 Public Class clsFixedParameterCode
+    Public Const SkadaDefaultSiloLocation As String = "Default Silo Location"
+    Public Const SkadaLastDocument As String = "Last Document"
+    Public Const SkadaDefaultRoute As String = "Default Route"
     Public Const SkipDebitNoteforRejectInBMCTruckSheet As String = "Skip Debit Note for Reject In BMC Truck Sheet"
     Public Const GatepassForTaxableandNonTaxableItems As String = "Gatepass For Taxable and NonTaxable Items"
     Public Const PickDataFromMasterOrTransaction As String = "Pick Data From Master Or Transaction"
@@ -3058,6 +3062,10 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SkadaIntegration, clsFixedParameterCode.SkadaDefaultSiloLocation, "", "Default silo location")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SkadaIntegration, clsFixedParameterCode.SkadaLastDocument, "", "Last Synced Document")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SkadaIntegration, clsFixedParameterCode.SkadaDefaultRoute, "", "Default Bulk Route")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.SkipDebitNoteforRejectInBMCTruckSheet, clsFixedParameterCode.SkipDebitNoteforRejectInBMCTruckSheet, "0", "0:Off;1-ON Skip to Generate Debit Note for Reject In BMC Truck Sheet")
         InsertDefaultValueFixedParameter(clsFixedParameterType.GatepassForTaxableandNonTaxableItems, clsFixedParameterCode.GatepassForTaxableandNonTaxableItems, "0", "0:Off;1-ON When ON can choose taxable or nontaxable option")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromMasterOrTransaction, clsFixedParameterCode.PickDataFromMasterOrTransaction, "0", "0:Off;1-ON When ON From Transaction else Master")

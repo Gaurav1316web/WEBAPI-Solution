@@ -8230,6 +8230,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Trip_No", "Integer NULL")
             coll.Add("Empty_Can", "Integer NULL")
             coll.Add("Filled_Can", "Integer NULL")
+            coll.Add("Against_Skada", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY", coll, "", True, True, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
