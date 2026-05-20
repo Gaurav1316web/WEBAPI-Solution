@@ -42,7 +42,7 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
                 clsCommon.AddColumnsForChange(coll, "MRN_No", obj.MRN_No)
                 clsCommon.AddColumnsForChange(coll, "QC_Status", obj.QC_Status)
                 clsCommon.AddColumnsForChange(coll, "QC_Remarks", obj.QC_Remarks)
-                clsCommon.AddColumnsForChange(coll, "Against_Foss_PK_ID", obj.Against_Foss_PK_ID)
+                clsCommon.AddColumnsForChange(coll, "Against_Foss_PK_ID", obj.Against_Foss_PK_ID, True)
 
                 clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
