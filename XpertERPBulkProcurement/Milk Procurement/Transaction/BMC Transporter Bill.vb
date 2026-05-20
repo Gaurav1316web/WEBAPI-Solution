@@ -1557,4 +1557,8 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
     Private Sub TxtKMRate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TxtKMRate.Validating
         updateAll()
     End Sub
+
+    Private Sub TxtDieselMinus_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TxtDieselMinus.Validating
+
+    End Sub
 End Class
