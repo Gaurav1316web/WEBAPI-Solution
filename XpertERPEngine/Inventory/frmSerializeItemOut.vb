@@ -1,5 +1,4 @@
-﻿'==============BM00000003063,Updated By Rohit===========
-Imports common
+﻿Imports common
 Imports System.IO
 Imports System.Windows.Forms
 Imports Telerik.WinControls.UI

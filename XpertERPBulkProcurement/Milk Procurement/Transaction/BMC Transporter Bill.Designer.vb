@@ -65,7 +65,9 @@ Partial Class BMC_Transporter_Bill
         Me.txtDieselplus = New common.Controls.MyTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.TxtRateprorata = New common.Controls.MyTextBox()
         Me.TxtTDR = New common.Controls.MyTextBox()
+        Me.MyLabel9 = New common.Controls.MyLabel()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
@@ -87,6 +89,8 @@ Partial Class BMC_Transporter_Bill
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel39 = New common.Controls.MyLabel()
+        Me.MyLabel38 = New common.Controls.MyLabel()
         Me.MyLabel47 = New common.Controls.MyLabel()
         Me.MyLabel46 = New common.Controls.MyLabel()
         Me.MyLabel45 = New common.Controls.MyLabel()
@@ -147,12 +151,8 @@ Partial Class BMC_Transporter_Bill
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.TxtRateprorata = New common.Controls.MyTextBox()
-        Me.MyLabel9 = New common.Controls.MyLabel()
-        Me.TxtTotalAddition = New common.Controls.MyLabel()
-        Me.TxtTotalDeduction = New common.Controls.MyLabel()
-        Me.MyLabel38 = New common.Controls.MyLabel()
-        Me.MyLabel39 = New common.Controls.MyLabel()
+        Me.TxtTotalAddition = New common.Controls.MyTextBox()
+        Me.TxtTotalDeduction = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -196,7 +196,9 @@ Partial Class BMC_Transporter_Bill
         CType(Me.txtDieselplus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtRateprorata, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtTDR, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -217,6 +219,8 @@ Partial Class BMC_Transporter_Bill
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -273,12 +277,8 @@ Partial Class BMC_Transporter_Bill
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtRateprorata, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtTotalAddition, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtTotalDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -315,7 +315,7 @@ Partial Class BMC_Transporter_Bill
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 405)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -719,7 +719,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtIceCharge.IsSourceFromTable = False
         Me.TxtIceCharge.IsSourceFromValueList = False
         Me.TxtIceCharge.IsUnique = False
-        Me.TxtIceCharge.Location = New System.Drawing.Point(264, 42)
+        Me.TxtIceCharge.Location = New System.Drawing.Point(264, 28)
         Me.TxtIceCharge.MendatroryField = False
         Me.TxtIceCharge.MyLinkLable1 = Nothing
         Me.TxtIceCharge.MyLinkLable2 = Nothing
@@ -745,7 +745,7 @@ Partial Class BMC_Transporter_Bill
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(178, 42)
+        Me.MyLabel13.Location = New System.Drawing.Point(178, 30)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(62, 16)
         Me.MyLabel13.TabIndex = 1550
@@ -805,7 +805,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtBarelCap.IsSourceFromTable = False
         Me.TxtBarelCap.IsSourceFromValueList = False
         Me.TxtBarelCap.IsUnique = False
-        Me.TxtBarelCap.Location = New System.Drawing.Point(264, 88)
+        Me.TxtBarelCap.Location = New System.Drawing.Point(264, 54)
         Me.TxtBarelCap.MendatroryField = False
         Me.TxtBarelCap.MyLinkLable1 = Nothing
         Me.TxtBarelCap.MyLinkLable2 = Nothing
@@ -891,7 +891,7 @@ Partial Class BMC_Transporter_Bill
         '
         Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(178, 92)
+        Me.MyLabel12.Location = New System.Drawing.Point(178, 53)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(80, 16)
         Me.MyLabel12.TabIndex = 1548
@@ -994,6 +994,30 @@ Partial Class BMC_Transporter_Bill
         Me.MyLabel4.TabIndex = 1532
         Me.MyLabel4.Text = "SNF Rate RMG"
         '
+        'TxtRateprorata
+        '
+        Me.TxtRateprorata.CalculationExpression = Nothing
+        Me.TxtRateprorata.FieldCode = Nothing
+        Me.TxtRateprorata.FieldDesc = Nothing
+        Me.TxtRateprorata.FieldMaxLength = 0
+        Me.TxtRateprorata.FieldName = Nothing
+        Me.TxtRateprorata.isCalculatedField = False
+        Me.TxtRateprorata.IsSourceFromTable = False
+        Me.TxtRateprorata.IsSourceFromValueList = False
+        Me.TxtRateprorata.IsUnique = False
+        Me.TxtRateprorata.Location = New System.Drawing.Point(628, 101)
+        Me.TxtRateprorata.MendatroryField = False
+        Me.TxtRateprorata.MyLinkLable1 = Nothing
+        Me.TxtRateprorata.MyLinkLable2 = Nothing
+        Me.TxtRateprorata.Name = "TxtRateprorata"
+        Me.TxtRateprorata.ReferenceFieldDesc = Nothing
+        Me.TxtRateprorata.ReferenceFieldName = Nothing
+        Me.TxtRateprorata.ReferenceTableName = Nothing
+        Me.TxtRateprorata.Size = New System.Drawing.Size(82, 20)
+        Me.TxtRateprorata.TabIndex = 1543
+        Me.TxtRateprorata.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtRateprorata.Visible = False
+        '
         'TxtTDR
         '
         Me.TxtTDR.CalculationExpression = Nothing
@@ -1005,7 +1029,7 @@ Partial Class BMC_Transporter_Bill
         Me.TxtTDR.IsSourceFromTable = False
         Me.TxtTDR.IsSourceFromValueList = False
         Me.TxtTDR.IsUnique = False
-        Me.TxtTDR.Location = New System.Drawing.Point(264, 19)
+        Me.TxtTDR.Location = New System.Drawing.Point(264, 5)
         Me.TxtTDR.MendatroryField = False
         Me.TxtTDR.MyLinkLable1 = Nothing
         Me.TxtTDR.MyLinkLable2 = Nothing
@@ -1017,11 +1041,22 @@ Partial Class BMC_Transporter_Bill
         Me.TxtTDR.TabIndex = 1545
         Me.TxtTDR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(542, 105)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(61, 16)
+        Me.MyLabel9.TabIndex = 1542
+        Me.MyLabel9.Text = "PRORATA"
+        Me.MyLabel9.Visible = False
+        '
         'MyLabel10
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(178, 21)
+        Me.MyLabel10.Location = New System.Drawing.Point(175, 8)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel10.TabIndex = 1544
@@ -1337,10 +1372,10 @@ Partial Class BMC_Transporter_Bill
         '
         'RadPageViewPage4
         '
-        Me.RadPageViewPage4.Controls.Add(Me.MyLabel39)
-        Me.RadPageViewPage4.Controls.Add(Me.MyLabel38)
         Me.RadPageViewPage4.Controls.Add(Me.TxtTotalDeduction)
         Me.RadPageViewPage4.Controls.Add(Me.TxtTotalAddition)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel39)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel38)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel47)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel46)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel45)
@@ -1395,6 +1430,26 @@ Partial Class BMC_Transporter_Bill
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(779, 359)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'MyLabel39
+        '
+        Me.MyLabel39.FieldName = Nothing
+        Me.MyLabel39.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel39.Location = New System.Drawing.Point(35, 301)
+        Me.MyLabel39.Name = "MyLabel39"
+        Me.MyLabel39.Size = New System.Drawing.Size(113, 16)
+        Me.MyLabel39.TabIndex = 164
+        Me.MyLabel39.Text = "TOTAL DEDUCTION"
+        '
+        'MyLabel38
+        '
+        Me.MyLabel38.FieldName = Nothing
+        Me.MyLabel38.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel38.Location = New System.Drawing.Point(35, 279)
+        Me.MyLabel38.Name = "MyLabel38"
+        Me.MyLabel38.Size = New System.Drawing.Size(100, 16)
+        Me.MyLabel38.TabIndex = 183
+        Me.MyLabel38.Text = "TOTAL ADDITION"
         '
         'MyLabel47
         '
@@ -2065,82 +2120,51 @@ Partial Class BMC_Transporter_Bill
         Me.btnSave.TabIndex = 2
         Me.btnSave.Text = "Save"
         '
-        'TxtRateprorata
-        '
-        Me.TxtRateprorata.CalculationExpression = Nothing
-        Me.TxtRateprorata.FieldCode = Nothing
-        Me.TxtRateprorata.FieldDesc = Nothing
-        Me.TxtRateprorata.FieldMaxLength = 0
-        Me.TxtRateprorata.FieldName = Nothing
-        Me.TxtRateprorata.isCalculatedField = False
-        Me.TxtRateprorata.IsSourceFromTable = False
-        Me.TxtRateprorata.IsSourceFromValueList = False
-        Me.TxtRateprorata.IsUnique = False
-        Me.TxtRateprorata.Location = New System.Drawing.Point(264, 65)
-        Me.TxtRateprorata.MendatroryField = False
-        Me.TxtRateprorata.MyLinkLable1 = Nothing
-        Me.TxtRateprorata.MyLinkLable2 = Nothing
-        Me.TxtRateprorata.Name = "TxtRateprorata"
-        Me.TxtRateprorata.ReferenceFieldDesc = Nothing
-        Me.TxtRateprorata.ReferenceFieldName = Nothing
-        Me.TxtRateprorata.ReferenceTableName = Nothing
-        Me.TxtRateprorata.Size = New System.Drawing.Size(82, 20)
-        Me.TxtRateprorata.TabIndex = 1543
-        Me.TxtRateprorata.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'MyLabel9
-        '
-        Me.MyLabel9.FieldName = Nothing
-        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(178, 69)
-        Me.MyLabel9.Name = "MyLabel9"
-        Me.MyLabel9.Size = New System.Drawing.Size(61, 16)
-        Me.MyLabel9.TabIndex = 1542
-        Me.MyLabel9.Text = "PRORATA"
-        '
         'TxtTotalAddition
         '
-        Me.TxtTotalAddition.AutoSize = False
-        Me.TxtTotalAddition.BorderVisible = True
+        Me.TxtTotalAddition.CalculationExpression = Nothing
+        Me.TxtTotalAddition.FieldCode = Nothing
+        Me.TxtTotalAddition.FieldDesc = Nothing
+        Me.TxtTotalAddition.FieldMaxLength = 0
         Me.TxtTotalAddition.FieldName = Nothing
-        Me.TxtTotalAddition.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtTotalAddition.isCalculatedField = False
+        Me.TxtTotalAddition.IsSourceFromTable = False
+        Me.TxtTotalAddition.IsSourceFromValueList = False
+        Me.TxtTotalAddition.IsUnique = False
         Me.TxtTotalAddition.Location = New System.Drawing.Point(326, 273)
+        Me.TxtTotalAddition.MendatroryField = False
+        Me.TxtTotalAddition.MyLinkLable1 = Nothing
+        Me.TxtTotalAddition.MyLinkLable2 = Nothing
         Me.TxtTotalAddition.Name = "TxtTotalAddition"
-        Me.TxtTotalAddition.Size = New System.Drawing.Size(77, 18)
-        Me.TxtTotalAddition.TabIndex = 182
-        Me.TxtTotalAddition.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.TxtTotalAddition.ReferenceFieldDesc = Nothing
+        Me.TxtTotalAddition.ReferenceFieldName = Nothing
+        Me.TxtTotalAddition.ReferenceTableName = Nothing
+        Me.TxtTotalAddition.Size = New System.Drawing.Size(77, 20)
+        Me.TxtTotalAddition.TabIndex = 1540
+        Me.TxtTotalAddition.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'TxtTotalDeduction
         '
-        Me.TxtTotalDeduction.AutoSize = False
-        Me.TxtTotalDeduction.BorderVisible = True
+        Me.TxtTotalDeduction.CalculationExpression = Nothing
+        Me.TxtTotalDeduction.FieldCode = Nothing
+        Me.TxtTotalDeduction.FieldDesc = Nothing
+        Me.TxtTotalDeduction.FieldMaxLength = 0
         Me.TxtTotalDeduction.FieldName = Nothing
-        Me.TxtTotalDeduction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtTotalDeduction.isCalculatedField = False
+        Me.TxtTotalDeduction.IsSourceFromTable = False
+        Me.TxtTotalDeduction.IsSourceFromValueList = False
+        Me.TxtTotalDeduction.IsUnique = False
         Me.TxtTotalDeduction.Location = New System.Drawing.Point(326, 297)
+        Me.TxtTotalDeduction.MendatroryField = False
+        Me.TxtTotalDeduction.MyLinkLable1 = Nothing
+        Me.TxtTotalDeduction.MyLinkLable2 = Nothing
         Me.TxtTotalDeduction.Name = "TxtTotalDeduction"
-        Me.TxtTotalDeduction.Size = New System.Drawing.Size(77, 18)
-        Me.TxtTotalDeduction.TabIndex = 166
-        Me.TxtTotalDeduction.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'MyLabel38
-        '
-        Me.MyLabel38.FieldName = Nothing
-        Me.MyLabel38.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel38.Location = New System.Drawing.Point(35, 279)
-        Me.MyLabel38.Name = "MyLabel38"
-        Me.MyLabel38.Size = New System.Drawing.Size(100, 16)
-        Me.MyLabel38.TabIndex = 183
-        Me.MyLabel38.Text = "TOTAL ADDITION"
-        '
-        'MyLabel39
-        '
-        Me.MyLabel39.FieldName = Nothing
-        Me.MyLabel39.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel39.Location = New System.Drawing.Point(35, 301)
-        Me.MyLabel39.Name = "MyLabel39"
-        Me.MyLabel39.Size = New System.Drawing.Size(113, 16)
-        Me.MyLabel39.TabIndex = 164
-        Me.MyLabel39.Text = "TOTAL DEDUCTION"
+        Me.TxtTotalDeduction.ReferenceFieldDesc = Nothing
+        Me.TxtTotalDeduction.ReferenceFieldName = Nothing
+        Me.TxtTotalDeduction.ReferenceTableName = Nothing
+        Me.TxtTotalDeduction.Size = New System.Drawing.Size(77, 20)
+        Me.TxtTotalDeduction.TabIndex = 1541
+        Me.TxtTotalDeduction.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'BMC_Transporter_Bill
         '
@@ -2199,7 +2223,9 @@ Partial Class BMC_Transporter_Bill
         CType(Me.txtDieselplus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtRateprorata, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtTDR, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -2222,6 +2248,8 @@ Partial Class BMC_Transporter_Bill
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2278,12 +2306,8 @@ Partial Class BMC_Transporter_Bill
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtRateprorata, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtTotalAddition, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtTotalDeduction, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2416,6 +2440,6 @@ Partial Class BMC_Transporter_Bill
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
     Friend WithEvents MyLabel39 As common.Controls.MyLabel
     Friend WithEvents MyLabel38 As common.Controls.MyLabel
-    Friend WithEvents TxtTotalDeduction As common.Controls.MyLabel
-    Friend WithEvents TxtTotalAddition As common.Controls.MyLabel
+    Friend WithEvents TxtTotalAddition As common.Controls.MyTextBox
+    Friend WithEvents TxtTotalDeduction As common.Controls.MyTextBox
 End Class

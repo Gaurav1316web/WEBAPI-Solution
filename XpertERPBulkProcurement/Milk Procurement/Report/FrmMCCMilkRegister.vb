@@ -27,6 +27,7 @@ Public Class FrmMCCMilkRegister
     Dim SetCowFatPer As Integer
     Dim SetMixFatPer As Integer
     Dim AreaWiseBilling As Boolean = False
+    Dim PartialSRNAmount As Decimal = 0
     Private Sub FrmMCCMilkRegister_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         SetCowFatPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
@@ -43,6 +44,7 @@ Public Class FrmMCCMilkRegister
         isShowTreeView = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsShowTreeView, clsFixedParameterCode.IsShowTreeView, Nothing)) = 1
         chkShowVLCUploaderData.Checked = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowVLCUploaderData, clsFixedParameterCode.ShowVLCUploaderData, Nothing)) = 1
         ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
+        PartialSRNAmount = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PartialSRNAmount, clsFixedParameterCode.PartialSRNAmount, Nothing))
         If isShowTreeView Then
             LoadMCCRouteVLCTree()
         End If
@@ -207,6 +209,12 @@ Public Class FrmMCCMilkRegister
         Dim summaryItem As New GridViewSummaryItem()
         gv.TableElement.TableHeaderHeight = 25
         gv.MasterTemplate.ShowRowHeaderColumn = True
+
+        If PartialSRNAmount <= 0 Then
+            gv.Columns("Partial Amount").IsVisible = False
+            gv.Columns("Partial Amount").HeaderText = "Partial Amount"
+            gv.Columns("Partial Amount").VisibleInColumnChooser = True
+        End If
         If rbtnDCSWithZone.Checked Then
             Dim DCSwithZoneSummaryItem As New GridViewSummaryRowItem()
             If gv.Columns.Contains("Alias Name") Then
@@ -3080,6 +3088,10 @@ Public Class FrmMCCMilkRegister
 
     Private Sub LoadData(Optional ByVal BulkExport As Integer = 0)
         Try
+            Dim PartialSRNAmount As Decimal = 0
+            PartialSRNAmount = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PartialSRNAmount, clsFixedParameterCode.PartialSRNAmount, Nothing))
+
+
             If chkRoutewise.Checked = True AndAlso chkShiftWise.Checked = True AndAlso chkRejection.Checked = False AndAlso chkShowVLCUploaderData.Checked = False AndAlso chkOnlyRejection.Checked = False Then
                 RadButton1.Enabled = True
             Else
@@ -3254,7 +3266,11 @@ Public Class FrmMCCMilkRegister
                             End If
                         End If
                     ElseIf rbtnVLCWise.Checked Then
-                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Zone Code],aa.[Vlc Code],aa.[Vendor Code] ,aa.[VLC Name],aa.[Alias Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[Vendor Group Code],aa.[Vendor Group Desc],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)],aa.[DBT Amount] ,aa.[FAT(%)] ,aa.[SNF(%)] ,aa.CLR,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo CLR],aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_Amount,aa.TIP_Amount,aa.NET_AMOUNT,aa.Round_Off,aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.Mcc_Uploader_Code as Mcc_Uploader_Code,aa.QAT_Rate,aa.QAT_Amt  from ( "
+                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Zone Code],aa.[Vlc Code],aa.[Vendor Code] ,aa.[VLC Name],aa.[Alias Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[Vendor Group Code],aa.[Vendor Group Desc],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)],aa.[DBT Amount] ,aa.[FAT(%)] ,aa.[SNF(%)] ,aa.CLR,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo CLR],aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount], "
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " aa.[Partial Amount], "
+                        End If
+                        FinalQuery += " aa.EMP_Amount,aa.TIP_Amount,aa.NET_AMOUNT,aa.Round_Off,aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.Mcc_Uploader_Code as Mcc_Uploader_Code,aa.QAT_Rate,aa.QAT_Amt  from ( "
                         FinalQuery += " select xxx.* ,"
                         FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
                         FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
@@ -3271,7 +3287,11 @@ Public Class FrmMCCMilkRegister
                         FinalQuery += " sum([FAT(LTR)] ) as [FAT(LTR)] ,sum([SNF(LTR)] ) as [SNF(LTR)],"
                         FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
                         FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
-                        FinalQuery += " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_Amount) as EMP_Amount,sum(TIP_Amount) as TIP_Amount,sum(NET_AMOUNT) as NET_AMOUNT,sum(Round_Off) as Round_Off,sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount ) as VSP_Deduction_Amount ,sum(VSP_Day_Wise_Incentive ) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max(Mcc_Uploader_Code) as Mcc_Uploader_Code,sum(QAT_Rate)QAT_Rate,sum(QAT_Amt)QAT_Amt from ("
+                        FinalQuery += " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " sum([Partial Amount])[Partial Amount], "
+                        End If
+                        FinalQuery += " avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_Amount) as EMP_Amount,sum(TIP_Amount) as TIP_Amount,sum(NET_AMOUNT) as NET_AMOUNT,sum(Round_Off) as Round_Off,sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount ) as VSP_Deduction_Amount ,sum(VSP_Day_Wise_Incentive ) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max(Mcc_Uploader_Code) as Mcc_Uploader_Code,sum(QAT_Rate)QAT_Rate,sum(QAT_Amt)QAT_Amt from ("
                         FinalQuery += "" + Environment.NewLine + Environment.NewLine + qry + Environment.NewLine + Environment.NewLine & ""
                         'FinalQuery += " ) as  pp group by pp.[MCC Code],pp.[Route Code],pp.[Vlc Code] "
                         FinalQuery += " ) as  pp group by pp.[Vlc Code] "
@@ -3283,7 +3303,11 @@ Public Class FrmMCCMilkRegister
                             FinalQuery += " ) as aa order  by [MCC Code],[Route Code],[Vlc Code] "
                         End If
                     ElseIf chkRoutewise.Checked Then
-                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)],aa.CLR ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)],aa.[Cow CLR] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo SNF(%)],aa.[Buffalo CLR] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_Amount,aa.TIP_Amount,aa.NET_AMOUNT,aa.Round_Off,aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.Mcc_Uploader_Code from ( "
+                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)],aa.CLR ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)],aa.[Cow CLR] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo SNF(%)],aa.[Buffalo CLR] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " aa.[Partial Amount], "
+                        End If
+                        FinalQuery += " aa.EMP_Amount,aa.TIP_Amount,aa.NET_AMOUNT,aa.Round_Off,aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.Mcc_Uploader_Code from ( "
                         FinalQuery += " select xxx.* ,"
                         FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
                         FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
@@ -3299,7 +3323,11 @@ Public Class FrmMCCMilkRegister
                         FinalQuery += " sum([FAT(LTR)] ) as [FAT(LTR)] ,sum([SNF(LTR)] ) as [SNF(LTR)],"
                         FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
                         FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
-                        FinalQuery += " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_Amount) as EMP_Amount,sum(TIP_Amount) as TIP_Amount,sum(NET_AMOUNT) as NET_AMOUNT,sum(Round_Off) as Round_Off,sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount,sum(VSP_Commission_Amount)as VSP_Commission_Amount,sum(VSP_Deduction_Amount )as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive)as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max(Mcc_Uploader_Code) as Mcc_Uploader_Code  from ("
+                        FinalQuery += " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " sum([Partial Amount])[Partial Amount], "
+                        End If
+                        FinalQuery += " avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_Amount) as EMP_Amount,sum(TIP_Amount) as TIP_Amount,sum(NET_AMOUNT) as NET_AMOUNT,sum(Round_Off) as Round_Off,sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount,sum(VSP_Commission_Amount)as VSP_Commission_Amount,sum(VSP_Deduction_Amount )as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive)as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max(Mcc_Uploader_Code) as Mcc_Uploader_Code  from ("
                         FinalQuery += "" + Environment.NewLine + Environment.NewLine + qry + Environment.NewLine + Environment.NewLine + ""
                         FinalQuery += " ) as  pp group by pp.[MCC Code],pp.[Route Code]"
                         FinalQuery += " )as xx"
@@ -3311,7 +3339,11 @@ Public Class FrmMCCMilkRegister
                         End If
 
                     ElseIf ChkMCCWise.Checked Then
-                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)],aa.CLR ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)],aa.[Cow CLR] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)],aa.[Buffalo CLR] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_Amount,aa.TIP_Amount,aa.NET_AMOUNT,aa.Round_Off,aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.Mcc_Uploader_Code from ( "
+                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)],aa.CLR ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)],aa.[Cow CLR] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)],aa.[Buffalo CLR] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " aa.[Partial Amount], "
+                        End If
+                        FinalQuery += " aa.EMP_Amount,aa.TIP_Amount,aa.NET_AMOUNT,aa.Round_Off,aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.Mcc_Uploader_Code from ( "
                         FinalQuery += " select xxx.* ,"
                         FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
                         FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
@@ -3327,7 +3359,11 @@ Public Class FrmMCCMilkRegister
                         FinalQuery += " sum([FAT(LTR)] ) as [FAT(LTR)] ,sum([SNF(LTR)] ) as [SNF(LTR)],"
                         FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
                         FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
-                        FinalQuery += " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_Amount) as EMP_Amount,sum(TIP_Amount) as TIP_Amount,sum(NET_AMOUNT) as NET_AMOUNT,sum(Round_Off) as Round_Off,sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max(Mcc_Uploader_Code) as Mcc_Uploader_Code  from ("
+                        FinalQuery += " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " sum([Partial Amount])[Partial Amount], "
+                        End If
+                        FinalQuery += " avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_Amount) as EMP_Amount,sum(TIP_Amount) as TIP_Amount,sum(NET_AMOUNT) as NET_AMOUNT,sum(Round_Off) as Round_Off,sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max(Mcc_Uploader_Code) as Mcc_Uploader_Code  from ("
                         FinalQuery += "" + Environment.NewLine + Environment.NewLine + qry + Environment.NewLine + Environment.NewLine + ""
                         FinalQuery += " ) as  pp group by pp.[MCC Code] "
                         FinalQuery += " )as xx"
@@ -3338,7 +3374,11 @@ Public Class FrmMCCMilkRegister
                             FinalQuery += " ) as aa order by [MCC Code] "
                         End If
                     ElseIf rbtnPlantWise.Checked Then
-                        FinalQuery = "select aa.[Plant Code],aa.[Plant Name],aa.[MCC Code],aa.[MCC Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)],aa.CLR ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)],aa.[FAT(KG)]+aa.[SNF(KG)] as [Total Solid] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)],aa.[Cow CLR] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)],aa.[Cow FAT (KG)]+aa.[Cow SNF (KG)] as [Cow Total Solid] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)],aa.[Buffalo CLR] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)],aa.[Buffalo FAT (KG)]+aa.[Buffalo SNF (KG)] as [Buffalo Total Solid] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_Amount,aa.TIP_Amount,aa.NET_AMOUNT,aa.Round_Off,aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle from ( "
+                        FinalQuery = "select aa.[Plant Code],aa.[Plant Name],aa.[MCC Code],aa.[MCC Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)],aa.CLR ,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)],aa.[FAT(KG)]+aa.[SNF(KG)] as [Total Solid] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)],aa.[Cow CLR] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)],aa.[Cow FAT (KG)]+aa.[Cow SNF (KG)] as [Cow Total Solid] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)],aa.[Buffalo CLR] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)],aa.[Buffalo FAT (KG)]+aa.[Buffalo SNF (KG)] as [Buffalo Total Solid] ,aa.[SRN Qty],aa.[SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " aa.[Partial Amount], "
+                        End If
+                        FinalQuery += " aa.EMP_Amount,aa.TIP_Amount,aa.NET_AMOUNT,aa.Round_Off,aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle from ( "
                         FinalQuery += " select xxx.* ,"
                         FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
                         FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
@@ -3354,7 +3394,11 @@ Public Class FrmMCCMilkRegister
                         FinalQuery += " sum([FAT(LTR)] ) as [FAT(LTR)] ,sum([SNF(LTR)] ) as [SNF(LTR)],"
                         FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
                         FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
-                        FinalQuery += " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_Amount) as EMP_Amount,sum(TIP_Amount) as TIP_Amount,sum(NET_AMOUNT) as NET_AMOUNT,sum(Round_Off) as Round_Off,sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount,sum(VSP_Commission_Amount)as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount ,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle from ("
+                        FinalQuery += " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " sum([Partial Amount])[Partial Amount], "
+                        End If
+                        FinalQuery += " avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_Amount) as EMP_Amount,sum(TIP_Amount) as TIP_Amount,sum(NET_AMOUNT) as NET_AMOUNT,sum(Round_Off) as Round_Off,sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount,sum(VSP_Commission_Amount)as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount ,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle from ("
                         FinalQuery += "" + Environment.NewLine + Environment.NewLine + qry + Environment.NewLine + Environment.NewLine + ""
                         FinalQuery += " ) as  pp group by pp.[Plant Code] "
                         FinalQuery += " )as xx"
@@ -3978,8 +4022,11 @@ Public Class FrmMCCMilkRegister
                     " final.[Sample No] ,final.[No Of Cans],final.Item_Code,final.Item_Desc,final.[Milk Weight],final.UOM_Code as [UOM],final.[Milk Weight(KG)]," &
                     " final.[Milk Weight(LTR)]  as [Milk Weight(LTR)]," &
                     " final.[FAT(%)]  ,final.CLR,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)] ,final.[Cow Milk Qty (KG)],final.[Cow FAT(%)], Case When final.[FAT(%)] <= 5 Then CLR Else 0 End [Cow CLR],final.[Cow SNF(%)] , Case When final.[FAT(%)] <= 5 Then final.[FAT(KG)] Else 0 End [Cow FAT (KG)], Case When final.[FAT(%)] <= 5 Then final.[SNF(KG)] Else 0 End [Cow SNF (KG)]," &
-                    " final.[Buffalo Milk Qty (KG)], Case When final.[FAT(%)] > 5 Then CLR Else 0 End [Buffalo CLR],final.[Buffalo SNF(%)],final.[Buffalo FAT(%)], Case When final.[FAT(%)] > 5 Then final.[FAT(KG)] Else 0 End [Buffalo FAT (KG)], Case When final.[FAT(%)] > 5 Then final.[SNF(KG)] Else 0 End [Buffalo SNF (KG)],final.[Milk Type],final.[SRN No],final.[SRN Amount]," &
-                    " final.[SRN Qty],final.[SRN Rate],final.[Shift Status] ,Invoice_no ,Invoice_Date , IS_MANUAL, MACHINE_NO,IS_MILK_SAMPLE_MANUAL,RejectType,RejectReason,Defaulter, " &
+                    " final.[Buffalo Milk Qty (KG)], Case When final.[FAT(%)] > 5 Then CLR Else 0 End [Buffalo CLR],final.[Buffalo SNF(%)],final.[Buffalo FAT(%)], Case When final.[FAT(%)] > 5 Then final.[FAT(KG)] Else 0 End [Buffalo FAT (KG)], Case When final.[FAT(%)] > 5 Then final.[SNF(KG)] Else 0 End [Buffalo SNF (KG)],final.[Milk Type],final.[SRN No],final.[SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            qry += " cast(CASE WHEN final.[SRN Amount] IS NOT NULL THEN final.[SRN Amount] * " & PartialSRNAmount & " / 100  ELSE 0 END as decimal(18,2)) AS [Partial Amount], "
+                        End If
+                        qry += " final.[SRN Qty],final.[SRN Rate],final.[Shift Status] ,Invoice_no ,Invoice_Date , IS_MANUAL, MACHINE_NO,IS_MILK_SAMPLE_MANUAL,RejectType,RejectReason,Defaulter, " &
                     " final.EMP_Amount,final.TIP_Amount,final.Service_Charge_Amount ,([SRN Amount]+EMP_Amount+TIP_Amount-Service_Charge_Amount) as NetAmount,final.Purchase_Order_No,final.Head_Load_Amount ,final.SNF_Ded_Value,final.SNF_Ded_Rate,final.SNF_Ded_Amount, final.price_code,final.[Transporter Code],final.[Transporter Name],final.Handling_Charges_Amount,final.VSP_Commission_Amount,final.VSP_Deduction_Amount,final.VSP_Day_Wise_Incentive,final.SubStandard,final.vehicle,final.[Mcc_Uploader_Code],final.QAT_Rate,final.QAT_Amt From ( " & strSRNQuery & ") As final where 2=2 "
                     Else
                         qry = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
@@ -4041,7 +4088,11 @@ Public Class FrmMCCMilkRegister
 
                         ''richa MIL/01/02/19-000039 show empAmount in case of VLC Wise 
                     ElseIf rbtnVLCWise.Checked Then
-                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Zone Code],aa.[Vlc Code],aa.[Vendor Code] ,aa.[VLC Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[isOwnBMC(Y/N)] as [isOwnBMC(Y/N)],aa.[Vendor Group Code],aa.[Vendor Group Desc],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo CLR] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_Amount,aa.TIP_Amount,aa.Head_Load_Amount, aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.[Mcc_Uploader_Code],aa.QAT_Rate,aa.QAT_Amt from ( " & Environment.NewLine &
+                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name],aa.[Zone Code],aa.[Vlc Code],aa.[Vendor Code] ,aa.[VLC Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[isOwnBMC(Y/N)] as [isOwnBMC(Y/N)],aa.[Vendor Group Code],aa.[Vendor Group Desc],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo CLR] ,aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " aa.[Partial Amount], "
+                        End If
+                        FinalQuery += " aa.EMP_Amount,aa.TIP_Amount,aa.Head_Load_Amount, aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.[Mcc_Uploader_Code],aa.QAT_Rate,aa.QAT_Amt from ( " & Environment.NewLine &
                         " select xxx.* ," & Environment.NewLine &
                         "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)]," & Environment.NewLine &
                         " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)]," & Environment.NewLine &
@@ -4056,7 +4107,11 @@ Public Class FrmMCCMilkRegister
                         " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)]," & Environment.NewLine &
                         " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)]," & Environment.NewLine &
                         " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)]," & Environment.NewLine &
-                        " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],sum(Head_Load_Amount) as Head_Load_Amount,sum(PP.EMP_Amount ) as EMP_Amount,sum(PP.TIP_Amount) as TIP_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount, max(price_code) as price_code,max([Transporter Code]) as [Transporter Code],max([Transporter Name]) as [Transporter Name],sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max([Mcc_Uploader_Code]) as [Mcc_Uploader_Code],sum(QAT_Rate)QAT_Rate,sum(QAT_Amt)QAT_Amt  from (" & Environment.NewLine &
+                        " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " sum([Partial Amount])[Partial Amount], "
+                        End If
+                        FinalQuery += " sum(Head_Load_Amount) as Head_Load_Amount,sum(PP.EMP_Amount ) as EMP_Amount,sum(PP.TIP_Amount) as TIP_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount, max(price_code) as price_code,max([Transporter Code]) as [Transporter Code],max([Transporter Name]) as [Transporter Name],sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max([Mcc_Uploader_Code]) as [Mcc_Uploader_Code],sum(QAT_Rate)QAT_Rate,sum(QAT_Amt)QAT_Amt  from (" & Environment.NewLine &
                         " " + Environment.NewLine + Environment.NewLine + qry + Environment.NewLine + Environment.NewLine + "" & Environment.NewLine &
                         " ) as  pp group by pp.[Vlc Code] " & Environment.NewLine &
                         " )as xx" & Environment.NewLine &
@@ -4077,7 +4132,11 @@ Public Class FrmMCCMilkRegister
                             If BulkExport = 3 Then
                                 FinalQuery += " aa.Date,"
                             End If
-                            FinalQuery += " aa.Shift,aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)],aa.[Buffalo SNF(%)]  ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_AMOUNT,aa.TIP_Amount ,aa.Head_Load_Amount, aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.[Mcc_Uploader_Code]  from ( "
+                            FinalQuery += " aa.Shift,aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)],aa.[Buffalo SNF(%)]  ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],"
+                            If PartialSRNAmount > 0 Then
+                                FinalQuery += " aa.[Partial Amount], "
+                            End If
+                            FinalQuery += " aa.EMP_AMOUNT,aa.TIP_Amount ,aa.Head_Load_Amount, aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.[Mcc_Uploader_Code]  from ( "
                             FinalQuery += " select xxx.* ,"
                             FinalQuery += "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)],"
                             FinalQuery += " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)],"
@@ -4096,7 +4155,11 @@ Public Class FrmMCCMilkRegister
                             FinalQuery += " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)],"
                             FinalQuery += " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)],"
                             FinalQuery += " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)],"
-                            FinalQuery += " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_AMOUNT) as EMP_AMOUNT,sum(TIP_Amount) as TIP_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount, max(price_code) as price_code,max([Transporter Code]) as [Transporter Code],max([Transporter Name]) as [Transporter Name],sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max([Mcc_Uploader_Code]) as [Mcc_Uploader_Code],sum(QAT_Rate)QAT_Rate,sum(QAT_Amt)QAT_Amt from ("
+                            FinalQuery += " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],"
+                            If PartialSRNAmount > 0 Then
+                                FinalQuery += " sum([Partial Amount])[Partial Amount], "
+                            End If
+                            FinalQuery += " avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_AMOUNT) as EMP_AMOUNT,sum(TIP_Amount) as TIP_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount, max(price_code) as price_code,max([Transporter Code]) as [Transporter Code],max([Transporter Name]) as [Transporter Name],sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max([Mcc_Uploader_Code]) as [Mcc_Uploader_Code],sum(QAT_Rate)QAT_Rate,sum(QAT_Amt)QAT_Amt from ("
                             FinalQuery += "" + Environment.NewLine + Environment.NewLine + qry + Environment.NewLine + Environment.NewLine + ""
                             FinalQuery += ") as  pp group by"
                             If BulkExport = 3 Then
@@ -4112,7 +4175,11 @@ Public Class FrmMCCMilkRegister
                             End If
                             ''richa MIL/01/02/19-000039 show empAmount in case of route Wise 
                         Else
-                            FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo CLR],aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_AMOUNT,aa.TIP_Amount,aa.Head_Load_Amount , aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.[Mcc_Uploader_Code] from ( " & Environment.NewLine &
+                            FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name],aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name] ,aa.[Route Code] ,aa.[Route Name] ,aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR],aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)] ,aa.[Buffalo CLR],aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],"
+                            If PartialSRNAmount > 0 Then
+                                FinalQuery += " aa.[Partial Amount], "
+                            End If
+                            FinalQuery += " aa.EMP_AMOUNT,aa.TIP_Amount,aa.Head_Load_Amount , aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.[Mcc_Uploader_Code] from ( " & Environment.NewLine &
                             " select xxx.* ," & Environment.NewLine &
                             "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)]," & Environment.NewLine &
                             " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)]," & Environment.NewLine &
@@ -4127,7 +4194,11 @@ Public Class FrmMCCMilkRegister
                             " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)]," & Environment.NewLine &
                             " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)]," & Environment.NewLine &
                             " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)]," & Environment.NewLine &
-                            " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(Head_Load_Amount) as Head_Load_Amount,sum(EMP_Amount) as EMP_Amount,sum(TIP_Amount) as TIP_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount, max(price_code) as price_code,max([Transporter Code]) as [Transporter Code],max([Transporter Name]) as [Transporter Name],sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max([Mcc_Uploader_Code]) as [Mcc_Uploader_Code],sum(QAT_Rate)QAT_Rate,sum(QAT_Amt)QAT_Amt from (" & Environment.NewLine &
+                            " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],"
+                            If PartialSRNAmount > 0 Then
+                                FinalQuery += " sum([Partial Amount])[Partial Amount], "
+                            End If
+                            FinalQuery += " avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(Head_Load_Amount) as Head_Load_Amount,sum(EMP_Amount) as EMP_Amount,sum(TIP_Amount) as TIP_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount, max(price_code) as price_code,max([Transporter Code]) as [Transporter Code],max([Transporter Name]) as [Transporter Name],sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max([Mcc_Uploader_Code]) as [Mcc_Uploader_Code],sum(QAT_Rate)QAT_Rate,sum(QAT_Amt)QAT_Amt from (" & Environment.NewLine &
                             "" + Environment.NewLine + Environment.NewLine + qry + Environment.NewLine + Environment.NewLine + "" & Environment.NewLine &
                             " ) as  pp group by pp.[MCC Code],pp.[Route Code]" & Environment.NewLine &
                             " )as xx" & Environment.NewLine &
@@ -4142,7 +4213,11 @@ Public Class FrmMCCMilkRegister
                         End If
                         ''richa MIL/01/02/19-000039 show empAmount in case of MCC Wise
                     ElseIf ChkMCCWise.Checked Then
-                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name] ,aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)]  ,aa.[Buffalo CLR],aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_AMOUNT,aa.TIP_Amount,aa.Head_Load_Amount , aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.[Mcc_Uploader_Code] from ( " & Environment.NewLine &
+                        FinalQuery = "select aa.[MCC Code] ,aa.[MCC Name] ,aa.[MCC Type] ,aa.[Chilling Center],aa.[Plant Code],aa.[Plant Name],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)] ,aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)]  ,aa.[Buffalo CLR],aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)] ,aa.[SRN Qty],aa.[SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " aa.[Partial Amount], "
+                        End If
+                        FinalQuery += " aa.EMP_AMOUNT,aa.TIP_Amount,aa.Head_Load_Amount , aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle,aa.[Mcc_Uploader_Code] from ( " & Environment.NewLine &
                         " select xxx.* ," & Environment.NewLine &
                         "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)]," & Environment.NewLine &
                         " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)]," & Environment.NewLine &
@@ -4157,7 +4232,11 @@ Public Class FrmMCCMilkRegister
                         " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)]," & Environment.NewLine &
                         " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)]," & Environment.NewLine &
                         " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)]," & Environment.NewLine &
-                        " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_AMOUNT) as EMP_AMOUNT,sum(TIP_Amount) as TIP_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount, max(price_code) as price_code,max([Transporter Code]) as [Transporter Code],max([Transporter Name]) as [Transporter Name],sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max([Mcc_Uploader_Code]) as [Mcc_Uploader_Code] from (" & Environment.NewLine &
+                        " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " sum([Partial Amount])[Partial Amount], "
+                        End If
+                        FinalQuery += " avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_AMOUNT) as EMP_AMOUNT,sum(TIP_Amount) as TIP_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount, max(price_code) as price_code,max([Transporter Code]) as [Transporter Code],max([Transporter Name]) as [Transporter Name],sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle,max([Mcc_Uploader_Code]) as [Mcc_Uploader_Code] from (" & Environment.NewLine &
                         "" + Environment.NewLine + Environment.NewLine + qry + Environment.NewLine + Environment.NewLine + "" & Environment.NewLine &
                         " ) as  pp group by pp.[MCC Code] " & Environment.NewLine &
                         " )as xx" & Environment.NewLine &
@@ -4168,7 +4247,11 @@ Public Class FrmMCCMilkRegister
                         End If
 
                     ElseIf rbtnPlantWise.Checked Then
-                        FinalQuery = "select aa.[Plant Code],aa.[Plant Name],aa.[MCC Code],aa.[MCC Name],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)],aa.[FAT(KG)]+aa.[SNF(KG)] as [Total Solid],aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)],aa.[Cow FAT (KG)]+aa.[Cow SNF (KG)] as [Cow Total Solid] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)]  ,aa.[Buffalo CLR],aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)],aa.[Buffalo FAT (KG)]+aa.[Buffalo SNF (KG)] as [Buffalo Total Solid] ,aa.[SRN Qty],aa.[SRN Amount],aa.EMP_AMOUNT,aa.TIP_Amount,aa.Head_Load_Amount , aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle from ( " & Environment.NewLine &
+                        FinalQuery = "select aa.[Plant Code],aa.[Plant Name],aa.[MCC Code],aa.[MCC Name],aa.[Milk Weight] ,aa.[Milk Weight(KG)]	,aa.[Milk Weight(LTR)] ,aa.[FAT(%)] ,aa.CLR,aa.[SNF(%)] ,aa.[FAT(KG)] ,aa.[SNF(KG)],aa.[FAT(KG)]+aa.[SNF(KG)] as [Total Solid],aa.[Cow Milk Qty (KG)] ,aa.[Cow FAT(%)] ,aa.[Cow CLR] ,aa.[Cow SNF(%)] ,aa.[Cow FAT (KG)] ,aa.[Cow SNF (KG)],aa.[Cow FAT (KG)]+aa.[Cow SNF (KG)] as [Cow Total Solid] ,aa.[Buffalo Milk Qty (KG)] ,aa.[Buffalo FAT(%)]  ,aa.[Buffalo CLR],aa.[Buffalo SNF(%)] ,aa.[Buffalo FAT (KG)] ,aa.[Buffalo SNF (KG)],aa.[Buffalo FAT (KG)]+aa.[Buffalo SNF (KG)] as [Buffalo Total Solid] ,aa.[SRN Qty],aa.[SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " aa.[Partial Amount], "
+                        End If
+                        FinalQuery += " aa.EMP_AMOUNT,aa.TIP_Amount,aa.Head_Load_Amount , aa.SNF_Ded_Amount,aa.price_code,aa.[Transporter Code],aa.[Transporter Name],aa.Handling_Charges_Amount,aa.Head_Load_Amount,aa.SNF_Ded_Amount,aa.VSP_Commission_Amount ,aa.VSP_Deduction_Amount,aa.VSP_Day_Wise_Incentive,aa.Vehicle from ( " & Environment.NewLine &
                         " select xxx.* ," & Environment.NewLine &
                         "  case when [Cow Milk Qty (KG)] =0 then 0 else [Cow FAT (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow FAT(%)]," & Environment.NewLine &
                         " case when [Cow Milk Qty (KG)] =0 then 0 else [Cow Snf (KG)]/[Cow Milk Qty (KG)] *100 end as [Cow SNF(%)]," & Environment.NewLine &
@@ -4183,7 +4266,12 @@ Public Class FrmMCCMilkRegister
                         " ,sum([FAT(KG)] ) as [FAT(KG)] ,sum([SNF(KG)] ) as [SNF(KG)]," & Environment.NewLine &
                         " sum(pp.[Cow Milk Qty (KG)]) as [Cow Milk Qty (KG)]," & Environment.NewLine &
                         " sum([Buffalo Milk Qty (KG)]) as [Buffalo Milk Qty (KG)]," & Environment.NewLine &
-                        " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_AMOUNT) as EMP_AMOUNT,sum(TIP_Amount) as TIP_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount, max(price_code) as price_code,max([Transporter Code]) as [Transporter Code],max([Transporter Name]) as [Transporter Name],sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle from (" & Environment.NewLine &
+                        " sum([SRN Qty]) as [SRN Qty] ,sum([Cow FAT (KG)]) as [Cow FAT (KG)], sum ([Cow SNF (KG)]) as [Cow SNF (KG)], sum([Buffalo FAT (KG)]) as [Buffalo FAT (KG)], sum( [Buffalo SNF (KG)]) as [Buffalo SNF (KG)],sum([SRN Amount]) as [SRN Amount],"
+                        If PartialSRNAmount > 0 Then
+                            FinalQuery += " sum([Partial Amount])[Partial Amount], "
+                        End If
+
+                        FinalQuery += " avg(CLR) as CLR,avg([Cow CLR]) as [Cow CLR] ,avg([Buffalo CLR]) as [Buffalo CLR],sum(EMP_AMOUNT) as EMP_AMOUNT,sum(TIP_Amount) as TIP_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(SNF_Ded_Amount )as SNF_Ded_Amount, max(price_code) as price_code,max([Transporter Code]) as [Transporter Code],max([Transporter Name]) as [Transporter Name],sum(Handling_Charges_Amount) as Handling_Charges_Amount,sum(VSP_Commission_Amount) as VSP_Commission_Amount,sum(VSP_Deduction_Amount) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive,max(Vehicle) as Vehicle from (" & Environment.NewLine &
                         "" + Environment.NewLine + Environment.NewLine + qry + Environment.NewLine + Environment.NewLine + "" & Environment.NewLine &
                         " ) as  pp group by pp.[Plant Code],pp.[MCC Code] " & Environment.NewLine &
                         " )as xx" & Environment.NewLine &

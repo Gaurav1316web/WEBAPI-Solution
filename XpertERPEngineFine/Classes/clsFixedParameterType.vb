@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const SkadaIntegration As String = "Skada Integration"
     Public Const SkipDebitNoteforRejectInBMCTruckSheet As String = "Skip Debit Note for Reject In BMC Truck Sheet"
     Public Const GatepassForTaxableandNonTaxableItems As String = "Gatepass For Taxable and NonTaxable Items"
     Public Const PickDataFromMasterOrTransaction As String = "Pick Data From Master Or Transaction"
@@ -19,6 +20,7 @@ Public Class clsFixedParameterType
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "pick company BankCode From Payment Process"
     Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
     Public Const MaxFATPerLimitforReport As String = "Max FAT Per Limit for Report"
+    Public Const PartialSRNAmount As String = "Partial SRN Amount"
     Public Const MaxSNFPerLimitforReport As String = "Max SNF Per Limit for Report"
     Public Const PrintOnlyPostedDocument As String = "Print Only Posted Document"
     Public Const DefaultFilesPath As String = "Default File Path"
@@ -1409,6 +1411,9 @@ Public Class clsFixedParameterType
     Public Const ServerDateTimeForTaxableInvoice = "Server DateTime For Taxable Invoice"
 End Class
 Public Class clsFixedParameterCode
+    Public Const SkadaDefaultSiloLocation As String = "Default Silo Location"
+    Public Const SkadaLastDocument As String = "Last Document"
+    Public Const SkadaDefaultRoute As String = "Default Route"
     Public Const SkipDebitNoteforRejectInBMCTruckSheet As String = "Skip Debit Note for Reject In BMC Truck Sheet"
     Public Const GatepassForTaxableandNonTaxableItems As String = "Gatepass For Taxable and NonTaxable Items"
     Public Const PickDataFromMasterOrTransaction As String = "Pick Data From Master Or Transaction"
@@ -1425,6 +1430,7 @@ Public Class clsFixedParameterCode
     Public Const StopYesBankVirtualAccount As String = "Stop Yes Bank virtual Account"
     Public Const MaxFATPerLimitforReport As String = "Max FAT Per Limit for Report"
     Public Const MaxSNFPerLimitforReport As String = "Max SNF Per Limit for Report"
+    Public Const PartialSRNAmount As String = "Partial SRN Amount"
     Public Const PrintOnlyPostedDocument As String = "Print Only Posted Document"
     Public Const HideShiftFilterOnDemandStatus As String = "Hide Shift Filter On Demand Status"
     Public Const DefaultFilesPath As String = "Default File Path"
@@ -3059,6 +3065,10 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SkadaIntegration, clsFixedParameterCode.SkadaDefaultSiloLocation, "", "Default silo location")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SkadaIntegration, clsFixedParameterCode.SkadaLastDocument, "", "Last Synced Document")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SkadaIntegration, clsFixedParameterCode.SkadaDefaultRoute, "", "Default Bulk Route")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.SkipDebitNoteforRejectInBMCTruckSheet, clsFixedParameterCode.SkipDebitNoteforRejectInBMCTruckSheet, "0", "0:Off;1-ON Skip to Generate Debit Note for Reject In BMC Truck Sheet")
         InsertDefaultValueFixedParameter(clsFixedParameterType.GatepassForTaxableandNonTaxableItems, clsFixedParameterCode.GatepassForTaxableandNonTaxableItems, "0", "0:Off;1-ON When ON can choose taxable or nontaxable option")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromMasterOrTransaction, clsFixedParameterCode.PickDataFromMasterOrTransaction, "0", "0:Off;1-ON When ON From Transaction else Master")
@@ -3087,6 +3097,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, "0", "0:OFF,1:ON;Adjust qty of own DCS when there is only one row")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, "0", "0:OFF,1:ON; Print Only Posted Document")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATPerLimitforReport, clsFixedParameterCode.MaxFATPerLimitforReport, "3.2", "MaxFatPerLimitForReport")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PartialSRNAmount, clsFixedParameterCode.PartialSRNAmount, "0", "PartialSRNAmount")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxSNFPerLimitforReport, clsFixedParameterCode.MaxSNFPerLimitforReport, "7.2", "MaxSnfPerLimitForReport")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultFilesPath, clsFixedParameterCode.DefaultFilesPath, "E:\XpertServices\XpertFileUpload\Upload", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.B2CDocumentAmountRangeOtherState, clsFixedParameterCode.B2CDocumentAmountRangeOtherState, "100000", "Define Document Amount Range For Other State B2C Large/Small")
@@ -4773,6 +4784,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmMilkProcurementSocietySummary, clsFixedParameterType.MaxFATPerLimitforReport, clsFixedParameterCode.MaxFATPerLimitforReport, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.FrmMilkProcurementSocietySummary, clsFixedParameterType.MaxSNFPerLimitforReport, clsFixedParameterCode.MaxSNFPerLimitforReport, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.PartialSRNAmount, clsFixedParameterCode.PartialSRNAmount, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmSendSMSToDCS, clsFixedParameterType.DefaultFilesPath, clsFixedParameterCode.DefaultFilesPath, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.rptGSTRReport, clsFixedParameterType.B2CDocumentAmountRangeOtherState, clsFixedParameterCode.B2CDocumentAmountRangeOtherState, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.rptGSTRReport, clsFixedParameterType.B2CDocumentAmountRange, clsFixedParameterCode.B2CDocumentAmountRange, EnumControlType.TextBox)
