@@ -8248,7 +8248,7 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                                     strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 and isnull(TSPL_ITEM_MASTER.IsSplitBilling,0)=0 "
                                 End If
 
-                                strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_CUSTOMER_MASTER.Cust_Code='" + lst.Booth_Code + "' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" & txtDocNo.Value & "'))  
+                                strQry += " and  (TSPL_CUSTOMER_MASTER.Credit_Customer='Y' or TSPL_CUSTOMER_MASTER.Cash_Customer='Y') and TSPL_CUSTOMER_MASTER.Cust_Code='" + lst.Booth_Code + "' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" & txtDocNo.Value & "'))  
 order by   TSPL_Demand_Booking_Detail.TR_Code "
 
 
@@ -8327,7 +8327,7 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                                     strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 and isnull(TSPL_ITEM_MASTER.IsSplitBilling,0)=1 "
                                 End If
 
-                                strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_CUSTOMER_MASTER.Cust_Code='" + lst.Booth_Code + "' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" & txtDocNo.Value & "'))  
+                                strQry += " and  ( isnull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='Y' or  isnull(TSPL_CUSTOMER_MASTER.Cash_Customer,'N')='Y') and TSPL_CUSTOMER_MASTER.Cust_Code='" + lst.Booth_Code + "' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" & txtDocNo.Value & "'))  
 order by   TSPL_Demand_Booking_Detail.TR_Code "
 
 
@@ -16528,7 +16528,7 @@ and TSPL_Demand_Booking_Master.Route_No='" & txtRouteNo.Value & "' and TSPL_Dema
 
                     End If
                     If Not chkIndividualCustomer.Checked Then
-                        qry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='N' "
+                        qry += " and  isnull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' and  isnull(TSPL_CUSTOMER_MASTER.Cash_Customer,'N')='N' "
                     End If
                     qry += "  and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "')) 
 order by   TSPL_Demand_Booking_Detail.TR_Code "
@@ -16659,6 +16659,8 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
     Function MergeDistributorItems1(ByVal IsThrowException As Boolean, ByVal IsLoadCreditCust As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim isCreditCust As String = ""
+            Dim isCashCust As String = ""
+            Dim isCashcredit As String = ""
             isInsideLoadData = True
             Dim listofCust As New List(Of String)
             If SettDistributorWiseBilling Then
@@ -16689,8 +16691,10 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
                         End If
                         If Not IsLoadCreditCust Then
                             isCreditCust = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + gvDistributor.Rows(ii).Cells("Cust_Code").Value + "'", trans))
-                            If clsCommon.CompairString(isCreditCust, "Y") = CompairStringResult.Equal Then
+                            isCashCust = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cash_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + gvDistributor.Rows(ii).Cells("Cust_Code").Value + "'", trans))
+                            If clsCommon.CompairString(isCreditCust, "Y") = CompairStringResult.Equal OrElse clsCommon.CompairString(isCashCust, "Y") = CompairStringResult.Equal Then
                                 IsCreditCustomer = True
+                                isCashcredit = "Y"
                                 'strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value)
                             Else
                                 IsOnlyCreditCust = False
@@ -16719,7 +16723,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
                                 End If
 
                             Else
-                                If clsCommon.CompairString(isCreditCust, "Y") <> CompairStringResult.Equal Then
+                                If clsCommon.CompairString(isCashcredit, "Y") <> CompairStringResult.Equal Then
                                     Dim obj As New clsSNShipmentDCSItemDetail
                                     obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
                                     If ConvertIntoBillingUOM Then
@@ -16967,6 +16971,8 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
     Function MergeDistributorItems(ByVal IsThrowException As Boolean, ByVal IsLoadCreditCust As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim isCreditCust As String = ""
+            Dim isCashCust As String = ""
+            Dim isCashcredit As String = ""
             isInsideLoadData = True
             If SettDistributorWiseBilling Then
                 LoadBlankGrid(trans)
@@ -17002,8 +17008,11 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
 
                         If Not IsLoadCreditCust Then
                             isCreditCust = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + gvDistributor.Rows(ii).Cells("Cust_Code").Value + "'", trans))
-                            If clsCommon.CompairString(isCreditCust, "Y") = CompairStringResult.Equal Then
+                            isCashCust = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cash_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + gvDistributor.Rows(ii).Cells("Cust_Code").Value + "'", trans))
+
+                            If clsCommon.CompairString(isCreditCust, "Y") = CompairStringResult.Equal OrElse clsCommon.CompairString(isCashCust, "Y") = CompairStringResult.Equal Then
                                 IsCreditCustomer = True
+                                isCashcredit = "Y"
                                 'strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value)
                             Else
                                 IsOnlyCreditCust = False
@@ -17032,7 +17041,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                                 End If
 
                             Else
-                                If clsCommon.CompairString(isCreditCust, "Y") <> CompairStringResult.Equal Then
+                                If clsCommon.CompairString(isCashcredit, "Y") <> CompairStringResult.Equal Then
                                     Dim obj As New clsSNShipmentDCSItemDetail
                                     obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
                                     If ConvertIntoBillingUOM Then

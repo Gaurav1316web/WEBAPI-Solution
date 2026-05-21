@@ -947,6 +947,8 @@ Public Class FrmDispatchBulkSale
         If AllowNLevel Then
             btnPost.Visible = MyBase.isPostFlag
         End If
+        txtComment.Text = ""
+        txtDriverName.Text = Nothing
         txtsealno.Text = ""
         rbtnTaxCalAutomatic.IsChecked = True
         LoadBlankGridTax()
@@ -1855,6 +1857,8 @@ Public Class FrmDispatchBulkSale
                 obj.Challan_No = TxtChallanNo.Text
                 obj.Insurance_No = txtinsuranceno.Text
                 obj.Seal_No = txtsealno.Text
+                obj.Driver_Name = txtDriverName.Text
+                obj.Comments = txtComment.Text
                 obj.Tare_Weight = TxtTareWeight.Value
                 obj.Gross_Weight = txtGrossWeight.Value
                 obj.Net_Weight = txtNetWeight.Value
@@ -2133,7 +2137,8 @@ Public Class FrmDispatchBulkSale
                 TxtTareWeight.Value = obj.Tare_Weight
                 txtNetWeight.Value = obj.Net_Weight
                 FndPriceCode.Value = obj.Price_Code
-
+                txtDriverName.Text = obj.Driver_Name
+                txtComment.Text = obj.Comments
                 TxtEWayBillNo.Text = obj.EWayBillNo
                 If obj.EWayBillDate IsNot Nothing Then
                     txtewaybilldate.Value = obj.EWayBillDate
