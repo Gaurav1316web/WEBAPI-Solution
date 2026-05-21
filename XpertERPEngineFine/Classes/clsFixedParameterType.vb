@@ -4778,7 +4778,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ExportTruckSheet, clsFixedParameterCode.ExportTruckSheet, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
-        InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AndroidFarmerCollection, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.ShowRateAndAmountOnFarmerCollection, clsFixedParameterCode.ShowRateAndAmountOnFarmerCollection, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, EnumControlType.CheckBox)
