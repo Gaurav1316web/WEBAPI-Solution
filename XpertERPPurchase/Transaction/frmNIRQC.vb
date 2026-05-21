@@ -212,6 +212,10 @@ Public Class frmNIRQC
     End Sub
     Function AllowToSave() As Boolean
         Xtra.TransactionValidity(txtDate.Value)
+        If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
+            txtDate.Focus()
+            Throw New Exception("Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
+        End If
         If clsCommon.myLen(cboVisualQCStatus.SelectedValue) <= 0 Then
             cboVisualQCStatus.Focus()
             Throw New Exception("Please select " + cboVisualQCStatus.MyLinkLable1.Text)
@@ -511,33 +515,39 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
                -- SELECT distinct  TSPL_NIR_QC.Against_Foss_PK_ID FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.Against_Foss_PK_ID IS NOT NULL) 
              "
             txtSampleNo.Value = clsCommon.ShowSelectForm("Location@Plant@Master", QRY11, "Sample_Number", "  TSPL_NIR_QC_FOSS.Instrument_Serial_Number='" + InstrumentalId + "'
-                and TSPL_NIR_QC_FOSS.Product_Code 	='" + ProductId + "'
-				and convert(date,TSPL_NIR_QC_FOSS.Analysis_Time,103) =CONVERT(DATE,'" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "',103)
- and 	not exists (Select  1 FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.Against_Foss_PK_ID = TSPL_NIR_QC_FOSS.PK_Id and  TSPL_NIR_QC.Document_No not in ('" + txtCode.Value + "') ) ", txtSampleNo.Value, "Sample_Number", isButtonClicked)
-            'txtSampleNo.Value = clsCommon.ShowSelectForm("Location@Plant@Master", QRY11, "Sample_Number", " TSPL_LOCATION_MASTER.Location_Code ='" + lblBillToLocationCode.Text + "'
-            '    OR TSPL_ITEM_MASTER.ITEM_CODE ='" + lblItem.Text + "'AND TSPL_NIR_QC_FOSS.PK_Id NOT IN (
-            'Select  TSPL_NIR_QC.REF_PK_ID FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.REF_PK_ID IS NOT NULL) ", txtSampleNo.Value, "Sample_Number", isButtonClicked)
+                           and TSPL_NIR_QC_FOSS.Product_Code 	='" + ProductId + "'
+            			and convert(date,TSPL_NIR_QC_FOSS.Analysis_Time,103) =CONVERT(DATE,'" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "',103)
+            and 	not exists (Select  1 FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.Against_Foss_PK_ID = TSPL_NIR_QC_FOSS.PK_Id and  TSPL_NIR_QC.Document_No not in ('" + txtCode.Value + "') ) ", txtSampleNo.Value, "Sample_Number", isButtonClicked)
+
+            '       txtSampleNo.Value = clsCommon.ShowSelectForm("Location@Plant@Master", QRY11, "Sample_Number", "  TSPL_NIR_QC_FOSS.Instrument_Serial_Number='" + InstrumentalId + "'
+            '           and TSPL_NIR_QC_FOSS.Product_Code 	='" + ProductId + "'
+            '", txtSampleNo.Value, "Sample_Number", isButtonClicked)
 
 
-            'Dim qry As String = "SELECT  TSPL_NIR_QC_FOSS.Sample_Number AS [Code],TSPL_NIR_QC_FOSS.Sample_Type AS [Sample Type],TSPL_NIR_QC_FOSS.Sample_Comment AS [Comment],TSPL_NIR_QC_FOSS.PK_Id
-            'FROM TSPL_NIR_QC_FOSS  "
-            'Dim WHCLS As String = " TSPL_NIR_QC_FOSS.PK_Id NOT IN (
-            'Select Case distinct  TSPL_NIR_QC.REF_PK_ID FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.REF_PK_ID IS NOT NULL) "
-            'txtSampleNo.Value = clsCommon.ShowSelectForm("STMSTRFND", QRY, "Code", WHCLS, "", "Code", isButtonClicked)
-            ' txtSampleNo.Value = clsCommon.ShowSelectForm("RPTCITYFND", QRY11, "Sample_Number", "", txtSampleNo.Value, "Code", isButtonClicked)
+            If Trim(txtSampleNo.Value) = "" Then Exit Sub
+
             Dim dt As New DataTable
             Dim qry12 As String = "SELECT  Moisture,Silica_DM,Fat_DM,Protein_DM,Fiber_DM  FROM TSPL_NIR_QC_FOSS WHERE Sample_Number= '" + txtSampleNo.Value + "'"
 
             Dim dts As DataTable = clsDBFuncationality.GetDataTable(qry12)
-            LBLitem1.Text = dts.Rows(0)("Moisture").ToString()
-            LBLitem2.Text = dts.Rows(0)("Silica_DM").ToString()
-            LBLitem3.Text = dts.Rows(0)("Fat_DM").ToString()
-            LBLitem4.Text = dts.Rows(0)("Protein_DM").ToString()
-            LBLitem5.Text = dts.Rows(0)("Fiber_DM").ToString()
+            If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
 
+                LBLitem1.Text = dts.Rows(0)("Moisture").ToString()
+                LBLitem2.Text = dts.Rows(0)("Silica_DM").ToString()
+                LBLitem3.Text = dts.Rows(0)("Fat_DM").ToString()
+                LBLitem4.Text = dts.Rows(0)("Protein_DM").ToString()
+                LBLitem5.Text = dts.Rows(0)("Fiber_DM").ToString()
 
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found for Sample Number : " & txtSampleNo.Value, Me.Text)
 
+                LBLitem1.Text = ""
+                LBLitem2.Text = ""
+                LBLitem3.Text = ""
+                LBLitem4.Text = ""
+                LBLitem5.Text = ""
 
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

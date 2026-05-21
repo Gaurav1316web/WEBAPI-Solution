@@ -719,7 +719,7 @@ TSPl_MP_MAster.MP_CODE,TSPl_MP_MAster.MP_Name, TSPl_MP_MAster.MP_Code_VLC_Upload
 from TSPL_VLC_DATA_UPLOADER
 Left Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.Vlc_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.VLC_CODE
 Left Join TSPl_MP_MAster On TSPl_MP_MAster.MP_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER.MP_CODE and TSPl_MP_MAster.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
- inner join TSPL_DCS_MP_INCENTIVE_RECO_DETAIL on TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
+ inner join (select VLC_Code,Document_Code from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL union all select VLC_Code,Document_Code from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID) as TSPL_DCS_MP_INCENTIVE_RECO_DETAIL on TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
 where TSPL_VLC_DATA_UPLOADER.Doc_Date>='" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' And TSPL_VLC_DATA_UPLOADER.Doc_Date<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "'  and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code='" & txtDBTReco.Value & "'
  Union All 
  select  TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code As Doc_No,
@@ -730,7 +730,7 @@ from TSPL_VLC_DATA_UPLOADER_DETAIL
 Left Outer Join TSPL_VLC_DATA_UPLOADER_MASTER On TSPL_VLC_DATA_UPLOADER_MASTER.Document_Code=TSPL_VLC_DATA_UPLOADER_DETAIL.Document_Code
 Left Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.Vlc_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER_MASTER.VLC_CODE
 Left Join TSPl_MP_MAster On TSPl_MP_MAster.MP_Code_VLC_Uploader=TSPL_VLC_DATA_UPLOADER_DETAIL.Farmer_Code and TSPl_MP_MAster.VLC_Code=TSPL_VLC_MASTER_HEAD.VLC_Code
- inner join TSPL_DCS_MP_INCENTIVE_RECO_DETAIL on TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code=TSPL_VLC_DATA_UPLOADER_MASTER.VLC_CODE
+ inner join (select VLC_Code,Document_Code from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL union all select VLC_Code,Document_Code from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID) as TSPL_DCS_MP_INCENTIVE_RECO_DETAIL on TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code=TSPL_VLC_DATA_UPLOADER_MASTER.VLC_CODE
  where  convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103) >='" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "' And convert(date,TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date,103)<= '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "'  and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code='" & txtDBTReco.Value & "' 
 ) xx where MP_CODE is not null group by VLC_Code,MP_CODE  order by Vlc_Code_VLC_Uploader,MP_Uploader_Code"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)

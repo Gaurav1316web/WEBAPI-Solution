@@ -1087,12 +1087,8 @@ Select  TSPL_SCRAPINVOICE_Detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc,isnull(TSP
             End If
             Dim qry As String = ""
             If dtitem.Rows.Count > 0 Then
-                qry = "  Select Document_Code,max(Transcation_Type)[Transcation Type],max(BillNo)BillNo,max(BillDate)BillDate,max(Created_By)[Created By],max(Created_Date)[Created Date],max(Party_Code)Party_Code,max(PARTY_Name)PARTY_Name,
-max(ISNULL((Customer_Type),''))Customer_Type,max(Status)Status,sum([ItemBasic Amt])[ItemBasic Amt],
-sum([Margin Amt])[Margin Amt], " & SumItemCode & ",sum(Amt_Less_Discount1)[Total Basic Amt],sum(KKF)[KKF Amt],SUM([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
-Sum([Total Amt])[Total Amt]
-from (
 
+                qry = "   With CTE_DATA AS ( 
 SELECT 
 TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS Document_Code,CASE WHEN EXISTS ( SELECT 1 FROM TSPL_SD_SHIPMENT_HEAD 
         LEFT JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
@@ -1189,7 +1185,7 @@ Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1='KKF'  THEN TSP
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10='IGST' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt  else 0 END )AS [IGST Amt],
 					 TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt as [Total Tax Amt],
-					TSPL_SD_SALE_INVOICE_Detail.Item_Net_Amt as [Total Amt],TSPL_SD_SALE_INVOICE_HEAD.Created_By,TSPL_SD_SALE_INVOICE_HEAD.Created_Date
+					TSPL_SD_SALE_INVOICE_Detail.Item_Net_Amt as [Total Amt],TSPL_SD_SALE_INVOICE_HEAD.Created_By,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD.Created_Date,103) as Created_Date
 FROM TSPL_SD_SALE_INVOICE_HEAD
 LEFT JOIN TSPL_SD_SALE_INVOICE_DETAIL
        ON TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD.Document_Code
@@ -1321,7 +1317,7 @@ Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX1='KK
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX9='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX9_Amt
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX10='IGST' THEN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.TAX10_Amt  else 0 END )AS [IGST Amt],
 					 TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Total_Tax_Amt as [Total Tax Amt],
-					TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Item_Net_Amt as [Total Amt],TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Cancel_By as Created_By,TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Cancel_On as Created_Date
+					TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.Item_Net_Amt as [Total Amt],TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Cancel_By as Created_By,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Cancel_On,103) as Created_Date
 FROM TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data
 LEFT JOIN TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data
        ON TSPL_SD_SALE_INVOICE_DETAIL_Cancel_Data.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data.Document_Code
@@ -1453,7 +1449,7 @@ Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.TAX1='KK
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.TAX9='IGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.TAX9_Amt
     				WHEN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.TAX10='IGST' THEN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.TAX10_Amt  else 0 END )AS [IGST Amt],
 					 TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Total_Tax_Amt as [Total Tax Amt],
-					TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Item_Net_Amt as [Total Amt],TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Delete_By as Created_By,TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Delete_On as Created_Date
+					TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.Item_Net_Amt as [Total Amt],TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Delete_By as Created_By,Convert(varchar(20),TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Delete_On,103) as Created_Date
 FROM TSPL_SD_SALE_INVOICE_HEAD_Delete_Data
 LEFT JOIN TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data
        ON TSPL_SD_SALE_INVOICE_DETAIL_Delete_Data.DOCUMENT_CODE = TSPL_SD_SALE_INVOICE_HEAD_Delete_Data.Document_Code
@@ -1605,11 +1601,27 @@ left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPINVOICE_HEAD
                     qry += "  and TSPL_SCRAPINVOICE_Detail.Item_code in (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
                 End If
 
-                qry += " ) XX 
-  PIVOT (SUM(QtyUom)  For Item_Code In (" & ItemCode & ") ) As pivot_Code
-  PIVOT (SUM(Amt_Less_Discount)  For Item_Code1 In (" & ItemDesc & ") ) As pivot_Desc
-  
-  GROUP BY Document_Code order by max(Transcation_Type) "
+                qry += " ) "
+
+                qry += " Select "
+                If rbtnDetail.IsChecked Then
+                    qry += "  Document_Code,max(Transcation_Type)[Transcation Type],max(BillNo)BillNo,max(BillDate)BillDate,max(Created_By)[Created By],max(Created_Date)[Created Date],max(Party_Code)Party_Code,max(PARTY_Name)PARTY_Name "
+                ElseIf rbtnSummary.IsChecked Then
+                    qry += " Party_Code,max(PARTY_Name)PARTY_Name "
+                End If
+                qry += "  , max(ISNULL((Customer_Type),''))Customer_Type,max(Status)Status,sum([ItemBasic Amt])[ItemBasic Amt],
+sum([Margin Amt])[Margin Amt], " & SumItemCode & ",sum(Amt_Less_Discount1)[Total Basic Amt],sum(KKF)[KKF Amt],SUM([Mandi Tax Amt])[Mandi Tax Amt],sum([Party TCS Amt])[Party TCS Amt],sum([CGST Amt])[CGST Amt],sum([SGST Amt])[SGST Amt],sum([IGST Amt])[IGST Amt],sum([Total Tax Amt])[Total Tax Amt],
+Sum([Total Amt])[Total Amt]
+from ( SELECT *
+    FROM CTE_DATA
+) XX "
+                qry += " PIVOT (SUM(QtyUom)  For Item_Code In (" & ItemCode & ") ) As pivot_Code
+  PIVOT (SUM(Amt_Less_Discount)  For Item_Code1 In (" & ItemDesc & ") ) As pivot_Desc "
+                If rbtnDetail.IsChecked Then
+                    qry += "  GROUP BY Document_Code order by max(Transcation_Type) "
+                ElseIf rbtnSummary.IsChecked Then
+                    qry += " GROUP BY Party_Code order by max(PARTY_Name)   "
+                End If
                 Dim dt As DataTable = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(qry)
                 gvdata.DataSource = Nothing
@@ -1702,9 +1714,14 @@ left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPINVOICE_HEAD
             gvdata.Columns(ii).ReadOnly = True
             gvdata.Columns(ii).BestFit()
         Next
-        gvdata.Columns("Document_Code").HeaderText = "Invoice No"
-        gvdata.Columns("Document_Code").IsVisible = False
-        gvdata.Columns("Document_Code").VisibleInColumnChooser = True
+        If rbtnDetail.IsChecked Then
+            gvdata.Columns("Document_Code").HeaderText = "Invoice No"
+            gvdata.Columns("Document_Code").IsVisible = False
+            gvdata.Columns("Document_Code").VisibleInColumnChooser = True
+            gvdata.Columns("BillNo").HeaderText = "Bill No"
+            gvdata.Columns("BillDate").HeaderText = "Bill Date"
+        End If
+
         gvdata.Columns("ItemBasic Amt").IsVisible = False
         gvdata.Columns("ItemBasic Amt").VisibleInColumnChooser = True
         gvdata.Columns("Margin Amt").IsVisible = False
@@ -1712,12 +1729,16 @@ left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SCRAPINVOICE_HEAD
         gvdata.Columns("PARTY_Name").HeaderText = "PARTY Name"
         gvdata.Columns("Party_Code").HeaderText = "PARTY Code"
         gvdata.Columns("Customer_Type").HeaderText = "Customer Type"
-        gvdata.Columns("BillNo").HeaderText = "Bill No"
-        gvdata.Columns("BillDate").HeaderText = "Bill Date"
+
         gvdata.ShowGroupPanel = True
         gvdata.MasterTemplate.AutoExpandGroups = True
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim index As Integer = 9
+        Dim index As Integer
+        If rbtnDetail.IsChecked Then
+            index = 10
+        ElseIf rbtnSummary.IsChecked Then
+            index = 4
+        End If
         For ii As Integer = index To gvdata.Columns.Count - 1
             If clsCommon.CompairString(gvdata.Columns(ii).Name, "Created By") <> CompairStringResult.Equal OrElse clsCommon.CompairString(gvdata.Columns(ii).Name, "Created Date") <> CompairStringResult.Equal Then
                 summaryRowItem.Add(New GridViewSummaryItem(gvdata.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
@@ -3179,7 +3200,7 @@ where convert(date,TSPL_SD_SALE_RETURN_HEAD_Delete_Data.Document_Date,103)>=Conv
 
     Private Sub rdbItemWiseCustomer_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rdbItemWiseCustomer.ToggleStateChanged
         If rdbItemWiseCustomer.IsChecked Then
-            RadGroupBox2.Enabled = False
+            RadGroupBox2.Enabled = True
             MyLabel1.Visible = False
             TxtSubLocation.Visible = False
             MyLabel2.Visible = False

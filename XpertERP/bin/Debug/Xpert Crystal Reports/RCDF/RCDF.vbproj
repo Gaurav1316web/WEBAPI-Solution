@@ -528,9 +528,11 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptDispatchChallan_Bill_of_Supply.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSaleFarmer_NonTaxable.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSaleNonTaxableAJM.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_InterState.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_InterState_WithMandi.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_Local.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalAJM.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalJDH.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalRJS.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalSKR.rpt" />

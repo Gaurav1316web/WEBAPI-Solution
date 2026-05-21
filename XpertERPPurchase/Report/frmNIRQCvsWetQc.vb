@@ -78,16 +78,19 @@ Public Class frmNIRQCvsWetQc
 
             Dim fromdate As String = clsCommon.myCDate(txtFromDate.Value, "dd/MM/yyyy")
             Dim Todate As String = clsCommon.myCDate(txtToDate.Value, "dd/MM/yyyy")
-            Dim QRY As String = "SELECT  '" + objCommonVar.CurrentUserCode + "' as UserName ,  ROW_NUMBER() OVER (ORDER BY xxx.Document_No) AS SrNo,  max(Item_Desc)Item_Desc,max(Document_Date)Document_Date ,max(XXX.document_code)document_code,(xxx.Document_No)Document_No,max(xxx.RefTendorNo)RefTendorNo,max(xxx.SRN_NO)SRN_NO,max(xxx.SRN_DATE)SRN_DATE,max(xxx.MRN_NO)MRN_NO,max(xxx.mrn_date)mrn_date,max(xxx.Against_GRN)Against_GRN,max(xxx.GRN_DATE)GRN_DATE,max(xxx.Vendor_Code)Vendor_Code,max(xxx.Vendor_Name)Vendor_Name,max(xxx.Bill_To_Location)Bill_To_Location,max(xxx.ITEM_CODE)ITEM_CODE ,
+            Dim QRY As String = "SELECT  '" + objCommonVar.CurrentUserCode + "' as UserName ,  ROW_NUMBER() OVER (ORDER BY xxx.Document_No) AS SrNo,  max(Item_Desc)Item_Desc,FORMAT(CONVERT(date, MAX(Document_Date), 103), 'dd/MM/yy') AS Document_Date ,max(XXX.document_code)document_code,(xxx.Document_No)Document_No,max(xxx.RefTendorNo)RefTendorNo,max(xxx.SRN_NO)SRN_NO,FORMAT(CONVERT(date, MAX(xxx.SRN_DATE), 103), 'dd/MM/yy') AS SRN_DATE,
+max(xxx.MRN_NO)MRN_NO,FORMAT(CONVERT(date, MAX(xxx.mrn_date), 103), 'dd/MM/yy') AS mrn_date,
+max(xxx.Against_GRN)Against_GRN,FORMAT(CONVERT(date, MAX(xxx.GRN_DATE), 103), 'dd/MM/yy') AS GRN_DATE,
+max(xxx.Vendor_Code)Vendor_Code,max(xxx.Vendor_Name)Vendor_Name,max(xxx.Bill_To_Location)Bill_To_Location,max(VehicleNo)VehicleNo,max(xxx.ITEM_CODE)ITEM_CODE ,
              max(xxx.Moistures)Moistures,max(xxx.Silica_DM)Silica_DM,max(xxx.Fat_DM)Fat_DM,max(xxx.Protein_DM)Protein_DM,max(xxx.Fiber_DM)Fiber_DM
-             ,max(xxx.Moisture) Moisture,MAX(XXX.Silica)Silica,MAX(XXX.Fat) Fat,max(xxx.Protein) Protein,max(xxx.Fiber)Fiber,MAX(Comp_Name)Comp_Name,MAX(Add1)Add1,MAX(Add2)Add2
-             FROM ( SELECT * FROM ( SELECT TSPL_GRN_DETAIL.Item_Desc ,TSPL_QC_CHECK_SRN_DETAIL.document_code,TSPL_NIR_QC.Document_No,convert(Varchar,TSPL_NIR_QC.Document_Date,103)Document_Date ,
+             ,max(xxx.Moisture) Moisture,MAX(XXX.Silica)Silica,MAX(XXX.Fat) Fat,max(xxx.Protein) Protein,max(xxx.Fiber)Fiber,MAX(Comp_Name)Comp_Name,MAX(Add1)Add1,MAX(Add2)Add2,MAX(City_Code)LocDesc
+             FROM ( SELECT * FROM ( SELECT TSPL_GRN_HEAD.VehicleNo,TSPL_GRN_DETAIL.Item_Desc ,TSPL_QC_CHECK_SRN_DETAIL.document_code,TSPL_NIR_QC.Document_No,convert(Varchar,TSPL_NIR_QC.Document_Date,103)Document_Date ,
              TSPL_SRN_HEAD.SRN_NO,convert(Varchar,TSPL_SRN_HEAD.SRN_DATE,103) AS SRN_DATE ,TSPL_MRN_HEAD.MRN_NO , convert(Varchar,TSPL_MRN_HEAD.mrn_date,103) AS mrn_date,
              TSPL_MRN_HEAD.Against_GRN as Against_GRN,convert(date,tspl_grn_head.GRN_DATE,103) as GRN_DATE,TSPL_MRN_HEAD.Vendor_Code as Vendor_Code,
              TSPL_MRN_HEAD.Vendor_Name as Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location as Bill_To_Location,TSPL_QC_CHECK_SRN_DETAIL.ITEM_CODE,
              TSPL_NIR_QC_FOSS.Moisture AS Moistures, TSPL_NIR_QC_FOSS.Silica_DM as Silica_DM,TSPL_NIR_QC_FOSS.Fat_DM AS Fat_DM,
              TSPL_NIR_QC_FOSS.Protein_DM AS Protein_DM,TSPL_NIR_QC_FOSS.Fiber_DM AS Fiber_DM, TSPL_QC_LOG_SHEET_MASTER.NIRQC_Para_type,
-             TSPL_QC_CHECK_SRN_DETAIL.InputData,QC_Param_Code,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.ADD2
+             TSPL_QC_CHECK_SRN_DETAIL.InputData,QC_Param_Code,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.ADD2,TSPL_LOCATION_MASTER.City_Code
     FROM TSPL_NIR_QC
     LEFT JOIN TSPL_NIR_QC_FOSS  ON TSPL_NIR_QC_FOSS.PK_Id = TSPL_NIR_QC.Against_Foss_PK_ID
     LEFT JOIN TSPL_MRN_HEAD  ON TSPL_MRN_HEAD.mrn_no = TSPL_NIR_QC.MRN_No
@@ -97,6 +100,7 @@ Public Class frmNIRQCvsWetQc
     LEFT JOIN TSPL_SRN_HEAD  ON TSPL_SRN_HEAD.Against_MRN = TSPL_MRN_HEAD.MRN_No
     LEFT JOIN TSPL_QC_LOG_SHEET_MASTER  ON TSPL_QC_LOG_SHEET_MASTER.code = TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code 
 left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_MRN_HEAD.Against_PO
+left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MRN_HEAD.Bill_To_Location
 LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 WHERE 2=2 
 "
@@ -114,8 +118,10 @@ WHERE 2=2
             If TxtRAL.arrValueMember IsNot Nothing AndAlso TxtRAL.arrValueMember.Count > 0 Then
                 QRY += " and TSPL_PURCHASE_ORDER_HEAD.RefTendorNo in(" & clsCommon.GetMulcallString(TxtRAL.arrValueMember) & ")" & Environment.NewLine
             End If
-
-            QRY += ") AS SourceTable
+            If chkAutoNIR.Checked Then
+                QRY += "   and Against_Foss_PK_ID is not null "
+            End If
+            QRY += " ) AS SourceTable
             PIVOT (MAX(InputData) FOR NIRQC_Para_type IN ( [Moisture],[Silica],[Fat],[Protein],[Fiber] )) AS PivotTable )XXX GROUP BY  xxx.Document_No"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(QRY)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -129,9 +135,16 @@ WHERE 2=2
                 SetGridFormationOFGV1Collection()
                 View()
                 RadPageView1.SelectedPage = RadPageViewPage2
+                Dim frmCRV As New frmCrystalReportViewer()
                 If print = True Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptNirQCvsWetQC", "NIRQC vs WetQC")
+                    If chkAutoNIR.Checked Then
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptNirQCvsWetQCAutoNIR", "NIRQC vs WetQC")
+                    Else
+                        'Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptNirQCvsWetQC", "NIRQC vs WetQC")
+                    End If
+                    'Dim frmCRV As New frmCrystalReportViewer()
+                    'frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptNirQCvsWetQC", "NIRQC vs WetQC")
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
@@ -165,6 +178,7 @@ WHERE 2=2
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
             gv1.Columns("UserName").IsVisible = False
+            gv1.Columns("LocDesc").IsVisible = False
             gv1.Columns("Document_No").HeaderText = "NIRQC NO"
             gv1.Columns("Document_Date").HeaderText = "NIRQC Date"
             gv1.Columns("document_code").HeaderText = "Wet QC NO"

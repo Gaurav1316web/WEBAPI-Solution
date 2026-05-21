@@ -117,7 +117,17 @@ Public Class frmArrear
             End If
             LoadBlankGrid()
             Dim PMCond As String = "''"
-            Dim str As String = clsSalaryGeneration.GetArrearData(txtmultPayperiod.arrValueMember, txtmulLocation.arrValueMember, Nothing, PMCond, False)
+            'Dim str As String = clsSalaryGeneration.GetArrearData(txtmultPayperiod.arrValueMember, txtmulLocation.arrValueMember, Nothing, PMCond, False)
+            Dim str As String = " Select SALARY_GENERATION_CODE,EMP_CODE,MAX(Emp_Name) AS EMPLOYEE_NAME,Sum(Basic)Basic,Sum(DA)DA from (Select TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_EMPLOYEE_MASTER.Emp_Name,
+                                CASE WHEN  TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE ='BASIC' THEN TSPL_GENERATE_SALARY_PAYHEADS.Payable_Amount else 0 END  AS Basic,
+                                CASE WHEN  TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE ='DA' THEN TSPL_GENERATE_SALARY_PAYHEADS.Payable_Amount else 0 END  AS DA
+                                 from TSPL_GENERATE_SALARY_PAYHEADS
+                                left outer join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE
+                                left outer join TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE
+                                where TSPL_GENERATE_SALARY.PAY_PERIOD_CODE In(" + clsCommon.GetMulcallString(txtmultPayperiod.arrValueMember) + ") )XX
+
+                                group by XX.SALARY_GENERATION_CODE,EMP_CODE   "
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(str)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
@@ -125,8 +135,10 @@ Public Class frmArrear
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colApply).Value = "Yes"
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colEMPCode).Value = clsCommon.myCstr(dr("Emp_code"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colempname).Value = clsCommon.myCstr(dr("EMPLOYEE_NAME"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBasic).Value = clsCommon.myCstr(dr("basic"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDA).Value = clsCommon.myCstr(dr("da"))
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colBasic).Value = clsCommon.myCstr(dr("basic"))
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colDA).Value = clsCommon.myCstr(dr("da"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBasic).Value = clsCommon.myCstr(dr("Basic"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDA).Value = clsCommon.myCstr(dr("DA"))
                     'gv1.Rows(gv1.Rows.Count - 1).Cells(colEPF).Value = clsCommon.myCstr(dr("vepf"))
                     Dim Basic As Decimal = 0
                     Dim pf As Decimal = 0
@@ -153,7 +165,16 @@ Public Class frmArrear
                         PayPeriodName = "[" + StrP + "] "
                     End If
                 Next
-                Dim DetailData As String = clsSalaryGeneration.GetArrearDetailData(txtmultPayperiod.arrValueMember, txtmulLocation.arrValueMember, Nothing, PMCond, False)
+                'Dim DetailData As String = clsSalaryGeneration.GetArrearDetailData(txtmultPayperiod.arrValueMember, txtmulLocation.arrValueMember, Nothing, PMCond, False)
+                Dim DetailData As String = " Select SALARY_GENERATION_CODE,EMP_CODE,MAX(Emp_Name) AS EMPLOYEE_NAME,Sum(Basic)basic,Sum(DA)DA,PAY_PERIOD_CODE from (Select TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE,TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE,TSPL_EMPLOYEE_MASTER.Emp_Name,
+                                CASE WHEN  TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE ='BASIC' THEN TSPL_GENERATE_SALARY_PAYHEADS.Payable_Amount else 0 END  AS Basic,
+                                CASE WHEN  TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE ='DA' THEN TSPL_GENERATE_SALARY_PAYHEADS.Payable_Amount else 0 END  AS DA,TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
+                                 from TSPL_GENERATE_SALARY_PAYHEADS
+                                left outer join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE
+                                left outer join TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE                            
+                                where TSPL_GENERATE_SALARY.PAY_PERIOD_CODE In(" + clsCommon.GetMulcallString(txtmultPayperiod.arrValueMember) + ") )XX
+                                group by XX.SALARY_GENERATION_CODE,EMP_CODE,PAY_PERIOD_CODE   "
+
 
                 Dim Qry As String = "SELECT EMP_CODE, EMPLOYEE_NAME, 
                        " + strPeriod + "
@@ -395,7 +416,21 @@ Public Class frmArrear
                             PayPeriodName = "[" + StrP + "] "
                         End If
                     Next
-                    Dim DetailData As String = clsSalaryGeneration.GetArrearDetailData(txtmultPayperiod.arrValueMember, txtmulLocation.arrValueMember, Nothing, PMCond, False)
+                    'Dim DetailData As String = clsSalaryGeneration.GetArrearDetailData(txtmultPayperiod.arrValueMember, txtmulLocation.arrValueMember, Nothing, PMCond, False)
+                    'Dim dtEmpCode As DataTable = clsDBFuncationality.GetDataTable("select Pay_Period from TSPL_DAAREAR_PAYPERIOD_DETAIL  where Document_Code='" + obj.document_code + "'")
+                    'Dim Arr_Emp As New ArrayList
+                    'For Each dr As DataRow In dtEmpCode.Rows
+                    '    Arr_Emp.Add(dr("Pay_Period"))
+                    'Next
+                    'txtmultPayperiod.arrValueMember = Arr_Prod
+
+
+                    Dim DetailData As String = " Select TSPL_DA_ARREAR_DETAIL.Emp_Code,TSPL_EMPLOYEE_MASTER.Emp_Name as EMPLOYEE_NAME,TSPL_DAAREAR_PAYPERIOD_DETAIL.Pay_Period as PAY_PERIOD_CODE,TSPL_DA_ARREAR_DETAIL.Basic from TSPL_DA_ARREAR_DETAIL
+								left outer join TSPL_DA_ARREAR_HEADER on TSPL_DA_ARREAR_HEADER.Document_Code=TSPL_DA_ARREAR_DETAIL.Document_Code
+								left outer join TSPL_DAAREAR_PAYPERIOD_DETAIL on TSPL_DAAREAR_PAYPERIOD_DETAIL.Document_Code=TSPL_DA_ARREAR_HEADER.Document_Code
+								left outer join TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_DA_ARREAR_DETAIL.EMP_CODE                            
+								where TSPL_DA_ARREAR_HEADER.Document_Code='" + obj.document_code + "'  "
+
 
                     Dim Qry As String = "SELECT EMP_CODE, EMPLOYEE_NAME, 
                        " + strPeriod + "
@@ -418,6 +453,7 @@ Public Class frmArrear
                     gv2.Rows.Clear()
                     gv2.Columns.Clear()
                     gv2.GroupDescriptors.Clear()
+                    gv1.SummaryRowsBottom.Clear()
                     gv2.MasterTemplate.SummaryRowsBottom.Clear()
                     gv2.DataSource = dt2
                     gv2.BestFitColumns()

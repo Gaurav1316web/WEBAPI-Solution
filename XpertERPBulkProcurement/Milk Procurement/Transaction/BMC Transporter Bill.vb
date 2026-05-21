@@ -53,13 +53,31 @@ Public Class BMC_Transporter_Bill
 
     Private Sub txtTankerNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTankerNo._MYValidating
         Try
-            Dim qry As String = "select Tanker_No as TankerNo,Tanker_Name as TankerName from   TSPL_TANKER_MASTER "
+            Dim qry As String = "select Tanker_No as TankerNo,Tanker_Name as TankerName,Price_KM from   TSPL_TANKER_MASTER "
             txtTankerNo.Value = clsCommon.ShowSelectForm("RoutMasFND", qry, "TankerNo", "", txtTankerNo.Value, "", isButtonClicked)
             lblTankerDesc.Text = clsDBFuncationality.getSingleValue(" select Tanker_Name from TSPL_TANKER_MASTER where Tanker_No='" + txtTankerNo.Value + "'")
 
             Dim qry1 As String = clsDBFuncationality.getSingleValue(" select Tanker_Transporter_Code from TSPL_TANKER_MASTER where Tanker_No='" + txtTankerNo.Value + "'")
             txtTransporter.Text = clsDBFuncationality.getSingleValue(" select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + qry1 + "'")
             TxtBarelCap.Text = clsDBFuncationality.getSingleValue(" select Storage_Capacity from TSPL_TANKER_MASTER where Tanker_No='" + txtTankerNo.Value + "'")
+
+            Dim KMQRY As String = " select Tanker_No as TankerNo,Tanker_Name as TankerName,Price_KM from   TSPL_TANKER_MASTER where Tanker_No ='" + txtTankerNo.Value + "'  "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(KMQRY)
+            If dt.Rows.Count > 0 Then
+                Dim kmrate As Double
+                kmrate = clsCommon.myCdbl(dt.Rows(0).Item("Price_KM"))
+                If kmrate <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please Set KMRate for This Tanker", Me.Text)
+                    txtTankerNo.Value = ""
+                    lblTankerDesc.Text = ""
+                    txtTransporter.Text = ""
+                    TxtBarelCap.Text = ""
+                    Exit Sub
+                Else
+                    TxtKMRate.Text = kmrate
+                End If
+
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -408,6 +426,8 @@ Public Class BMC_Transporter_Bill
         TxtFatRateNMG.Text = ""
         TxtSnfRate.Text = ""
         TxtSnfRateNMG.Text = ""
+        TxtTotalAddition.Text = ""
+        TxtTotalDeduction.Text = ""
         TxtGrossAmount.Text = ""
         TxtTotalFatSnfShortage.Text = ""
         TxtTotalIceCharge.Text = ""
@@ -489,12 +509,16 @@ Public Class BMC_Transporter_Bill
 
             Dim Fat_Rate As Decimal = 0
             Dim Snf_Rate As Decimal = 0
+            Dim Fat_Rate_NMG As Decimal = 0
+            Dim Snf_Rate_NMG As Decimal = 0
             For Each row As DataRow In dt.Rows
                 Fat_Rate += clsCommon.myCdbl(row("Loss_FAT_Rate"))
                 Snf_Rate += clsCommon.myCdbl(row("Loss_SNF_Rate"))
             Next
             TxtFatRate.Text = Fat_Rate
             TxtSnfRate.Text = Snf_Rate
+            TxtFatRateNMG.Text = Fat_Rate_NMG
+            TxtSnfRateNMG.Text = Snf_Rate_NMG
 
 
         Catch ex As Exception
@@ -524,6 +548,8 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
             Dim negativeFatKg As Decimal = 0
             Dim negativeSnfKg As Decimal = 0
+            Dim Fat_KG_NMG As Decimal = 0
+            Dim Snf_KG_NMG As Decimal = 0
             For Each row As DataRow In dt.Rows
                 If clsCommon.myCdbl(row("ADJFATKG")) < 0 Then
                     negativeFatKg += clsCommon.myCdbl(row("ADJFATKG"))
@@ -534,6 +560,8 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             Next
             txtFatShortage.Text = negativeFatKg
             TxtSnfShortage.Text = negativeSnfKg
+            txtFatShortageNMG.Text = Fat_KG_NMG
+            TXTSNFShortageNMG.Text = Snf_KG_NMG
             TxtTotalFatSnfShortage.Text = negativeFatKg + negativeSnfKg
 
         Catch ex As Exception
@@ -664,6 +692,8 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             Dim FatSnfShortage As Double = 0
             Dim AmtBfrGross As Double = 0
             Dim iceQty As Integer = 0
+            Dim TotalAddition As Double = 0
+            Dim TotalDeduction As Double = 0
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 BMCProrataAmt = BMCProrataAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(ColAmount).Value)
                 BMCDiesel = BMCDiesel + clsCommon.myCdbl(gv1.Rows(ii).Cells(ColDiesel).Value)
@@ -685,7 +715,9 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             TxtTotalAmount.Text = clsCommon.myCdbl(BMCTotalAmt + TollTaxAmt + clsCommon.myCDecimal(TxtTotalIceCharge.Text))
             AmtBfrGross = clsCommon.myCdbl(TxtTotalAmount.Text)
             FatSnfShortage = clsCommon.myCdbl(TxtTotalFatSnfShortage.Text)
-            TxtGrossAmount.Text = clsCommon.myCdbl(AmtBfrGross - FatSnfShortage)
+            TotalAddition = clsCommon.myCdbl(TxtTotalAddition.Text)
+            TotalDeduction = clsCommon.myCdbl(TxtTotalDeduction.Text)
+            TxtGrossAmount.Text = clsCommon.myCdbl(AmtBfrGross + TotalAddition - FatSnfShortage - TotalDeduction)
 
 
         Catch ex As Exception
@@ -701,11 +733,28 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             Dim DieselMinus As Double = clsCommon.myCdbl(TxtDieselMinus.Text)
             Dim dblBasicAmt As Double = 0
             Dim dblBasicDiesel As Double = 0
-            If dblGPSKM > 0 Then
-                dblBasicAmt = KMRate * dblGPSKM
-            Else
-                dblBasicAmt = KMRate * dblKM
+
+            Dim barel As Double = clsCommon.myCdbl(TxtBarelCap.Text)
+            Dim tankerrate As Double = clsCommon.myCdbl(TxtTankerprorata.Text)
+            Dim newkmrate As Double = 0
+            If barel > 0 AndAlso tankerrate > 0 Then
+                newkmrate = clsCommon.myCdbl(tankerrate / barel * KMRate)
             End If
+
+            If newkmrate > 0 Then
+                If dblGPSKM > 0 Then
+                    dblBasicAmt = newkmrate * dblGPSKM
+                Else
+                    dblBasicAmt = newkmrate * dblKM
+                End If
+            Else
+                If dblGPSKM > 0 Then
+                    dblBasicAmt = KMRate * dblGPSKM
+                Else
+                    dblBasicAmt = KMRate * dblKM
+                End If
+            End If
+
             If DieselPlus > 0 Then
                 If dblGPSKM > 0 Then
                     dblBasicDiesel += DieselPlus * dblGPSKM
@@ -810,6 +859,8 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 obj.KM_Rate = clsCommon.myCdbl(TxtKMRate.Text)
                 obj.Total_Amount = clsCommon.myCdbl(TxtTotalAmount.Text)
                 obj.Gross_Amount = clsCommon.myCdbl(TxtGrossAmount.Text)
+                obj.Total_Addition = clsCommon.myCdbl(TxtTotalAddition.Text)
+                obj.Total_Deduction = clsCommon.myCdbl(TxtTotalDeduction.Text)
                 obj.Diesel_Rate_Plus = clsCommon.myCdbl(txtDieselplus.Text)
                 obj.Diesel_Rate_Minus = clsCommon.myCdbl(TxtDieselMinus.Text)
                 obj.Total_Diesel = clsCommon.myCdbl(TxtBMCDiesel.Text)
@@ -949,6 +1000,8 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 TxtKMRate.Text = obj.KM_Rate
                 TxtTotalAmount.Text = obj.Total_Amount
                 TxtGrossAmount.Text = obj.Gross_Amount
+                TxtTotalDeduction.Text = obj.Total_Deduction
+                TxtTotalAddition.Text = obj.Total_Addition
                 txtDieselplus.Text = obj.Diesel_Rate_Plus
                 TxtDieselMinus.Text = obj.Diesel_Rate_Minus
                 TxtBMCDiesel.Text = obj.Total_Diesel
@@ -1503,5 +1556,9 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
 
     Private Sub TxtKMRate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TxtKMRate.Validating
         updateAll()
+    End Sub
+
+    Private Sub TxtDieselMinus_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles TxtDieselMinus.Validating
+
     End Sub
 End Class

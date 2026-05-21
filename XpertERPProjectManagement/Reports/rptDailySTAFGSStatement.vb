@@ -149,8 +149,9 @@ and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date,'"
                 Next
             End If
 
+            If dtitemName.Rows.Count > 0 Then
 
-            Qry = " Select Customer_Code,max(Customer_Name)[Party Name], " & itemNames4 & " from (select max(Document_Code)Document_Code,Customer_Code,max(Customer_Name)Customer_Name,Item_Code,sum(Qty)Qty,sum(ReportQty)ReportQty,sum(ReportQty1)ReportQty1 
+                Qry = " Select Customer_Code,max(Customer_Name)[Party Name], " & itemNames4 & " from (select max(Document_Code)Document_Code,Customer_Code,max(Customer_Name)Customer_Name,Item_Code,sum(Qty)Qty,sum(ReportQty)ReportQty,sum(ReportQty1)ReportQty1 
                     from (Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code,TSPL_SD_SALE_INVOICE_DETAIL.Qty,
                     ISNULL(CAST(TSPL_SD_SALE_INVOICE_DETAIL.Qty / TSPL_ITEM_UOM_DETAIL.Conversion_Factor AS INT), 0) AS ReportQty,
                     TSPL_SD_SALE_INVOICE_DETAIL.Qty/TSPL_ITEM_UOM_DETAIL.Conversion_Factor AS ReportQty1,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name
@@ -161,14 +162,14 @@ and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date,'"
                     LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code =TSPL_SD_SALE_INVOICE_DETAIL.Item_Code AND Report_UOM=1 
                     where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >=Convert(Date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "',103) 
                     and TSPL_SD_SALE_INVOICE_HEAD.Document_Date<=Convert(Date,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "',103) "
-            If txtParty.arrValueMember IsNot Nothing AndAlso txtParty.arrValueMember.Count > 0 Then
-                Qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code In (" + clsCommon.GetMulcallString(txtParty.arrValueMember) + ") "
-                ' qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in ('" + clsCommon.GetMulcallString(txtItem.arrValueMember) + "')  "
-            End If
+                If txtParty.arrValueMember IsNot Nothing AndAlso txtParty.arrValueMember.Count > 0 Then
+                    Qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code In (" + clsCommon.GetMulcallString(txtParty.arrValueMember) + ") "
+                    ' qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in ('" + clsCommon.GetMulcallString(txtItem.arrValueMember) + "')  "
+                End If
 
-            Qry += " ) xx GROUP BY Customer_Code,Item_Code)YY
-                    PIVOT (SUM(reportQty) FOR item_code IN (" & itemNames1 & ") )AS Tab2  group by Customer_Code
-"
+                Qry += " ) xx GROUP BY Customer_Code,Item_Code)YY
+                    PIVOT (SUM(reportQty) FOR item_code IN (" & itemNames1 & ") )AS Tab2  group by Customer_Code "
+            End If
         ElseIf rbtnTransfer.IsChecked Then
 
             Dim ItemQry As String = "  Select Distinct TSPL_TRANSFER_ORDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,Sku_Seq,TSPL_ITEM_UOM_DETAIL.UOM_Code
@@ -191,7 +192,9 @@ and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) <= Convert(Date,'" 
                 Next
             End If
 
-            Qry = "  Select To_Location as Customer_Code,max(Customer_Name)[Party Name], " & itemNames4 & " from (select max(Document_No)Document_Code,To_Location,
+            If dtitemName.Rows.Count > 0 Then
+
+                Qry = "  Select To_Location as Customer_Code,max(Customer_Name)[Party Name], " & itemNames4 & " from (select max(Document_No)Document_Code,To_Location,
                     max(Location_Desc)Customer_Name,Item_Code,sum(Qty)Qty,sum(ReportQty)ReportQty,sum(ReportQty1)ReportQty1 
                     from (Select TSPL_TRANSFER_ORDER_HEAD.Document_No,TSPL_TRANSFER_ORDER_HEAD.Document_Date,TSPL_TRANSFER_ORDER_DETAIL.Item_Code,
                     TSPL_ITEM_UOM_DETAIL.UOM_Code,TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Qty,
@@ -205,14 +208,16 @@ and convert(date,TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) <= Convert(Date,'" 
                     LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code =TSPL_TRANSFER_ORDER_DETAIL.Item_Code AND Report_UOM=1
                     where Convert( Date, TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) >=Convert(Date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "',103) 
                     and TSPL_TRANSFER_ORDER_HEAD.Document_Date<=Convert(Date,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "',103)"
-            If txtSubLocation.arrValueMember IsNot Nothing AndAlso txtSubLocation.arrValueMember.Count > 0 Then
-                Qry += " and TSPL_TRANSFER_ORDER_HEAD.To_Location In (" + clsCommon.GetMulcallString(txtSubLocation.arrValueMember) + ") "
-                ' qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in ('" + clsCommon.GetMulcallString(txtItem.arrValueMember) + "')  "
-            End If
+                If txtSubLocation.arrValueMember IsNot Nothing AndAlso txtSubLocation.arrValueMember.Count > 0 Then
+                    Qry += " and TSPL_TRANSFER_ORDER_HEAD.To_Location In (" + clsCommon.GetMulcallString(txtSubLocation.arrValueMember) + ") "
+                    ' qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in ('" + clsCommon.GetMulcallString(txtItem.arrValueMember) + "')  "
+                End If
 
-            Qry += " ) xx GROUP BY To_Location,Item_Code)YY
+                Qry += " ) xx GROUP BY To_Location,Item_Code)YY
                     PIVOT (SUM(reportQty) FOR item_code IN (" & itemNames1 & ") )AS Tab2  group by To_Location "
+            End If
         Else
+
             Dim ItemQry As String = "   select distinct Item_Code,Item_Desc,Sku_Seq,UOM_Code from ( Select  TSPL_TRANSFER_ORDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,Sku_Seq,TSPL_ITEM_UOM_DETAIL.UOM_Code
 from TSPL_TRANSFER_ORDER_DETAIL
 left outer join TSPL_TRANSFER_ORDER_HEAD on TSPL_TRANSFER_ORDER_HEAD.Document_No=TSPL_TRANSFER_ORDER_DETAIL.Document_No
@@ -245,7 +250,9 @@ and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date,'"
                 Next
             End If
 
-            Qry = " Select Customer_Code,max(Customer_Name)[Party Name], " & itemNames4 & " from 
+            If dtitemName.Rows.Count > 0 Then
+
+                Qry = " Select Customer_Code,max(Customer_Name)[Party Name], " & itemNames4 & " from 
                     (select max(Document_Code)Document_Code,Customer_Code,max(Location_Desc)Customer_Name,Item_Code,sum(Qty)Qty,sum(ReportQty)ReportQty,sum(ReportQty1)ReportQty1 
                     from (Select TSPL_TRANSFER_ORDER_HEAD.Document_No as Document_Code,TSPL_TRANSFER_ORDER_HEAD.Document_Date,TSPL_TRANSFER_ORDER_DETAIL.Item_Code,
                     TSPL_ITEM_UOM_DETAIL.UOM_Code,TSPL_TRANSFER_ORDER_DETAIL.Out_Qty as Qty,
@@ -280,9 +287,9 @@ and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(Date,'"
                 Qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code In (" + clsCommon.GetMulcallString(txtParty.arrValueMember) + ") "
                 ' qry += " and TSPL_ITEM_PRICE_PLAN_detail.Item_Code in ('" + clsCommon.GetMulcallString(txtItem.arrValueMember) + "')  "
             End If
-            Qry += " ) xx GROUP BY Customer_Code,Item_Code)YY
-                    PIVOT (SUM(reportQty) FOR item_code IN (" & itemNames1 & ") )AS Tab2  group by Customer_Code
-"
+                Qry += " ) xx GROUP BY Customer_Code,Item_Code)YY
+                    PIVOT (SUM(reportQty) FOR item_code IN (" & itemNames1 & ") )AS Tab2  group by Customer_Code "
+            End If
         End If
         Return Qry
     End Function

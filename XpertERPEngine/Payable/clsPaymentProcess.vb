@@ -213,7 +213,7 @@ Public Class clsPaymentProcessHead
             where 2=2 and Doc_No='" + obj.Doc_No + "' 
             and TSPL_VENDOR_INVOICE_HEAD.Against_TransferToSavingPKID is not null"
 
-                qry = "select xxx.*,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount from (
+                qry = "select xxx.*,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No from (
             select Vendor_Code,min(Against_TransferToSavingPKID) as Min_Against_TransferToSavingPKID,max(Against_TransferToSavingPKID) as Max_Against_TransferToSavingPKID,sum(Document_Total) as Document_Total from (" + baseQry + ")xx group by Vendor_Code 
             )xxx
             left outer join TSPL_PAYMENT_PROCESS_DETAIL on TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + obj.Doc_No + "'  and TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE=xxx.Vendor_Code 
@@ -222,7 +222,7 @@ Public Class clsPaymentProcessHead
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For Each dr As DataRow In dt.Rows
                         If clsCommon.myCDecimal(dr("Min_Against_TransferToSavingPKID")) = clsCommon.myCDecimal(dr("Max_Against_TransferToSavingPKID")) Then
-                            UpdateTransferToSaving(clsCommon.myCDecimal(dr("Min_Against_TransferToSavingPKID")), clsCommon.myCDecimal(dr("Payable_Amount")), trans)
+                            UpdateTransferToSaving(clsCommon.myCDecimal(dr("Min_Against_TransferToSavingPKID")), clsCommon.myCDecimal(dr("Payable_Amount")), trans, clsCommon.myCstr(dr("PP_Detail_No")))
                         Else
                             qry = baseQry + " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code='" + clsCommon.myCstr(dr("Vendor_Code")) + "' order by TSPL_VENDOR_INVOICE_HEAD.Document_Total desc"
                             Dim dtInner As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -230,11 +230,11 @@ Public Class clsPaymentProcessHead
                                 Dim BalAmt As Decimal = clsCommon.myCDecimal(dr("Document_Total")) - clsCommon.myCDecimal(dr("Payable_Amount"))
                                 For Each drInner As DataRow In dtInner.Rows
                                     If BalAmt > clsCommon.myCDecimal(drInner("Document_Total")) Then
-                                        UpdateTransferToSaving(clsCommon.myCDecimal(drInner("Against_TransferToSavingPKID")), 0, trans)
+                                        UpdateTransferToSaving(clsCommon.myCDecimal(drInner("Against_TransferToSavingPKID")), 0, trans, clsCommon.myCstr(dr("PP_Detail_No")))
                                         BalAmt -= clsCommon.myCDecimal(drInner("Document_Total"))
                                     Else
                                         BalAmt -= clsCommon.myCDecimal(drInner("Document_Total"))
-                                        UpdateTransferToSaving(clsCommon.myCDecimal(drInner("Against_TransferToSavingPKID")), Math.Abs(BalAmt), trans)
+                                        UpdateTransferToSaving(clsCommon.myCDecimal(drInner("Against_TransferToSavingPKID")), Math.Abs(BalAmt), trans, clsCommon.myCstr(dr("PP_Detail_No")))
                                         Exit For
                                     End If
                                 Next
@@ -263,7 +263,7 @@ Public Class clsPaymentProcessHead
         Return True
     End Function
 
-    Private Shared Sub UpdateTransferToSaving(intPKID As Integer, NewAmount As Decimal, trans As SqlTransaction)
+    Private Shared Sub UpdateTransferToSaving(intPKID As Integer, NewAmount As Decimal, trans As SqlTransaction, strPP_Detail_No As String)
         Dim qry As String = "update TSPL_TRANSFER_TO_SAVING_DETAIL set Org_Amount=Amount where PK_ID='" + clsCommon.myCstr(intPKID) + "' and Org_Amount is null"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -292,6 +292,16 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
             Dim objVI As clsVedorInvoiceHead = clsVedorInvoiceHead.GetData(clsCommon.myCstr(dr("Document_No")), "", trans)
             clsVedorInvoiceHead.CreateJournalEntry(objVI, "", objVI.Posting_Date, trans)
         Next
+
+
+        qry = "update TSPL_PAYMENT_PROCESS_DETAIL set Saving_Amount=NewSaving_Amount from (
+select TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No, TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount, TSPL_VENDOR_INVOICE_HEAD.Document_Total as NewSaving_Amount from TSPL_PAYMENT_PROCESS_DETAIL
+inner join TSPL_PAYMENT_PROCESS_SAVING on TSPL_PAYMENT_PROCESS_SAVING.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No  
+inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
+where TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code and TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No='" + strPP_Detail_No + "'
+ ) xx inner join TSPL_PAYMENT_PROCESS_DETAIL on TSPL_PAYMENT_PROCESS_DETAIL.PP_Detail_No=xx.PP_Detail_No"
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
     End Sub
 
     Public Shared Function ProcessData(ByVal DocNo As String, ByVal Desc As String) As Boolean
@@ -2009,7 +2019,8 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse
-                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                 Flag = True
             End If
 

@@ -23,6 +23,7 @@ Public Class ClsInvoiceBulkSale
     Public Shared aLoc As String = Nothing
     Public IsUploader As Integer = 0
     Public arrInvoiceDetailBulkSale As List(Of ClsInvoiceDetailBulkSale) = Nothing
+    Public Driver_Name As String = Nothing
     Public Comments As String = Nothing
     Public EWayBillNo As String = Nothing
     Public EWayBillDate As Date?
@@ -155,6 +156,7 @@ Public Class ClsInvoiceBulkSale
 
             '=====shivani
             clsCommon.AddColumnsForChange(coll, "Comments", obj.Comments)
+            clsCommon.AddColumnsForChange(coll, "Driver_Name", obj.Driver_Name)
             '====
             If clsCommon.myLen(obj.fromdate) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "From_date", clsCommon.GetPrintDate(obj.fromdate, "dd/MMM/yyyy"))

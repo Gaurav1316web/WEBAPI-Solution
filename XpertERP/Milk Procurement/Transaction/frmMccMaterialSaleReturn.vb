@@ -575,11 +575,22 @@ Public Class frmMccMaterialSaleReturn
         fndProject.Text = ""
         lblProject.Text = ""
         chkTaxable.Checked = False
+        chkRateDiffAmt.IsChecked = True
         If chkRateDiffRate.IsChecked Then
             GroupBoxRateDiffAmtType.Visible = True
         ElseIf chkRateDiffAmt.IsChecked Then
             GroupBoxRateDiffAmtType.Visible = False
         End If
+        txtRateAmt.Enabled = True
+        txtRatePer.Enabled = True
+        chkRateDiffRate.Enabled = True
+        chkRateDiffAmt.Enabled = True
+        rbtnTotalAmt.Enabled = True
+        rbtnBasicAmt.Enabled = True
+        txtDiscAmt.Enabled = True
+        txtDiscPer.Enabled = True
+        chkDiscountOnAmt.Enabled = True
+        chkDiscountOnRate.Enabled = True
     End Sub
 
     Public Shared Function GetItemType() As DataTable
@@ -4325,7 +4336,16 @@ Public Class frmMccMaterialSaleReturn
                     'repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
                 End If
-
+                txtDiscAmt.Enabled = False
+                txtDiscPer.Enabled = False
+                chkDiscountOnAmt.Enabled = False
+                chkDiscountOnRate.Enabled = False
+                txtRateAmt.Enabled = False
+                txtRatePer.Enabled = False
+                chkRateDiffRate.Enabled = False
+                chkRateDiffAmt.Enabled = False
+                rbtnTotalAmt.Enabled = False
+                rbtnBasicAmt.Enabled = False
                 chkVendorGrossReceipt.Checked = clsVendorMaster.isGrossReceipt(obj.Customer_Code)
                 UsLock1.Status = obj.Status
                 txtInvoiceType.Text = obj.Invoice_Type
@@ -5224,7 +5244,7 @@ Public Class frmMccMaterialSaleReturn
         ' Dim qry As String = "select Document_Code as Code,CONVERT(varchar(10), Document_Date,103)+' '+ CONVERT(varchar(5), Document_Date,114) as Date,Customer_Code as [Customer Code], Customer_Name as Customer,Total_Amt as Amount,case when TSPL_SD_SALE_RETURN_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status] from TSPL_SD_SALE_RETURN_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code "
         Dim qry As String = "select TSPL_SD_SALE_RETURN_HEAD.Document_Code as Code,CONVERT(varchar(10), TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SALE_RETURN_HEAD.Document_Date,114) as Date,TSPL_SD_SALE_RETURN_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as Customer,TSPL_SD_SALE_RETURN_HEAD.Total_Amt as Amount,TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No as [Invoice No] ,TSPL_SD_SHIPMENT_HEAD.Document_Code  as [MCC Material Sale No],case when TSPL_SD_SALE_RETURN_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status] from TSPL_SD_SALE_RETURN_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_RETURN_HEAD.Customer_Code Left Outer Join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No =TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No "
 
-        Dim whrClas As String = ""
+        Dim whrClas As String = " TSPL_SD_SALE_RETURN_HEAD.Trans_Type = 'MCC' "
 
         '-------richa 12/08/2014 Ticket No. BM00000003242---------
         'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
@@ -5736,23 +5756,53 @@ Public Class frmMccMaterialSaleReturn
 
                     End If
 
-                    If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCDecimal(txtRateAmt.Text) = 0 OrElse clsCommon.myCDecimal(txtRatePer.Text) = 0 Then
-                        If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCDecimal(txtRateAmt.Text) = 0 OrElse clsCommon.myCDecimal(txtRatePer.Text) = 0 Then
-                            txtRatePer.Text = objOrderHead.RateDiff_Per
-                            If clsCommon.myCDecimal(txtRatePer.Text) = 0 Then
-                                txtRateAmt.Text = objOrderHead.RateDiff_Amt
-                                chkRateDiffAmt.IsChecked = True
-                                '  lblInvoiceDiscAmt.Text = objOrderHead.HeadDisc_Amt
-                            Else
-                                chkRateDiffRate.IsChecked = True
-                                ' lblInvoiceDiscAmt.Text = objOrderHead.HeadDisc_PerAmt
-                            End If
-                        End If
+                    'If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCDecimal(txtRateAmt.Text) = 0 OrElse clsCommon.myCDecimal(txtRatePer.Text) = 0 Then
+                    '    If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCDecimal(txtRateAmt.Text) = 0 OrElse clsCommon.myCDecimal(txtRatePer.Text) = 0 Then
+                    '        txtRatePer.Text = objOrderHead.RateDiff_Per
+                    '        If clsCommon.myCDecimal(txtRatePer.Text) = 0 Then
+                    '            txtRateAmt.Text = objOrderHead.RateDiff_Amt
+                    '            'chkRateDiffAmt.IsChecked = True
+                    '            '  lblInvoiceDiscAmt.Text = objOrderHead.HeadDisc_Amt
+                    '        Else
+                    '            chkRateDiffRate.IsChecked = True
+                    '            ' lblInvoiceDiscAmt.Text = objOrderHead.HeadDisc_PerAmt
+                    '        End If
+                    '    End If
 
+                    'End If
+                    lblInvoiceDiscAmt.Text = objOrderHead.HeadDisc_PerAmt
+                    lblAmtAfterDiscount.Text = objOrderHead.Amount_Less_Discount
+                    lblTaxAmt.Text = objOrderHead.Total_Tax_Amt
+                    txtRatePer.Text = objOrderHead.RateDiff_Per
+                    txtRateAmt.Text = objOrderHead.RateDiff_Amt
+                    If objOrderHead.RateDiff_Per > 0 Then
+                        GroupBoxRateDiffAmtType.Visible = True
+                        If objOrderHead.Rate_Diff_Amount_Type = 1 Then
+                            rbtnTotalAmt.IsChecked = True
+                        ElseIf objOrderHead.Rate_Diff_Amount_Type = 2 Then
+                            rbtnBasicAmt.IsChecked = True
+                        End If
+                    Else
+                        GroupBoxRateDiffAmtType.Visible = False
+                    End If
+                    rbtnTotalAmt.Enabled = False
+                    rbtnBasicAmt.Enabled = False
+                    If objOrderHead.Is_Rate_Diff_Per_Amt = 1 Then
+                        chkRateDiffRate.IsChecked = True
+                    ElseIf objOrderHead.Is_Rate_Diff_Per_Amt = 2 Then
+                        chkRateDiffAmt.IsChecked = True
                     End If
                     lblGrossAmount.Text = objOrderHead.Gross_Amount
                     lblTotalDisSubsidy.Text = objOrderHead.TotalSubsidyDisAmt
                     lblTotalSubsidy.Text = objOrderHead.TotalSubsidyAmt
+                    txtRateAmt.Enabled = False
+                    txtRatePer.Enabled = False
+                    chkRateDiffRate.Enabled = False
+                    chkRateDiffAmt.Enabled = False
+                    txtDiscAmt.Enabled = False
+                    txtDiscPer.Enabled = False
+                    chkDiscountOnAmt.Enabled = False
+                    chkDiscountOnRate.Enabled = False
                     txtTPTAmt.Text = clsCommon.myFormat(objOrderHead.Transporter_Commission_TotalAmt)
                     chkcashsale.Checked = IIf(objOrderHead.Is_CashSale = "Y", True, False)
                     chkApplyTPT.Checked = IIf(objOrderHead.Is_Apply_TPT = "1", True, False)
@@ -5980,6 +6030,7 @@ Public Class frmMccMaterialSaleReturn
         End If
         isInsideLoadData = False
         UpdateAllTotals()
+        CalculateRateDiffAmount()
         RefreshReqNo()
     End Sub
 
@@ -6187,7 +6238,7 @@ Public Class frmMccMaterialSaleReturn
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 Qry += " ,TSPL_CUSTOMER_MASTER.PAN AS P_Cust_PAN,TSPL_SD_SALE_INVOICE_HEAD.Ack_No,TSPL_SD_SALE_INVOICE_HEAD.Ack_Date
-                       , TSPL_COMPANY_MASTER.Pan_No as Comp_PANNO,TSPL_SD_SHIPMENT_HEAD.Is_CashSale,TSPL_VENDOR_MASTER.Zone_Code  ,tspl_vlc_master_head.vlc_code_vlc_uploader as Vlc_code  ,isnull(TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt,0) as TotalSubsidyAmt  ,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt "
+                       , TSPL_COMPANY_MASTER.Pan_No as Comp_PANNO,TSPL_SD_SALE_RETURN_HEAD.Is_CashSale,TSPL_VENDOR_MASTER.Zone_Code  ,tspl_vlc_master_head.vlc_code_vlc_uploader as Vlc_code  ,isnull(TSPL_SD_SALE_RETURN_HEAD.TotalSubsidyAmt,0) as TotalSubsidyAmt  ,TSPL_SD_SALE_RETURN_HEAD.Transporter_Commission_TotalAmt "
             End If
 
             Qry += "from TSPL_SD_SALE_RETURN_DETAIL  "

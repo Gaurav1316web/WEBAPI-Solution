@@ -217,6 +217,8 @@ Public Class clsPSInvoiceHead
     Public Is_Add_TPT As Boolean = False
     Public TPT_Vendor As String = Nothing
     Public Is_CashSale As String = "N"
+    Public Rate_Diff_Amount_Type As Integer
+    Public Is_Rate_Diff_Per_Amt As Integer
     Public Bank_Code As String = Nothing
     Public Receipt_No As String = ""
     Public ReceiptAmt As Double = 0
@@ -921,7 +923,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' and (TSPL_S
     " TSPL_SD_SALE_INVOICE_HEAD.CURRENCY_CODE,TSPL_SD_SALE_INVOICE_HEAD.CONVRATE,TSPL_SD_SALE_INVOICE_HEAD.APPLICABLEFROM,Against_C_Form,TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.SO_Validity,TSPL_SD_SALE_INVOICE_HEAD.Commission_Apply,TSPL_SD_SALE_INVOICE_HEAD.Total_Comm_Amt,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_date " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Terms,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Period,TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Capacity " &
-    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.IsReplacement,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Name,TSPL_SD_SALE_INVOICE_HEAD.Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill,TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Security_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Is_Apply_TPT,TSPL_SD_SALE_INVOICE_HEAD.Is_Add_TPT,TSPL_SD_SALE_INVOICE_HEAD.Recommended_By,TSPL_SD_SALE_INVOICE_HEAD.TPT_Vendor,TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice , TSPL_SD_SHIPMENT_HEAD.Is_CashSale,TSPL_SD_SHIPMENT_HEAD.Receipt_No,TSPL_SD_SHIPMENT_HEAD.ReceiptAmt,TSPL_SD_SHIPMENT_HEAD.Bank_Code,TSPL_SD_SHIPMENT_HEAD.Payment_Terms
+    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.IsReplacement,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Name,TSPL_SD_SALE_INVOICE_HEAD.Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill,TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Security_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Is_Apply_TPT,TSPL_SD_SALE_INVOICE_HEAD.Is_Add_TPT,TSPL_SD_SALE_INVOICE_HEAD.Recommended_By,TSPL_SD_SALE_INVOICE_HEAD.TPT_Vendor,TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice , TSPL_SD_SHIPMENT_HEAD.Is_CashSale,TSPL_SD_SHIPMENT_HEAD.Is_Rate_Diff_Per_Amt,TSPL_SD_SHIPMENT_HEAD.Rate_Diff_Amount_Type,TSPL_SD_SHIPMENT_HEAD.Receipt_No,TSPL_SD_SHIPMENT_HEAD.ReceiptAmt,TSPL_SD_SHIPMENT_HEAD.Bank_Code,TSPL_SD_SHIPMENT_HEAD.Payment_Terms
      FROM TSPL_SD_SALE_INVOICE_HEAD " &
     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " &
     " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
@@ -1102,6 +1104,8 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' and (TSPL_S
             obj.Is_Add_TPT = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Add_TPT")) = 1, True, False)
             obj.TPT_Vendor = clsCommon.myCstr(dt.Rows(0)("TPT_Vendor"))
             obj.Is_CashSale = clsCommon.myCstr(dt.Rows(0)("Is_CashSale"))
+            obj.Rate_Diff_Amount_Type = clsCommon.myCdbl(dt.Rows(0)("Rate_Diff_Amount_Type"))
+            obj.Is_Rate_Diff_Per_Amt = clsCommon.myCdbl(dt.Rows(0)("Is_Rate_Diff_Per_Amt"))
             obj.Receipt_No = clsCommon.myCstr(dt.Rows(0)("Receipt_No"))
             obj.ReceiptAmt = clsCommon.myCdbl(dt.Rows(0)("ReceiptAmt"))
             obj.Bank_Code = clsCommon.myCstr(dt.Rows(0)("Bank_Code"))

@@ -22,7 +22,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -66,6 +66,8 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.TxtMultiZone = New common.UserControls.txtMultiSelectFinder()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -95,6 +97,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -160,6 +163,8 @@ Partial Class rptTemporaryPaymentDeductionSummary
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel5)
+        Me.RadPageViewPage1.Controls.Add(Me.TxtMultiZone)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
         Me.RadPageViewPage1.Controls.Add(Me.fndMultDCS)
         Me.RadPageViewPage1.Controls.Add(Me.chkCurrntCycle)
@@ -207,7 +212,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         'chkCurrntCycle
         '
         Me.chkCurrntCycle.AutoSize = True
-        Me.chkCurrntCycle.Location = New System.Drawing.Point(463, 114)
+        Me.chkCurrntCycle.Location = New System.Drawing.Point(463, 140)
         Me.chkCurrntCycle.Name = "chkCurrntCycle"
         Me.chkCurrntCycle.Size = New System.Drawing.Size(94, 17)
         Me.chkCurrntCycle.TabIndex = 1505
@@ -256,7 +261,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadGroupBox1.Controls.Add(Me.rbtnInActive)
         Me.RadGroupBox1.Controls.Add(Me.rbtnActive)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(382, 135)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(382, 162)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(194, 27)
         Me.RadGroupBox1.TabIndex = 446
@@ -329,7 +334,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         'chkDCSWise
         '
         Me.chkDCSWise.AutoSize = True
-        Me.chkDCSWise.Location = New System.Drawing.Point(382, 114)
+        Me.chkDCSWise.Location = New System.Drawing.Point(382, 140)
         Me.chkDCSWise.Name = "chkDCSWise"
         Me.chkDCSWise.Size = New System.Drawing.Size(75, 17)
         Me.chkDCSWise.TabIndex = 443
@@ -547,7 +552,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.MyExportAPI = False
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
@@ -619,6 +624,31 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Location = New System.Drawing.Point(302, 113)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(32, 18)
+        Me.MyLabel5.TabIndex = 1525
+        Me.MyLabel5.Text = "Zone"
+        Me.MyLabel5.Visible = False
+        '
+        'TxtMultiZone
+        '
+        Me.TxtMultiZone.arrDispalyMember = Nothing
+        Me.TxtMultiZone.arrValueMember = Nothing
+        Me.TxtMultiZone.Location = New System.Drawing.Point(382, 112)
+        Me.TxtMultiZone.Margin = New System.Windows.Forms.Padding(4)
+        Me.TxtMultiZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultiZone.MyLinkLable1 = Nothing
+        Me.TxtMultiZone.MyLinkLable2 = Nothing
+        Me.TxtMultiZone.MyNullText = "All"
+        Me.TxtMultiZone.Name = "TxtMultiZone"
+        Me.TxtMultiZone.Size = New System.Drawing.Size(296, 19)
+        Me.TxtMultiZone.TabIndex = 1524
+        Me.TxtMultiZone.Visible = False
+        '
         'rptTemporaryPaymentDeductionSummary
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -665,6 +695,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -713,5 +744,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
     Friend WithEvents rdbDocumentWise As RadioButton
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents fndMultDCS As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents TxtMultiZone As common.UserControls.txtMultiSelectFinder
 End Class
 

@@ -2406,24 +2406,24 @@ Public Class FrmInvoiceBulkSale
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SAHAYOG") = CompairStringResult.Equal Then
                 qry += "Select * from ("
             End If
-            qry += "Select TSPL_INVOICE_MASTER_BULKSALE.OpeningBal,TSPL_INVOICE_MASTER_BULKSALE.DrAmt,TSPL_INVOICE_MASTER_BULKSALE.CrAmt,TSPL_INVOICE_MASTER_BULKSALE.ClosingBal," &
+            qry += "Select TSPL_LOCATION_MASTER.Location_Desc,TSPL_INVOICE_MASTER_BULKSALE.OpeningBal,TSPL_INVOICE_MASTER_BULKSALE.DrAmt,TSPL_INVOICE_MASTER_BULKSALE.CrAmt,TSPL_INVOICE_MASTER_BULKSALE.ClosingBal," &
                 " '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,TSPL_CUSTOMER_MASTER.Add1,TSPL_Dispatch_BulkSale.document_no,TSPL_Company_MASTER.Phone1,TSPL_Company_MASTER.Phone2,TSPL_Company_MASTER.Email,TSPL_Dispatch_BulkSale.document_date,TSPL_Dispatch_Detail_BulkSale.SNFRate,TSPL_Dispatch_Detail_BulkSale.FatRate,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_location_master.gstno,TSPL_Dispatch_Detail_BulkSale.Fat_KG,TSPL_Dispatch_Detail_BulkSale.SNF_KG,TSPL_ITEM_MASTER.HSN_Code,TSPL_ITEM_MASTER.Item_Desc,Case when dtax1.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX1_Rate when  dtax2.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX2_Rate when dtax3.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX3_Rate " &
                 " when dtax4.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX4_Rate  when dtax5.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX5_Rate end as TCS_Rate " &
                 " ,Case when dtax1.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX1_Amt when  dtax2.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX2_Amt when dtax3.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX3_Amt when dtax4.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX4_Amt  when dtax5.Is_TCS = 'Y' then TSPL_INVOICE_MASTER_BULKSALE.TAX5_Amt end  as TCS_Amount" &
                 " ,TSPL_INVOICE_DETAIL_BULKSALE.unit_code, case when ISNULL(tspl_company_master.Phone1,'')='(+__)__________' then '' " &
-                " else tspl_company_master.Phone1 end +  Case When ISNULL(tspl_company_master.Phone2,'')<>'(+__)__________' Then ', '+  tspl_company_master.Phone2 Else'' End as CompPhone, tspl_route_master.route_no,TSPL_LOCATION_MASTER.GSTNO as LOC_GSTIN,tspl_company_master.CINNo as Comp_CINNo,tspl_company_master.Pan_No  as Com_PAN_No,tspl_company_master.Access_Officer as Comp_FSSAI,TSPL_CUSTOMER_MASTER.pin_no as Cust_Pin_no,TSPL_CUSTOMER_MASTER.FSSAI_NO as Cust_FSSAI,TSPL_VEHICLE_MASTER.employee_id as Driver_code,tspl_employee_master.emp_Name as Driver_Name,tspl_vehicle_master.vehicle_id,tspl_vehicle_master.Description as Vehicle_Name," &
+                " else tspl_company_master.Phone1 end +  Case When ISNULL(tspl_company_master.Phone2,'')<>'(+__)__________' Then ', '+  tspl_company_master.Phone2 Else'' End as CompPhone, tspl_route_master.route_no,TSPL_LOCATION_MASTER.GSTNO as LOC_GSTIN,tspl_company_master.CINNo as Comp_CINNo,tspl_company_master.Pan_No  as Com_PAN_No,tspl_company_master.Access_Officer as Comp_FSSAI,TSPL_CUSTOMER_MASTER.pin_no as Cust_Pin_no,TSPL_CUSTOMER_MASTER.FSSAI_NO as Cust_FSSAI,TSPL_VEHICLE_MASTER.employee_id as Driver_code,TSPL_Dispatch_BulkSale.Driver_Name,tspl_vehicle_master.vehicle_id,TSPL_Dispatch_BulkSale.Tanker_Code as Vehicle_Name," &
                     " (select top 1 tspl_employee_master.emp_name from tspl_salesman_detail" &
                     " left join tspl_employee_master on tspl_employee_master.emp_code=tspl_salesman_detail.salesman_code" &
                     " where route_code=tspl_route_master.route_no) as  Sales_Name,case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' " &
                     " else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+  TSPL_CUSTOMER_MASTER.Phone2 Else'' End as CustPhone,TSPL_INVOICE_DETAIL_BULKSALE .Dispatch_Code, tspl_company_master.cst_lst as Comp_CSt_LST,TSPL_LOCATION_MASTER.Tin_No as Comp_tin, TSPL_COMPANY_MASTER.Comp_Name as Company_Name,TSPL_CUSTOMER_MASTER.Add1 as ConAddress1,TSPL_CUSTOMER_MASTER.Add2 as ConAddress2,TSPL_CUSTOMER_MASTER.Add3  as ConAddress3, STATEMASTER_CUSTOMER.STATE_NAME as State_Customer,TSPL_LOCATION_MASTER.Add1  as Address1,TSPL_LOCATION_MASTER.Add2 as Address2, TSPL_LOCATION_MASTER.Add3 as Address3, STATEMASTER_LOCATION.State_Name as State_Location, STATEMASTER_COMPANY.STATE_NAME as State_Company," &
             " TSPL_COMPANY_MASTER .Pincode as PinNo,TSPL_COMPANY_MASTER.CINNo as CinNo,TSPL_INVOICE_MASTER_BULKSALE.Document_No as InvoiceNo," &
-            " TLM.GSTNO as GSTIN_Comp,STATEMASTER_LOCATION.GST_STATE_Code as State_Code,STATEMASTER_CUSTOMER.GST_STATE_Code  as State_Code_receiver,isnull(TSPL_CUStomer_Master.GSTNO,'') as GSTIN_Receiver," &
+            " TSPL_COMPANY_MASTER.GSTReg_No as GSTIN_Comp,STATEMASTER_LOCATION.GST_STATE_Code as State_Code,STATEMASTER_CUSTOMER.GST_STATE_Code  as State_Code_receiver,isnull(TSPL_CUStomer_Master.GSTNO,'') as GSTIN_Receiver," &
             " TSPL_INVOICE_MASTER_BULKSALE.EWayBillNo as Ewaybillno,Convert(varchar,TSPL_INVOICE_MASTER_BULKSALE.EWayBillDate,106) as EwaybillDate,TSPL_ITEM_MASTER.HSN_Code as HSN"
 
             If PrintTime = "1" Then
                 qry += " ,TSPL_INVOICE_MASTER_BULKSALE.Document_Date as Invoicedate"
             Else
-                qry += " ,Convert(varchar,TSPL_INVOICE_MASTER_BULKSALE.Document_Date,106) as Invoicedate"
+                qry += " ,Convert(varchar,TSPL_INVOICE_MASTER_BULKSALE.Document_Date,103) as Invoicedate"
 
             End If
 

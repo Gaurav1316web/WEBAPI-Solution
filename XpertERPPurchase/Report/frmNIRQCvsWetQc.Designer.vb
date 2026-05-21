@@ -48,6 +48,7 @@ Partial Class frmNIRQCvsWetQc
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.chkAutoNIR = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -123,6 +124,7 @@ Partial Class frmNIRQCvsWetQc
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.chkAutoNIR)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
@@ -406,6 +408,16 @@ Partial Class frmNIRQCvsWetQc
         Me.btnGo.TabIndex = 356
         Me.btnGo.Text = ">>>"
         '
+        'chkAutoNIR
+        '
+        Me.chkAutoNIR.AutoSize = True
+        Me.chkAutoNIR.Location = New System.Drawing.Point(394, 14)
+        Me.chkAutoNIR.Name = "chkAutoNIR"
+        Me.chkAutoNIR.Size = New System.Drawing.Size(72, 17)
+        Me.chkAutoNIR.TabIndex = 1508
+        Me.chkAutoNIR.Text = "Auto NIR"
+        Me.chkAutoNIR.UseVisualStyleBackColor = True
+        '
         'frmNIRQCvsWetQc
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -426,6 +438,7 @@ Partial Class frmNIRQCvsWetQc
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
+        Me.RadPanel1.PerformLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -475,4 +488,5 @@ Partial Class frmNIRQCvsWetQc
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents btnprint As RadButton
+    Friend WithEvents chkAutoNIR As CheckBox
 End Class
