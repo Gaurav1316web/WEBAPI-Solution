@@ -132,10 +132,13 @@ Public Class FrmCostCetreTypeMaster
                 obj.Department_Cost = Txtdepartmentcost.Value
                 obj.Unit_Code = txtUnitCode.Value
                 obj.Cost_Code = txtCostCenterType.Value
+                If txtMultDepartment.arrValueMember IsNot Nothing Then
+                    obj.EmpDepart = txtMultDepartment.arrValueMember
+                End If
                 'obj.Department_Cost = Txtdepartmentcost.Value
                 'obj.EmpDepart = txtMultDepartment.arrValueMember
-                Dim typeName As String = Nothing
-                Dim arrUserType As New List(Of String)
+                'Dim typeName As String = Nothing
+                ' Dim arrUserType As New List(Of String)
                 'If txtMultDepartment.arrValueMember IsNot Nothing Then
                 '    For i As Integer = 0 To txtMultDepartment.arrValueMember.Count - 1
                 '        arrUserType.Add(txtMultDepartment.arrValueMember(i))
@@ -155,34 +158,36 @@ Public Class FrmCostCetreTypeMaster
                 '    obj.Arr.Add(objtr)
                 'Next
 
-                obj.Arr = New List(Of clsCostCenterTypeDetail)
+                'obj.Arr = New List(Of clsCostCenterTypeDetail)
+                'If txtMultDepartment.arrValueMember IsNot Nothing AndAlso txtMultDepartment.arrValueMember.Count > 0 Then
 
-                For i As Integer = 0 To txtMultDepartment.arrValueMember.Count - 1
-                    Dim objtr As New clsCostCenterTypeDetail
+                '    For i As Integer = 0 To txtMultDepartment.arrValueMember.Count - 1
+                '        Dim objtr As New clsCostCenterTypeDetail
 
-                    objtr.EmpDepart = txtMultDepartment.arrValueMember(i)
+                '        objtr.EmpDepart = txtMultDepartment.arrValueMember(i)
 
-                    obj.Arr.Add(objtr)
-                Next
+                '        obj.Arr.Add(objtr)
+                '    Next
+                'End If
                 Dim checkEntry As String = "Select 1 from TSPL_COST_CENTER_TYPE_MASTER where Code='" + txtCode.Value + "' "
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(checkEntry)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    isNewEntry = False
-                Else
-                    isNewEntry = True
-                End If
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(checkEntry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        isNewEntry = False
+                    Else
+                        isNewEntry = True
+                    End If
 
-                If (clsCostCenterTypeMaster.SaveData(obj, isNewEntry, Nothing)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-                    LoadData(obj.Code, NavigatorType.Current)
-                    btnSave.Text = "Update"
-                    btnDelete.Enabled = True
-                Else
-                    btnSave.Text = "Save"
-                    btnDelete.Enabled = False
-                End If
+                    If (clsCostCenterTypeMaster.SaveData(obj, isNewEntry, Nothing)) Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                        LoadData(obj.Code, NavigatorType.Current)
+                        btnSave.Text = "Update"
+                        btnDelete.Enabled = True
+                    Else
+                        btnSave.Text = "Save"
+                        btnDelete.Enabled = False
+                    End If
 
-            End If
+                End If
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
@@ -236,30 +241,32 @@ Public Class FrmCostCetreTypeMaster
             Labdepartmentcost.Text = obj.Department_Cost
             ' txtMultDepartment.arrValueMember = obj.EmpDepart
             Dim arrEmp As New ArrayList
+            If txtMultDepartment.arrValueMember IsNot Nothing AndAlso txtMultDepartment.arrValueMember.Count > 0 Then
 
-            For i As Integer = 0 To obj.Arr.Count - 1
-                arrEmp.Add(obj.Arr(i).EmpDepart)
-            Next
+                For i As Integer = 0 To obj.Arr.Count - 1
+                    arrEmp.Add(obj.Arr(i).EmpDepart)
+                Next
+            End If
             txtMultDepartment.arrValueMember = arrEmp
-            If clsCommon.myLen(Txtdepartmentcost.Value) > 0 Then
-                Txtdepartmentcost.Enabled = False
-                'Txtdepartmentcost.Text = obj.Department_Cost
-            End If
+                If clsCommon.myLen(Txtdepartmentcost.Value) > 0 Then
+                    Txtdepartmentcost.Enabled = False
+                    'Txtdepartmentcost.Text = obj.Department_Cost
+                End If
 
-            'txtMultDepartment.arrValueMember = obj.EmpDepart
-            'txtlblDepartmentDes.Text = obj.Department
-            txtUnitCode.Value = obj.Unit_Code
+                'txtMultDepartment.arrValueMember = obj.EmpDepart
+                'txtlblDepartmentDes.Text = obj.Department
+                txtUnitCode.Value = obj.Unit_Code
                 txtCostCenterType.Value = obj.Cost_Code
-            If clsCommon.myLen(Txtdepartmentcost.Value) > 0 Then
-                Labdepartmentcost.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEPARTMENT_NAME from TSPL_DEPARTMENT_MASTER where DEPARTMENT_CODE='" + Txtdepartmentcost.Value + "'"))
-            Else
-                Labdepartmentcost.Text = ""
-            End If
-            If clsCommon.myLen(Labdepartmentcost.Text) > 0 Then
-                Txtdepartmentcost.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Segment_code from TSPL_GL_SEGMENT_CODE where Description='" + Labdepartmentcost.Text + "'"))
+                If clsCommon.myLen(Txtdepartmentcost.Value) > 0 Then
+                    Labdepartmentcost.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEPARTMENT_NAME from TSPL_DEPARTMENT_MASTER where DEPARTMENT_CODE='" + Txtdepartmentcost.Value + "'"))
+                Else
+                    Labdepartmentcost.Text = ""
+                End If
+                If clsCommon.myLen(Labdepartmentcost.Text) > 0 Then
+                    Txtdepartmentcost.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Segment_code from TSPL_GL_SEGMENT_CODE where Description='" + Labdepartmentcost.Text + "'"))
 
-            End If
-            If clsCommon.myLen(txtUnitCode.Value) > 0 Then
+                End If
+                If clsCommon.myLen(txtUnitCode.Value) > 0 Then
                     lblUnitDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_COST_CENTER_UNIT_MASTER where Code='" + txtUnitCode.Value + "'"))
                 Else
                     lblUnitDesc.Text = ""

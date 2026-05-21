@@ -9,12 +9,17 @@ Public Class clsCostCenterTypeMaster
     'Public Department As String = Nothing
     Public Department_Cost As String = Nothing
     Public Arr As List(Of clsCostCenterTypeDetail)
-    Public EmpDepart As String = Nothing
+    'Public EmpDepart As String = Nothing
+    Public EmpDepart As ArrayList = Nothing
+
 #End Region
     Public Shared Function SaveData(ByVal obj As clsCostCenterTypeMaster, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+
         Dim qry As String = ""
         Dim IsSaved As Boolean = False
         Try
+            Dim qry1 As String = "delete from TSPL_COST_CENTER_Emp_Depart_Master where Cost_Code='" + clsCommon.myCstr(obj.Code) + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry1, trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
@@ -44,8 +49,9 @@ Public Class clsCostCenterTypeMaster
             'If Not isNewEntry Then
             '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_COST_CENTER_TYPE_MASTER", "Code", trans)
             'End If
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Code), "TSPL_COST_CENTER_TYPE_MASTER", "Code", trans)
-            IsSaved = IsSaved AndAlso clsCostCenterTypeDetail.SaveData(obj.Code, obj.Arr, trans)
+            IsSaved = IsSaved AndAlso clsCostCenterTypeDetail.SaveData(obj.Code, obj.EmpDepart, trans)
 
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -157,25 +163,70 @@ Public Class clsCostCenterTypeDetail
     Public EmpDepart As String = Nothing
     Public PK_ID As Integer = 0
 
-    Public Shared Function SaveData(ByVal Code As String, ByVal Arr As List(Of clsCostCenterTypeDetail), ByVal trans As SqlTransaction) As Boolean
+    '  Public Shared Function SaveData(ByVal Code As String, ByVal Arr As List(Of clsCostCenterTypeDetail), ByVal trans As SqlTransaction) As Boolean
+    'Try
+    '    Dim i As Integer = 0
+    '    If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+    '        'For Each obj As clsNotificationDetails In Arr
+    '        For i = 0 To Arr.Count - 1
+    '            Dim colm As New Hashtable()
+    '            clsCommon.AddColumnsForChange(colm, "Cost_Code", Code)
+    '            clsCommon.AddColumnsForChange(colm, "EmpDepart", Arr.Item(i).EmpDepart)
+    '            clsCommonFunctionality.UpdateDataTable(colm, "tspl_cost_center_emp_depart_master", OMInsertOrUpdate.Update, "", trans)
+    '        Next
+    '        'Next
+    '    End If
+    'Catch ex As Exception
+    '    Throw New Exception(ex.Message)
+    'End Try
+
+    'Return True
+
+
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As ArrayList, ByVal trans As SqlTransaction) As Boolean
         Try
-            Dim i As Integer = 0
+            'If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+
+            '    For Each strEMDEPART As String In Arr
+
+            '        Dim Exists As String = clsCommon.myCstr(
+            'clsDBFuncationality.getSingleValue(
+            '    "SELECT EmpDepart 
+            '     FROM tspl_cost_center_emp_depart_master 
+            '     WHERE Cost_Code='" & strDocNo & "' 
+            '     AND EmpDepart='" & strEMDEPART & "'"
+            '))
+
+            '        If Exists = "" Then
+
+            '            Dim coll As New Hashtable()
+
+            '            clsCommon.AddColumnsForChange(coll, "Cost_Code", strDocNo)
+            '            clsCommon.AddColumnsForChange(coll, "EmpDepart", strEMDEPART)
+
+            '            clsCommonFunctionality.UpdateDataTable(coll, "tspl_cost_center_emp_depart_master", OMInsertOrUpdate.Insert, "", trans)
+
+
+            '        End If
+
+            '    Next
+
+            'End If
+
             If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-                'For Each obj As clsNotificationDetails In Arr
-                For i = 0 To Arr.Count - 1
-                    Dim colm As New Hashtable()
-                    clsCommon.AddColumnsForChange(colm, "Cost_Code", Code)
-                    clsCommon.AddColumnsForChange(colm, "EmpDepart", Arr.Item(i).EmpDepart)
-                    clsCommonFunctionality.UpdateDataTable(colm, "tspl_cost_center_emp_depart_master", OMInsertOrUpdate.Insert, "", trans)
+                For Each strEMDEPART As String In Arr
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Cost_Code", strDocNo)
+                    clsCommon.AddColumnsForChange(coll, "EmpDepart", strEMDEPART)
+                    clsCommonFunctionality.UpdateDataTable(coll, "tspl_cost_center_emp_depart_master", OMInsertOrUpdate.Insert, "", trans)
                 Next
-                'Next
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
-
         Return True
     End Function
+    '  End Function
 
 
 

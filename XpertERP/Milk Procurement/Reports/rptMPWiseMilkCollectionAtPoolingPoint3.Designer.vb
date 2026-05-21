@@ -217,7 +217,6 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.MyLabel5.Size = New System.Drawing.Size(32, 18)
         Me.MyLabel5.TabIndex = 427
         Me.MyLabel5.Text = "Zone"
-        Me.MyLabel5.Visible = False
         '
         'TxtZone
         '
@@ -232,7 +231,6 @@ Partial Class RptMPWiseMilkCollectionAtPoolingPoint3
         Me.TxtZone.Name = "TxtZone"
         Me.TxtZone.Size = New System.Drawing.Size(328, 19)
         Me.TxtZone.TabIndex = 426
-        Me.TxtZone.Visible = False
         '
         'MyLabel4
         '

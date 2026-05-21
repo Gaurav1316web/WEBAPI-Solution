@@ -140,12 +140,12 @@ Public Class clsGateOutt
     End Function
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim qry As String = "
-                        select tspl_purchase_gateout.Code,tspl_purchase_gateout.Date, case when tspl_purchase_gateout.Status=1 then 'Approved' else 'Pending' end as Status,Posted_Date,TSPL_SRN_HEAD.Against_GRN from tspl_purchase_gateout
+                        select tspl_purchase_gateout.Code,tspl_purchase_gateout.Date, case when tspl_purchase_gateout.Status=1 then 'Approved' else 'Pending' end as Status,Posted_Date,TSPL_SRN_HEAD.Against_GRN AS [GRN NO] ,tspl_purchase_gateout.SRN_Code  as [SRN NO]from tspl_purchase_gateout
                         left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.Against_GRN=tspl_purchase_gateout.GRN_Code"
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = "  TSPL_SRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and "
-        End If
-        whrcls += "  TSPL_SRN_HEAD.Status=1"
+        'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+        '    whrcls = "  TSPL_SRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and "
+        'End If
+        'whrcls += "  TSPL_SRN_HEAD.Status=1"
         Dim Str As String = clsCommon.ShowSelectForm("NIRQCFnd", qry, "Code", whrcls, "", "Code", isButtonClicked, "Date")
         Return Str
     End Function

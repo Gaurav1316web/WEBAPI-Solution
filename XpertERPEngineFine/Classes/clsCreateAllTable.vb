@@ -23589,7 +23589,11 @@ END"
             coll.Add("Posted_Date", "Datetime NULL")
             coll.Add("SRN_Code", "Varchar(30)  null references TSPL_SRN_HEAD(SRN_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Purchase_GateOut", coll, Nothing, True, False, "", "", "", True)
+            Try
+                clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_Purchase_GateOut Alter column GRN_Code Varchar(30) NULL")
+            Catch ex As Exception
 
+            End Try
 
             coll = New Dictionary(Of String, String)
             coll.Add("SRN_No", "varchar(30) NOT NULL")

@@ -105,6 +105,7 @@ Public Class PurchaseGateOut
     Sub BlankAllControls()
         txtCode.Value = ""
         txtGRNNo.Value = ""
+        txtSRN.Value = ""
         txtDescription.Text = ""
         txtRemarks.Text = ""
         UsLock1.Status = ERPTransactionStatus.Pending
