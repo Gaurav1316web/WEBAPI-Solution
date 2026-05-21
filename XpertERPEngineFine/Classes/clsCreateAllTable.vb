@@ -9363,6 +9363,8 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Total_Amt", "decimal(18,2) not null default 0")
             coll.Add("ActualTCSBaseAmount", "float null")
             coll.Add("ChangedTCSBaseAmount", "float null")
+            coll.Add("Comments", "varchar(200) NULL")
+            coll.Add("Driver_Name", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dispatch_BulkSale_History", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)
@@ -10050,14 +10052,14 @@ FROM TSPL_ITEM_MASTER"
                 clsERPFuncationality.DropTableKey("TSPL_PLANT_WEIGHMENT", "Gate_Entry_No", EnumTableKeyType.Unique)
                 qry = " DROP INDEX IF EXISTS Unique_Gate_Entry_No ON TSPL_PLANT_WEIGHMENT;"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-                qry = " CREATE UNIQUE INDEX Unique_Gate_Entry_No ON TSPL_PLANT_WEIGHMENT (Gate_Entry_No) WHERE Gate_Entry_No IS NOT NULL;"
+                qry = " ALTER TABLE TSPL_PLANT_WEIGHMENT ALTER COLUMN Tanker_No VARCHAR(20) NULL ALTER TABLE TSPL_PLANT_WEIGHMENT ALTER COLUMN Gate_Entry_No VARCHAR(50) NULL ;"
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
             coll.Add("Document_Date", "DateTime not NULL")
             coll.Add("Gate_Entry_No", "varchar(50)  NULL ")
-            coll.Add("Tanker_No", "varchar(20) not NULL ")
+            coll.Add("Tanker_No", "varchar(20) NULL ")
             coll.Add("Tare_Weight_Date", "datetime null")
             coll.Add("Type", "char(1) not null  ")
             coll.Add("Comments", "varchar(200) NULL")
@@ -38708,6 +38710,8 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("ChangedTCSBaseAmount", "float null")
             coll.Add("Transporter", "varchar(12) NULL")
             coll.Add("Item_Code", "VARCHAR(50) NULL REFERENCES TSPL_ITEM_MASTER(ITEM_CODE)")
+            coll.Add("Comments", "varchar(200) NULL")
+            coll.Add("Driver_Name", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dispatch_BulkSale", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
             Try
@@ -39060,6 +39064,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("DrAmt", "varchar(20)  NULL")
             coll.Add("CrAmt", "varchar(20)  NULL")
             coll.Add("ClosingBal", "varchar(20) NULL")
+            coll.Add("Driver_Name", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_INVOICE_MASTER_BULKSALE", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
 
@@ -39199,6 +39204,7 @@ inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sal
             coll.Add("DrAmt", "varchar(20)  NULL")
             coll.Add("CrAmt", "varchar(20)  NULL")
             coll.Add("ClosingBal", "varchar(20) NULL")
+            coll.Add("Driver_Name", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_INVOICE_MASTER_BULKSALE_HISTORY", coll, Nothing, False, False)
 
 

@@ -4116,7 +4116,7 @@ where  TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No)
                             If ApplicableQty < 0 Then
                                 ApplicableQty = 0
                             End If
-                            If ApplicableQty > objHeadLoad.Header_Cycle_Min_Qty Then
+                            If ApplicableQty >= objHeadLoad.Header_Cycle_Min_Qty Then
                                 MinmumQtyCheck = False
                             Else
                                 TotalApplicableQty += ApplicableQty
@@ -4151,13 +4151,16 @@ where  TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No)
                         Next
                     End If
 
-
-
                     ''Now Create Cr Note
-                    If MinmumQtyCheck Then
+                    qry = "select sum(Amt) as NoteAmt  from TSPL_MILK_PURCHASE_INVOICE_DAY_WISE_HEAD_LOAD where InvoiceNo='" + objHead.DOC_CODE + "'"
+                    dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
+                    dblAmount = Math.Abs(clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")))
+
+
+                    If Not MinmumQtyCheck Then
                         If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
                             If TotalApplicableQty >= MinimumQtyForHeadLoad Then
-                                dblAmount = Math.Round(TotalApplicableQty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
+                                Head_Load_Amount_Exact = Math.Round(TotalApplicableQty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
                             End If
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
                             Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(TotalApplicableQty, objHeadLoad.Cycle_Frequency))
@@ -4166,11 +4169,7 @@ where  TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No)
                             End If
                             Head_Load_Amount_Exact = Math.Round(Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
                         End If
-                        dblAmount = Math.Round(Head_Load_Amount_Exact, 2)
-                    Else
-                        qry = "select sum(Amt) as NoteAmt  from TSPL_MILK_PURCHASE_INVOICE_DAY_WISE_HEAD_LOAD where InvoiceNo='" + objHead.DOC_CODE + "'"
-                        dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
-                        dblAmount = Math.Abs(clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")))
+                        dblAmount += Math.Round(Head_Load_Amount_Exact, 2)
                     End If
 
 

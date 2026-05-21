@@ -2744,6 +2744,14 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
         'End If
     End Sub
 
+    Private Sub TxtZone__My_Click(sender As Object, e As EventArgs) Handles TxtZone._My_Click
+
+        Dim strQry As String = Nothing
+        strQry = "select Zone_Code as Code ,Description as Name from TSPL_ZONE_MASTER where 1=1"
+        'strQry += " and TSPL_ZONE_MASTER. Zone_Code in (Select TSPL_CUSTOMER_MASTER.Zone_Code from TSPL_CUSTOMER_MASTER where TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") )"
+        TxtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("ZoneMulSelp", strQry, "Code", "Name", TxtZone.arrValueMember, TxtZone.arrDispalyMember)
+    End Sub
+
     'Private Sub txtToDate_ValueChanged(sender As Object, e As EventArgs) Handles txtToDate.ValueChanged
     '    Try
     '        If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "DBT Reco  v/s Farmer Collection") = CompairStringResult.Equal Then
