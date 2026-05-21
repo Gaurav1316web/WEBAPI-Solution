@@ -2330,14 +2330,16 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSP
                             End If
                         End If
                         If FinancialImpactForTPT Then
-                            objCustInvTR.Transporter_GL_Account_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Freight_Provision from TSPL_VENDOR_ACCOUNT_SET 
+                            If objTr.Transporter_Commission_Amt > 0 Then
+                                objCustInvTR.Transporter_GL_Account_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Freight_Provision from TSPL_VENDOR_ACCOUNT_SET 
 left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Account=TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code
 left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code
 where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans))
-                            If clsCommon.myLen(objCustInvTR.Transporter_GL_Account_Code) > 0 Then
-                                objCustInvTR.Transporter_Commission_Amt = objTr.Transporter_Commission_Amt
-                            Else
-                                Throw New Exception("Transporter GL Account Not Found!")
+                                If clsCommon.myLen(objCustInvTR.Transporter_GL_Account_Code) > 0 Then
+                                    objCustInvTR.Transporter_Commission_Amt = objTr.Transporter_Commission_Amt
+                                Else
+                                    Throw New Exception("Transporter GL Account Not Found!")
+                                End If
                             End If
                         End If
                         If FinancialImpactForSecurity Then
