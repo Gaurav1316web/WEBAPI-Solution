@@ -3610,7 +3610,7 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
     LEFT JOIN TSPL_STATE_MASTER  ON TSPL_COMPANY_MASTER.State = TSPL_STATE_MASTER.STATE_CODE
     LEFT JOIN TSPL_VEHICLE_MASTER  ON TSPL_ROUTE_MASTER.vehicle_code = TSPL_VEHICLE_MASTER.Vehicle_Id
     LEFT JOIN tspl_transport_master ON tspl_transport_master.Transport_Id = TSPL_VEHICLE_MASTER.Transport_Id
-	WHERE 2=2 and TSPL_DEMAND_BOOKING_MASTER.Posted=1 " & strWhrClause & whrclsCommon & Environment.NewLine & " 
+	WHERE 2=2  " & strWhrClause & whrclsCommon & Environment.NewLine & " 
 
 ------sale return data 
 	   union all  " & Environment.NewLine & "  SELECT CONVERT(VARCHAR(10), ROW_NUMBER() OVER(ORDER BY TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_MASTER.Item_Code)) AS Row_Number,
@@ -3638,7 +3638,7 @@ LEFT JOIN TSPL_ROUTE_MASTER  ON TSPL_SD_SALE_RETURN_HEAD.route_no = TSPL_ROUTE_M
 LEFT JOIN TSPL_STATE_MASTER  ON TSPL_COMPANY_MASTER.State = TSPL_STATE_MASTER.STATE_CODE
 LEFT JOIN TSPL_VEHICLE_MASTER  ON TSPL_ROUTE_MASTER.vehicle_code = TSPL_VEHICLE_MASTER.Vehicle_Id
 LEFT JOIN tspl_transport_master  ON tspl_transport_master.Transport_Id = TSPL_VEHICLE_MASTER.Transport_Id
-where  2=2 and TSPL_SD_SALE_RETURN_HEAD.Status=1 and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' AND convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "' " & strWhrclsSaleReturn & whrclsCommon & "  "
+where  2=2 and  convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "' AND convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "' " & strWhrclsSaleReturn & whrclsCommon & "  "
 
 
             If isSplitPrint Then
@@ -3665,7 +3665,7 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,sum(isnull(QtyLtr,0)) as QtyLtr ,max( [Route_Cit
 
             qry += " 
           from (
-select (Qty-Return_Qty) as TotalQtyLtr,* from (
+select (QtyLtr-Return_Qty) as TotalQtyLtr,* from (
 " + BaseQry + "
 )xx )xxx Group by xxx.Route_No,Cust_Code,Credit_Customer,Split_Print
 order by xxx.Route_No,xxx.Credit_Customer,Split_Print,max(Display_Seq)"

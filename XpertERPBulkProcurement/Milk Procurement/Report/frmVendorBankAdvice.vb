@@ -1282,7 +1282,7 @@ SELECT ca.RI,t.[Bank Advise No],t.[Bank Advise Date],t.VLC_CODE_Uploader,ca.Bank
                      TSPL_VENDOR_MASTER.BankCode2 as Bank_Code_Saving,TSPL_VENDOR_MASTER.BankName2 as Bank_Desc_Saving,TSPL_VENDOR_MASTER.Branch_Name,TSPL_VENDOR_MASTER.IFSC_Code,TSPL_VENDOR_MASTER.IFSCCode2,TSPL_VENDOR_MASTER.AccNo2 as Bank_Account_No_Saving "
         End If
         qry += " ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,"
-        If dtBankAdvise IsNot Nothing AndAlso dtBankAdvise.Rows.Count > 1 Then
+        If dtBankAdvise IsNot Nothing AndAlso dtBankAdvise.Rows.Count > 0 Then
             qry += " (isnull(TSPL_BANK_ADVISE_DETAIL.Partial_Amt,0)+isnull(TSPL_BANK_ADVISE_DETAIL.Saving_Partial_Amt,0))  as Payable_Amount,isnull(TSPL_BANK_ADVISE_DETAIL.Saving_Partial_Amt,0) as Saving_Amount "
         Else
             qry += "   (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)+isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0))  as Payable_Amount,	isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0) as Saving_Amount "
