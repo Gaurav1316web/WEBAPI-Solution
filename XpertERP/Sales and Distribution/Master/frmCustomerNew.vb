@@ -214,6 +214,10 @@ Public Class frmCustomer
                     Return False
                 End If
             End If
+            If chkCashCustomer.Checked AndAlso chkcredit.Checked Then
+                common.clsCommon.MyMessageBoxShow(Me, "Please select any one Credit Customer or Cash Cash Customer", Me.Text)
+                Return False
+            End If
             ' BM00000007799 Non-Manadatory (Customer Type,Route)
             'If clsCommon.myLen(fndCusType.Value) <= 0 Then
             '    common.clsCommon.MyMessageBoxShow("Customer type can not be blank")
@@ -1532,6 +1536,11 @@ Public Class frmCustomer
             ElseIf chkcredit.Checked = False Then
                 obj.Credit_Customer = "N"
             End If
+            If chkCashCustomer.Checked = True Then
+                obj.Cash_Customer = "Y"
+            ElseIf chkCashCustomer.Checked = False Then
+                obj.Cash_Customer = "N"
+            End If
             'If CFP_Unitchk.Checked = True Then
             '    obj.CFP_Unit = "Y"
             'ElseIf CFP_Unitchk.Checked = False Then
@@ -2381,6 +2390,12 @@ Public Class frmCustomer
                 ElseIf strcredit = "Y" Then
                     chkcredit.Checked = True
                 End If
+                Dim strcash As String = myDr("Cash_Customer").ToString
+                If strcash = "N" Or strcash = "" Then
+                    chkCashCustomer.Checked = False
+                ElseIf strcash = "Y" Then
+                    chkCashCustomer.Checked = True
+                End If
                 'Dim strcfpunit As String = myDr(75).ToString
                 'If strcfpunit = "N" Or strcfpunit = "" Then
                 '    CFP_Unitchk.Checked = False
@@ -2655,6 +2670,7 @@ Public Class frmCustomer
         'chkInActive.Checked = True
         chkInActive.Enabled = True
         chkcredit.Checked = False
+        chkCashCustomer.Checked = False
         chkSkipBal.Checked = False
         chkIsRepeatOrder.Checked = False
         Me.txtPriceCode.Value = ""
@@ -2935,7 +2951,11 @@ Public Class frmCustomer
                 Else
                     chkcredit.Checked = False
                 End If
-
+                If obj.Cash_Customer = "Y" Then
+                    chkCashCustomer.Checked = True
+                Else
+                    chkCashCustomer.Checked = False
+                End If
                 If obj.Inter_Branch = "Y" Then
                     chkInterBranch.Checked = True
                 Else
@@ -3223,7 +3243,7 @@ Public Class frmCustomer
             '          ",Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify by],Modify_Date as [Modify date]" & _
             '         ",Route_Group as [Route Group],CST as [Cst],ECC as [Ecc],Range as [Range],Collectorate as [Collectorate]" & _
             '          ",PAN as [Pan],Division as [Division], Parent_Customer_No as [Parent Customer No],Customer_Class as [Customer Class],credit_customer as [Credit Customer],Price_CodeNon as [Price Code Non-Excise],Inter_Branch as [Inter Branch],Transaction_type as [Transaction Type],Parent_Customer_YN as [Parent Customer],Service_Dealer_Code as [Service Dealer Code],TDM_Code as [TDM Code],Distributor_Code as [Distributor Code], IsDistributor as [Is Distributor] FROM [TSPL_CUSTOMER_MASTER]"
-            strCmd = "SELECT a.[Cust_Code] as [Customer Code],a.[Customer_Name] as [Name] ,a.Add1 AS [ADDRESS1],a.Add2 AS [ADDRESS2],a.Add3 AS [ADDRESS3],a.Cust_Category_Code as [Customer Category Code],a.[Cust_Group_Code] as [Group Code],a.Cust_Type_Code as [Customer Type Code],a.Route_No as [Route No],a.Route_Desc as [Route Description],a.[Price_Code] as [Excisable Price Code],a.City_Code as [City Code],a.[State] as [State],a.Country as [Country],a.Phone1 as [Phone Num1],a.Phone2 as [Phone Num2],a.Fax as [Fax Num],a.PIN_NO as [Pin No],a.Email as [Email Id],a.WebSite As [Website],a.Contact_Person_Name as [Contact Person Name],a.Contact_Person_Phone as [Contect Person Phone],a.Contact_Person_Fax as [Contect Person Fax],a.Contact_Person_Website as [Contact Person website],a.Contact_Person_Email as [Contact Person Email],a.VehicleNo as 'Vehicle No',a.Driver_Name as 'Driver Name',a.Driver_Mobile_No as 'Driver Mobile No',a.[Terms_Code] as [Terms Code],a.[Cust_Account] as [Account Set],a.[Tax_Group] as [Tax Group],a.TAX1 as [Tax1],a.TAX1_Rate as [Tax1 Rate],a.TAX2 as [Tax2],a.TAX2_Rate as [Tax2 Rate],a.TAX3 as [Tax3],a.TAX3_Rate as [Tax3 Rate],a.TAX4 as [Tax4],a.TAX4_Rate as [Tax4 Rate],a.TAX5 as [Tax5],a.TAX5_Rate as [Tax5 Rate],a.TAX6 as [Tax6],a.TAX6_Rate as [Tax6 Rate],a.TAX7 as [Tax7],a.TAX7_Rate as [Tax7 Rate], a.TAX8 as [Tax8],a.TAX8_Rate as [Tax8 Rate],a.TAX9 as [Tax9],a.TAX9_Rate as [Tax9 Rate],a.TAX10 as [Tax10],a.TAX10_Rate as [Tax10 Rate],a.Payment_Code as [Paymemt Code],a.Service_Tax_No as [Service Tax No] ,a.Tin_No as [Tin No],a.Lst_No as [List No],a.Form_Type as [Form Type],a.Channel_Code as [Channel Code],a.Channel_Desc as [Channel Desc],a.Status as [Status],a.OnHold as [On Hold],a.Remarks1 as [Remarks1],a.Remarks2 as [Remarks2],a.Additional1 as [Additional1],a.Additional2 as [Additional2],a.Additional3 as [Additional3],a.Salesman_Code as [Salesman Code],a.Salesman_Desc as [Salesman desc],a.Visi_Id as [VIsi ID],a.Visi_Desc as [Visi Desc],a.Credit_Limit as [Credit Limit],a.Created_By as [Created By],a.Created_Date as [Created Date],a.Modify_By as [Modify by],a.Modify_Date as [Modify date],a.Route_Group as [Route Group],a.CST as [Cst],a.ECC as [Ecc],a.Range as [Range],a.Collectorate as [Collectorate],a.PAN as [Pan],a.Division as [Division],a.Parent_Customer_No as [Parent Customer No],a.Customer_Class as [Customer Class],a.credit_customer as [Credit Customer],a.Price_CodeNon as [Price Code Non-Excise],a.Inter_Branch as [Inter Branch],a.Transaction_type as [Transaction Type],a.Parent_Customer_YN as [Parent Customer],a.Service_Dealer_Code as [Service Dealer Code],b.Emp_Name as [Service Dealer Name],a.TDM_Code as [TDM Code],c.emp_name as [TDM Name],a.Distributor_Code as [Distributor Code],d.Customer_name as [Distributor Name], a.IsDistributor as [Is Distributor],a.price_group_code as [Price Group Code],a.[Alies_Name] as [Alias Name],a.[Zone_Code] as [Zone Code]" & IIf(isDisplayFranchiseDetails, ",a.Franchise_Code as [Franchise Code],vendor_Name as [Franchise Name]", "") & ",a.CURRENCY_CODE as [CURRENCY CODE],a.OldName as [Old Name] "
+            strCmd = "SELECT a.[Cust_Code] as [Customer Code],a.[Customer_Name] as [Name] ,a.Add1 AS [ADDRESS1],a.Add2 AS [ADDRESS2],a.Add3 AS [ADDRESS3],a.Cust_Category_Code as [Customer Category Code],a.[Cust_Group_Code] as [Group Code],a.Cust_Type_Code as [Customer Type Code],a.Route_No as [Route No],a.Route_Desc as [Route Description],a.[Price_Code] as [Excisable Price Code],a.City_Code as [City Code],a.[State] as [State],a.Country as [Country],a.Phone1 as [Phone Num1],a.Phone2 as [Phone Num2],a.Fax as [Fax Num],a.PIN_NO as [Pin No],a.Email as [Email Id],a.WebSite As [Website],a.Contact_Person_Name as [Contact Person Name],a.Contact_Person_Phone as [Contect Person Phone],a.Contact_Person_Fax as [Contect Person Fax],a.Contact_Person_Website as [Contact Person website],a.Contact_Person_Email as [Contact Person Email],a.VehicleNo as 'Vehicle No',a.Driver_Name as 'Driver Name',a.Driver_Mobile_No as 'Driver Mobile No',a.[Terms_Code] as [Terms Code],a.[Cust_Account] as [Account Set],a.[Tax_Group] as [Tax Group],a.TAX1 as [Tax1],a.TAX1_Rate as [Tax1 Rate],a.TAX2 as [Tax2],a.TAX2_Rate as [Tax2 Rate],a.TAX3 as [Tax3],a.TAX3_Rate as [Tax3 Rate],a.TAX4 as [Tax4],a.TAX4_Rate as [Tax4 Rate],a.TAX5 as [Tax5],a.TAX5_Rate as [Tax5 Rate],a.TAX6 as [Tax6],a.TAX6_Rate as [Tax6 Rate],a.TAX7 as [Tax7],a.TAX7_Rate as [Tax7 Rate], a.TAX8 as [Tax8],a.TAX8_Rate as [Tax8 Rate],a.TAX9 as [Tax9],a.TAX9_Rate as [Tax9 Rate],a.TAX10 as [Tax10],a.TAX10_Rate as [Tax10 Rate],a.Payment_Code as [Paymemt Code],a.Service_Tax_No as [Service Tax No] ,a.Tin_No as [Tin No],a.Lst_No as [List No],a.Form_Type as [Form Type],a.Channel_Code as [Channel Code],a.Channel_Desc as [Channel Desc],a.Status as [Status],a.OnHold as [On Hold],a.Remarks1 as [Remarks1],a.Remarks2 as [Remarks2],a.Additional1 as [Additional1],a.Additional2 as [Additional2],a.Additional3 as [Additional3],a.Salesman_Code as [Salesman Code],a.Salesman_Desc as [Salesman desc],a.Visi_Id as [VIsi ID],a.Visi_Desc as [Visi Desc],a.Credit_Limit as [Credit Limit],a.Created_By as [Created By],a.Created_Date as [Created Date],a.Modify_By as [Modify by],a.Modify_Date as [Modify date],a.Route_Group as [Route Group],a.CST as [Cst],a.ECC as [Ecc],a.Range as [Range],a.Collectorate as [Collectorate],a.PAN as [Pan],a.Division as [Division],a.Parent_Customer_No as [Parent Customer No],a.Customer_Class as [Customer Class],a.credit_customer as [Credit Customer],a.Cash_Customer as [Cash Customer],a.Price_CodeNon as [Price Code Non-Excise],a.Inter_Branch as [Inter Branch],a.Transaction_type as [Transaction Type],a.Parent_Customer_YN as [Parent Customer],a.Service_Dealer_Code as [Service Dealer Code],b.Emp_Name as [Service Dealer Name],a.TDM_Code as [TDM Code],c.emp_name as [TDM Name],a.Distributor_Code as [Distributor Code],d.Customer_name as [Distributor Name], a.IsDistributor as [Is Distributor],a.price_group_code as [Price Group Code],a.[Alies_Name] as [Alias Name],a.[Zone_Code] as [Zone Code]" & IIf(isDisplayFranchiseDetails, ",a.Franchise_Code as [Franchise Code],vendor_Name as [Franchise Name]", "") & ",a.CURRENCY_CODE as [CURRENCY CODE],a.OldName as [Old Name] "
             If GstApplicable Then
                 strCmd += " ,a.GSTNO AS [GSTIN NO],a.GST_Registered as [Registered] ,a.Region_Type AS [Region Type],a.GST_COMPOSITION as [Composition]"
             End If
@@ -3669,6 +3689,7 @@ Public Class frmCustomer
                     clsCommon.AddColumnsForChange(coll, "Remarks2", clsCommon.myCstr(grow.Cells("Remarks2").Value))
                     clsCommon.AddColumnsForChange(coll, "Customer_Class", strCustType)
                     clsCommon.AddColumnsForChange(coll, "Credit_Customer", clsCommon.myCstr(grow.Cells("Credit Customer").Value))
+                    clsCommon.AddColumnsForChange(coll, "Cash_Customer", clsCommon.myCstr(grow.Cells("Cash Customer").Value))
                     Dim interbranch As String
                     interbranch = clsCommon.myCstr(grow.Cells("Inter Branch").Value)
                     If String.IsNullOrEmpty(interbranch) Or clsCommon.CompairString(interbranch, "N") = CompairStringResult.Equal Then

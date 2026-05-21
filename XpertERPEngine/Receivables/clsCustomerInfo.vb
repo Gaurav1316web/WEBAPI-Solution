@@ -79,6 +79,7 @@ Public Class clsCustomerInfo
     Public Division As String
     Public Parent_Customer_No As String
     Public Credit_Customer As String
+    Public Cash_Customer As String
     Public Inter_Branch As Char
     Public chkdis As Char
     Public custdis As String
@@ -119,7 +120,7 @@ Public Class clsCustomerInfo
     End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsCustomerInfo
         Dim obj As clsCustomerInfo = Nothing
-        Dim qry As String = "SELECT [Cust_Code], [Customer_Name],[Add1],[Add2],[Add3], [Cust_Group_Code] , [City_Code],[State],[Country],[Phone1],[Phone2],[Fax],[Email],[WebSite],[Contact_Person_Name],[Contact_Person_Phone],[Contact_Person_Fax] ,[Contact_Person_Website],[Contact_Person_Email],[Terms_Code],[Cust_Account],[Tax_Group],[TAX1],[TAX1_Rate],[TAX2],[TAX2_Rate],[TAX3],[TAX3_Rate],[TAX4],[TAX4_Rate],[TAX5],[TAX5_Rate],[TAX6],[TAX6_Rate] ,[TAX7],[TAX7_Rate],[TAX8],[TAX8_Rate],[TAX9],[TAX9_Rate],[TAX10],[TAX10_Rate],[Payment_Code],[Service_Tax_No] , [Tin_No],[Lst_No],[Form_Type], [Status],[OnHold], [Cust_Type], [Remarks1], [Remarks2],[Additional1],[Additional2],[Additional3], [Credit_Limit],  [CST], [ECC], [Range], [Collectorate], [PAN],[Division], [Parent_Customer_No], [credit_customer], [Inter_branch],[Distributor],[CustDist] FROM TSPL_CUSTOMER_INFO Where 1=1"
+        Dim qry As String = "SELECT [Cust_Code], [Customer_Name],[Add1],[Add2],[Add3], [Cust_Group_Code] , [City_Code],[State],[Country],[Phone1],[Phone2],[Fax],[Email],[WebSite],[Contact_Person_Name],[Contact_Person_Phone],[Contact_Person_Fax] ,[Contact_Person_Website],[Contact_Person_Email],[Terms_Code],[Cust_Account],[Tax_Group],[TAX1],[TAX1_Rate],[TAX2],[TAX2_Rate],[TAX3],[TAX3_Rate],[TAX4],[TAX4_Rate],[TAX5],[TAX5_Rate],[TAX6],[TAX6_Rate] ,[TAX7],[TAX7_Rate],[TAX8],[TAX8_Rate],[TAX9],[TAX9_Rate],[TAX10],[TAX10_Rate],[Payment_Code],[Service_Tax_No] , [Tin_No],[Lst_No],[Form_Type], [Status],[OnHold], [Cust_Type], [Remarks1], [Remarks2],[Additional1],[Additional2],[Additional3], [Credit_Limit],  [CST], [ECC], [Range], [Collectorate], [PAN],[Division], [Parent_Customer_No], [credit_customer],[Cash_Customer], [Inter_branch],[Distributor],[CustDist] FROM TSPL_CUSTOMER_INFO Where 1=1"
         Select Case NavType
             Case NavigatorType.First
                 qry += " and Cust_Code = (select MIN(Cust_Code) from TSPL_CUSTOMER_INFO)"
@@ -202,6 +203,7 @@ Public Class clsCustomerInfo
                 obj.Division = clsCommon.myCstr(dt.Rows(0)("Division"))
                 obj.Parent_Customer_No = clsCommon.myCstr(dt.Rows(0)("Parent_Customer_No"))
                 obj.Credit_Customer = clsCommon.myCstr(dt.Rows(0)("Credit_Customer"))
+                obj.Cash_Customer = clsCommon.myCstr(dt.Rows(0)("Cash_Customer"))
                 obj.Inter_Branch = clsCommon.myCstr(dt.Rows(0)("Inter_Branch"))
                 obj.chkdis = clsCommon.myCstr(dt.Rows(0)("Distributor"))
                 obj.custdis = clsCommon.myCstr(dt.Rows(0)("CustDist"))
@@ -289,6 +291,7 @@ Public Class clsCustomerInfo
             clsCommon.AddColumnsForChange(coll, "Division", obj.Division)
             clsCommon.AddColumnsForChange(coll, "Parent_Customer_No", obj.Parent_Customer_No)
             clsCommon.AddColumnsForChange(coll, "Credit_Customer", obj.Credit_Customer)
+            clsCommon.AddColumnsForChange(coll, "Cash_Customer", obj.Cash_Customer)
             clsCommon.AddColumnsForChange(coll, "Inter_Branch", obj.Inter_Branch)
             clsCommon.AddColumnsForChange(coll, "parent_customer_yn", obj.prntcustyn)
             clsCommon.AddColumnsForChange(coll, "Distributor", obj.chkdis)
@@ -610,6 +613,7 @@ Public Class clsCustomerMasterNew
     Public Parent_Customer_No As String
     Public Customer_Class As String
     Public Credit_Customer As String
+    Public Cash_Customer As String
     Public LastInvoice_No As String
     Public LastInvoice_Date As String
     Public Price_Code As String
@@ -896,6 +900,7 @@ Public Class clsCustomerMasterNew
                 clsCommon.AddColumnsForChange(coll, "Parent_Customer_No", obj.Parent_Customer_No)
                 clsCommon.AddColumnsForChange(coll, "Customer_Class", obj.Customer_Class)
                 clsCommon.AddColumnsForChange(coll, "Credit_Customer", obj.Credit_Customer)
+                clsCommon.AddColumnsForChange(coll, "Cash_Customer", obj.Cash_Customer)
                 clsCommon.AddColumnsForChange(coll, "LastInvoice_No", obj.LastInvoice_No)
                 clsCommon.AddColumnsForChange(coll, "LastInvoice_Date", obj.LastInvoice_Date)
                 clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
@@ -1133,6 +1138,7 @@ Public Class clsCustomerMasterNew
             obj.Parent_Customer_No = clsCommon.myCstr(dt.Rows(0)("Parent_Customer_No"))
             obj.Customer_Class = clsCommon.myCstr(dt.Rows(0)("Customer_Class"))
             obj.Credit_Customer = clsCommon.myCstr(dt.Rows(0)("Credit_Customer"))
+            obj.Cash_Customer = clsCommon.myCstr(dt.Rows(0)("Cash_Customer"))
             obj.LastInvoice_No = clsCommon.myCstr(dt.Rows(0)("LastInvoice_No"))
             obj.LastInvoice_Date = clsCommon.myCstr(dt.Rows(0)("LastInvoice_Date"))
             obj.Price_CodeNon = clsCommon.myCstr(dt.Rows(0)("price_CodeNon"))
