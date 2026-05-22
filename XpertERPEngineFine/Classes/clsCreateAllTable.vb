@@ -20744,12 +20744,12 @@ END"
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Cost_Code", "Varchar(30) null References TSPL_COST_CENTER_TYPE_MASTER(Code)")
-            coll.Add("EmpDepart", "varchar(12) null UNIQUE")
+            coll.Add("EmpDepart", "Varchar(30)  null UNIQUE(EmpDepart)")
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_COST_CENTER_Emp_Depart_Master", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_COST_CENTER_Emp_Depart_Master", coll, "", True, False, "", "", "", True)
 
-            coll = New Dictionary(Of String, String)
+            coll = New Dictionary(Of String, String)()
             coll.Add("Requisition_Id", "varchar(30) NOT NULL Primary Key")
             coll.Add("Requisition_Date", "varchar(10) NOT NULL")
             coll.Add("Cust_OrderNo", "varchar(50) NULL")

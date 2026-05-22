@@ -2069,9 +2069,9 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")  "
                 sQuery += " and Len(TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE ) > 0 "
             End If
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                sQuery += " and TSPL_VENDOR_INVOICE_HEAD.Saving=0 "
-            End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            '    sQuery += " and TSPL_VENDOR_INVOICE_HEAD.Saving=0 "
+            'End If
 
             sQuery += " group by TSPL_DEDUCTION_MASTER.Description  
 union all"
@@ -3466,7 +3466,7 @@ left outer join TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Document_No
 where  "
 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-            sQuery += " TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") and isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 and TSPL_VENDOR_INVOICE_HEAD.Saving=0 and (Hide_In_Milk_Bill_Print = '0' OR Hide_In_Milk_Bill_Print IS NULL) "
+            sQuery += " TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") and isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0  and (Hide_In_Milk_Bill_Print = '0' OR Hide_In_Milk_Bill_Print IS NULL) "
         Else
             sQuery += " TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") and TSPL_VENDOR_INVOICE_HEAD.RefDocType not in ('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') and (Hide_In_Milk_Bill_Print = '0' OR Hide_In_Milk_Bill_Print IS NULL) "
         End If

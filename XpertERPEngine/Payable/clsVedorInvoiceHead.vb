@@ -382,7 +382,9 @@ Public Class clsVedorInvoiceHead
                     frmCRV.funsubreport(Form_ID, CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(strDate))
                 End If
                 frmCRV = Nothing
-
+            Else
+                'clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow("No Data Found")
             End If
         Catch ex As Exception
 

@@ -210,7 +210,7 @@ Public Class FrmMCCMilkRegister
         gv.TableElement.TableHeaderHeight = 25
         gv.MasterTemplate.ShowRowHeaderColumn = True
 
-        If PartialSRNAmount <= 0 Then
+        If PartialSRNAmount > 0 Then
             gv.Columns("Partial Amount").IsVisible = False
             gv.Columns("Partial Amount").HeaderText = "Partial Amount"
             gv.Columns("Partial Amount").VisibleInColumnChooser = True

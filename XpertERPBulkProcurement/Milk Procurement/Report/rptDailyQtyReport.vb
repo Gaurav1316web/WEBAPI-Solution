@@ -65,19 +65,30 @@ Public Class rptDailyQtyReport
         GetReportID()
         If FatSnfRoundOff = 0 Then
             Try
-                If rbtnDockSummary.Checked Then
-                    'DockSummary()
-                ElseIf rbtnTranpoterGainLoss.Checked Then
-                    Dim checkRate As String
-
-                    checkRate = "(SELECT top 1  TSPL_OWN_BMC_GAIN_LOSS_RATE.Code FROM TSPL_OWN_BMC_GAIN_LOSS_RATE WHERE TSPL_OWN_BMC_GAIN_LOSS_RATE.Posted=1 and TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 and 
-                                 CONVERT(date, TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date, 103) <= CONVERT(date, '" & clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") & "', 103))"
-                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(checkRate) 'GetDataTable(qry)
-                    If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                        Throw New InvalidOperationException("FAT/SNF RATE NOT FOUND!")
-                    End If
+                If rbtnBMCDock.Checked Then
+                    BMCDock()
+                    Exit Sub
+                ElseIf rbtnDockSummary.Checked Then
+                    DockSummary()
+                    Exit Sub
+                ElseIf rbtnSummary.Checked Then
+                    Summary()
+                    Exit Sub
+                ElseIf rbtndockDetail.checked Then
+                    DockDetail()
+                    Exit Sub
                 End If
-                If rdbSummary.Checked Then
+                If rbtnTranpoterGainLoss.Checked Then
+                        Dim checkRate As String
+
+                        checkRate = "(SELECT top 1  TSPL_OWN_BMC_GAIN_LOSS_RATE.Code FROM TSPL_OWN_BMC_GAIN_LOSS_RATE WHERE TSPL_OWN_BMC_GAIN_LOSS_RATE.Posted=1 and TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 and 
+                                 CONVERT(date, TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date, 103) <= CONVERT(date, '" & clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") & "', 103))"
+                        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(checkRate) 'GetDataTable(qry)
+                        If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
+                            Throw New InvalidOperationException("FAT/SNF RATE NOT FOUND!")
+                        End If
+                    End If
+                    If rdbSummary.Checked Then
                     PageSetupReport_ID = MyBase.Form_ID & "_S"
                 End If
                 PageSetupReport_ID = MyBase.Form_ID
@@ -1889,12 +1900,17 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         isPickCLRInsteadOfSNF = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) = 1, True, False)
         'fndArea.Visible = AreaWiseBilling
         'lblArea.Visible = AreaWiseBilling
+
         If AreaWiseBilling Then
             rbtnBMCDCSPrint.Visible = True
             rbtnBMCRoutePrint.Visible = True
         Else
             rbtnBMCDCSPrint.Visible = False
             rbtnBMCRoutePrint.Visible = False
+        End If
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            rbtnDockDetail.Visible = True
         End If
         LoadShiftName()
         TranspoterBoxhandler(False)
@@ -2042,6 +2058,149 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         End If
     End Sub
 
+    Sub DockDetail()
+        Try
+            Dim qry As String = ""
+            Dim dt As New DataTable
+            Dim Area As String = Nothing
+            Area = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_NAME from TSPL_MCC_MASTER WHERE Area_Location_Code = '" & fndArea.Value & "' "))
+
+            qry = " Select ROW_NUMBER() OVER (ORDER BY (shift_date)) AS SrNo,Convert(Varchar,(xxx.Shift_Date),103)Shift_Date,Shift,max(Bulk_Route_Code)Bulk_Route_Code,max(SNo)SNo,(Uploader_Code)Uploader_Code,QBD,SUM(No_Of_Cans)Can,sum(Milk_Weight)Milk_Weight,
+                    case when max(Manual_Weight)=1 then 'Manual' else 'Auto' end as Manual_Auto_Weight,SUM(FAT)FAT,SUM(SNF)SNF,case when max(Manual_Sample)=1 then 'Manual' else 'Auto' end as QC_Manual_Auto,max(QAT)QAT
+
+                     from (SELECT TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.FAT,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.SNF,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Milk_Weight,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.No_Of_Cans,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Bulk_Route_Code,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Dock_Collection_Milk_Type,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.FAT,0) =0 then 0 else cast(cast(cast(((TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Milk_Weight*TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.FAT/100)*1000) as int) as decimal(18,0))/1000 as decimal(18,3)) end as FATKG
+                    ,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.SNF,0) =0 then 0 else cast(cast(cast(((TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Milk_Weight*TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.SNF/100)*1000) as int) as decimal(18,0))/1000 as decimal(18,3)) end as SNFKG,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code],TSPL_MCC_MASTER.MCC_NAME As MCC,
+                    (case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') 
+                     end) as QBD,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.QAT,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Manual_Sample,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Manual_Weight,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.SNo
+
+                        FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL 
+                        Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD On TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
+                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.VLC_Code  
+                        Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code
+                        Left outer join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & clsCommon.myCstr(objCommonVar.CurrComp_Code1) & "'
+                        where Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)>=convert(date,'" & fromDate.Value & "',103)  And Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)<=convert (date,'" & dtpToDate.Value & "',103)  "
+            If AreaWiseBilling Then
+                If clsCommon.myLen(fndArea.Value) > 0 Then
+                    qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" & fndArea.Value & "' "
+                End If
+            Else
+                If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
+                    qry += " and TSPL_MCC_MASTER.MCC_Code='" & clsCommon.myCstr(txtMCC_Code.Value) & "'"
+                End If
+            End If
+            'If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
+            '    qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+            'End If
+            If ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Morning") = CompairStringResult.Equal Then
+                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift='M'"
+            ElseIf ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Evening") = CompairStringResult.Equal Then
+                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift='E'"
+            End If
+            qry += " ) xxx Group By xxx.Shift_Date,xxx.Shift, xxx.Uploader_Code,xxx.QBD order by xxx.Shift_Date"
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterTemplate.FilterDescriptors.Clear()
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterView.Refresh()
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found/Posted to Display", Me.Text)
+                Exit Sub
+            Else
+                Gv1.DataSource = dt
+                RadPageView1.SelectedPage = RadPageViewPage2
+                SetGridFormatDockDetail()
+                ControlEnableDisable(False)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub Summary()
+        Try
+            Dim qry As String = ""
+            Dim dt As New DataTable
+            Dim Area As String = Nothing
+            Area = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_NAME from TSPL_MCC_MASTER WHERE Area_Location_Code = '" & fndArea.Value & "' "))
+
+            qry = "Select Convert(Varchar,(xxx.Shift_Date),103)Shift_Date,Max(xxx.VLC_Name)VLC_Name,Max(xxx.MCC)MCC,'" & Area & "' as Area,
+                        xxx.Shift,Max(xxx.Bulk_Route_Code)Bulk_Route_Code,Case When Max(xxx.Dock_Collection_Milk_Type)='M' Then 'Mix' Else '' End As Dock_Collection_Milk_Type,Max(xxx.Reject_Type)Reject_Type,
+                        Sum(xxx.No_Of_Cans)No_Of_Cans,
+                        Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_No_Of_Cans],
+                        Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_Weight],
+                        Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_FAT],
+                        Sum(xxx.FATKG * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_FATKG],
+                        Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_SNF],
+                        Sum(xxx.SNFKG  * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_Milk_SNFKG],
+                        Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_No_Of_Cans],
+                        Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_Weight],
+                        Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_FAT],
+                        Sum(xxx.FATKG * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_FATKG],
+                        Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_SNF],
+                        Sum(xxx.SNFKG * case when Isnull(xxx.Reject_Type,'')='SOUR' then 1 else 0 end  ) as [SOUR_Milk_SNFKG],
+                        Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_No_Of_Cans],
+                        Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_Weight],
+                        Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_FAT],
+                        Sum(xxx.SNFKG  * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_FATKG],
+                        Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_SNF],
+                        Sum(xxx.SNFKG * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_SNFKG]
+                         from
+                        (SELECT TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.FAT,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.SNF,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Milk_Weight,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.No_Of_Cans,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Bulk_Route_Code,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Dock_Collection_Milk_Type,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.FAT,0) =0 then 0 else cast(cast(cast(((TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Milk_Weight*TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.FAT/100)*1000) as int) as decimal(18,0))/1000 as decimal(18,3)) end as FATKG
+,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.SNF,0) =0 then 0 else cast(cast(cast(((TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Milk_Weight*TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.SNF/100)*1000) as int) as decimal(18,0))/1000 as decimal(18,3)) end as SNFKG,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code],TSPL_MCC_MASTER.MCC_NAME As MCC,TSPL_COMPANY_MASTER.Comp_Name 
+                        FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL 
+                        Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD On TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
+                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.VLC_Code  
+                        Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code
+                        Left outer join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & clsCommon.myCstr(objCommonVar.CurrComp_Code1) & "'
+                        where Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)>=convert(date,'" & fromDate.Value & "',103)  And Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)<=convert (date,'" & dtpToDate.Value & "',103)  "
+            If AreaWiseBilling Then
+                If clsCommon.myLen(fndArea.Value) > 0 Then
+                    qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" & fndArea.Value & "' "
+                End If
+            Else
+                If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
+                    qry += " and TSPL_MCC_MASTER.MCC_Code='" & clsCommon.myCstr(txtMCC_Code.Value) & "'"
+                End If
+            End If
+            'If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
+            '    qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+            'End If
+            If ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Morning") = CompairStringResult.Equal Then
+                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift='M'"
+            ElseIf ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Evening") = CompairStringResult.Equal Then
+                qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift='E'"
+            End If
+            qry += " ) xxx Group By xxx.Shift_Date,xxx.Shift ORDER BY xxx.Shift_Date"
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterTemplate.FilterDescriptors.Clear()
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterView.Refresh()
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found/Posted to Display", Me.Text)
+                Exit Sub
+            Else
+                Gv1.DataSource = dt
+                RadPageView1.SelectedPage = RadPageViewPage2
+                SetGridFormatSummary()
+                ControlEnableDisable(False)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Sub DockSummary()
         Try
             Dim FinalQuery As String = ""
@@ -2049,7 +2208,9 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             Dim Area As String = Nothing
             Area = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_NAME from TSPL_MCC_MASTER WHERE Area_Location_Code = '" & fndArea.Value & "' "))
 
-            FinalQuery = "Select xxx.SNO,Convert(Date,(xxx.Shift_Date),103)Shift_Date,Convert(int,xxx.Uploader_Code)Uploader_Code,Max(xxx.VLC_Name)VLC_Name,Max(xxx.MCC)MCC,'" & Area & "' as Area,
+            FinalQuery = " SELECT ROW_NUMBER() OVER (ORDER BY CONVERT(INT, A.Uploader_Code)) AS SrNo,A.*
+FROM
+(Select xxx.SNO,Convert(Varchar,(xxx.Shift_Date),103)Shift_Date,Convert(int,xxx.Uploader_Code)Uploader_Code,Max(xxx.VLC_Name)VLC_Name,Max(xxx.MCC)MCC,'" & Area & "' as Area,
                         xxx.Shift,Max(xxx.Bulk_Route_Code)Bulk_Route_Code,Case When Max(xxx.Dock_Collection_Milk_Type)='M' Then 'Mix' Else '' End As Dock_Collection_Milk_Type,Max(xxx.Reject_Type)Reject_Type,
                         Sum(xxx.No_Of_Cans)No_Of_Cans,                        
                         Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) As [Sweet_No_Of_Cans],
@@ -2063,15 +2224,16 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                         Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_No_Of_Cans],
                         Sum(IsNull(xxx.Milk_Weight,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_Weight],
                         Sum(IsNull(xxx.FAT,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as[CURD_Milk_FAT],
-                        Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_SNF],  
-                        Max(xxx.Comp_Name)Comp_Name from
+                        Sum(IsNull(xxx.SNF,0) * case when Isnull(xxx.Reject_Type,'')='CURD' then 1 else 0 end  ) as [CURD_Milk_SNF]  
+                         from
                         (SELECT TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader_Code],TSPL_MCC_MASTER.MCC_NAME As MCC,TSPL_COMPANY_MASTER.Comp_Name 
                         FROM TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL 
                         Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD On TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.VLC_Code  
                         Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code    
                         Left outer join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & clsCommon.myCstr(objCommonVar.CurrComp_Code1) & "'
-                        where Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)>=convert(date,'" & fromDate.Value & "',103)  And Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)<=convert (date,'" & dtpToDate.Value & "',103)  "
+                        where Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)>=convert(date,'" & fromDate.Value & "',103)  
+                        And Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)<=convert (date,'" & dtpToDate.Value & "',103)  "
             If AreaWiseBilling Then
                 If clsCommon.myLen(fndArea.Value) > 0 Then
                     FinalQuery += " And TSPL_MCC_MASTER.Area_Location_Code = '" & fndArea.Value & "' "
@@ -2089,7 +2251,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             ElseIf ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Evening") = CompairStringResult.Equal Then
                 FinalQuery += " and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift='E'"
             End If
-            FinalQuery += " ) xxx Group By xxx.Uploader_Code,xxx.Shift_Date,xxx.Shift,xxx.SNO ORDER BY  Convert(int,xxx.Uploader_Code)"
+            FinalQuery += " ) xxx Group By xxx.Uploader_Code,xxx.Shift_Date,xxx.Shift,xxx.SNO ) A ORDER BY  Convert(int,A.Uploader_Code)"
 
 
             dt = clsDBFuncationality.GetDataTable(FinalQuery)
@@ -2114,9 +2276,224 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Sub BMCDock()
+        Try
+            Dim qry As String = ""
+            Dim dt As New DataTable
+            Dim Area As String = Nothing
+            Area = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_NAME from TSPL_MCC_MASTER WHERE Area_Location_Code = '" & fndArea.Value & "' "))
+
+
+            qry = "Select Max(Convert(Date,xxx.Shift_Date,103))Shift_Date,Case When xxx.Shift='M' Then 'Morning' Else 'Evening' End As Shift,"
+            If AreaWiseBilling Then
+                qry += " Max(xxx.Location_Desc)MCC_NAME,"
+            Else
+                qry += " Max(xxx.MCC_NAME)MCC_NAME,"
+            End If
+            qry += "Max(xxx.VLC)VLC,'" & Area & "' as Area,Max(xxx.[VLC Name])[VLC Name],Max(xxx.Route)Route,(Convert(int,xxx.[Route Code]))[Route Code],Sum(xxx.[No of Cans])[No of Cans],Sum(xxx.[Good Qty])[Good Qty],Sum(xxx.[Good FAT %])[Good FAT %],Sum(xxx.[Good FATKg])[Good FATKg],Sum(xxx.[Good SNF %])[Good SNF %],Sum(xxx.[Good SNFKG])[Good SNFKG],Sum(xxx.[SOUR Qty])[SOUR Qty],Sum(xxx.[SOUR FAT %])[SOUR FAT %],Sum(xxx.[SOUR FATKg])[SOUR FATKg],Sum(xxx.[SOUR SNF %])[SOUR SNF %],Sum(xxx.[SOUR SNFKG])[SOUR SNFKG],Sum(xxx.[CURD Qty])[CURD Qty],Sum([CURD FAT %])[CURD FAT %],Sum(xxx.[CURD FATKg])[CURD FATKg],Sum(xxx.[CURD SNF %])[CURD SNF %],Sum(xxx.[CURD SNFKG])[CURD SNFKG],Max(xxx.Comp_Name)Comp_Name
+                        from (select TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No,"
+            If AreaWiseBilling Then
+                qry += " xxxSetLocation.Location_Desc,"
+            End If
+            qry += "TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans as [No of Cans],TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO as [Route Code],TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as [Route],TSPL_COMPANY_MASTER.Comp_Name,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date
+                        ,case When isnull(Reject_Type,'')='' then Milk_Weight else 0 end as [Good Qty]
+                        ,case When isnull(Reject_Type,'')='' then FAT else 0 end as [Good FAT %]
+                        ,case When isnull(Reject_Type,'')='' then cast(Milk_Weight*FAT/100 as decimal(18,3)) else 0 end as [Good FATKg]
+                        ,case When isnull(Reject_Type,'')='' then SNF else 0 end as [Good SNF %]
+                        ,case When isnull(Reject_Type,'')='' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [Good SNFKG],case When isnull(Reject_Type,'')='SOUR' then Milk_Weight else 0 end as [SOUR Qty]
+                        ,case When isnull(Reject_Type,'')='SOUR' then FAT else 0 end as [SOUR FAT %]
+                        ,case When isnull(Reject_Type,'')='SOUR' then cast (Milk_Weight*FAT/100 as decimal(18,3)) else 0 end as [SOUR FATKg]
+                        ,case When isnull(Reject_Type,'')='SOUR' then SNF else 0 end as [SOUR SNF %]
+                        ,case When isnull(Reject_Type,'')='SOUR' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [SOUR SNFKG],case When isnull(Reject_Type,'')='CURD' then Milk_Weight else 0 end as [CURD Qty]
+                        ,case When isnull(Reject_Type,'')='CURD' then FAT else 0 end as [CURD FAT %]
+                        ,case When isnull(Reject_Type,'')='CURD' then cast (Milk_Weight*FAT/100 as decimal(18,3)) else 0 end as [CURD FATKg]
+                        ,case When isnull(Reject_Type,'')='CURD' then SNF else 0 end as [CURD SNF %]
+                        ,case When isnull(Reject_Type,'')='CURD' then cast (Milk_Weight*SNF/100 as decimal(18,3)) else 0 end as [CURD SNFKG] ,TSPL_MILK_SHIFT_UPLOADER_DETAIL.PageNo 
+                        from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+                        left outer Join TSPL_MILK_SHIFT_UPLOADER_HEAD On TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
+                        left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
+                        Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC "
+            If AreaWiseBilling Then
+                qry += " Left Outer Join( select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,tspl_location_master.Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code)  xxxSetLocation On xxxSetLocation.Location_Code=TSPL_MCC_MASTER.area_Location_code "
+            End If
+            qry += "  Left outer join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" & clsCommon.myCstr(objCommonVar.CurrComp_Code1) & "'                        
+                        where Convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103)>=convert(date,'" & fromDate.Value & "',103)  And Convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103)<=convert (date,'" & dtpToDate.Value & "',103) "
+            If AreaWiseBilling AndAlso clsCommon.myLen(fndArea.Value) > 0 Then
+                'If clsCommon.myLen(fndArea.Value) > 0 Then
+                qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" & fndArea.Value & "' "
+                'End If
+            Else
+                If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
+                    qry += " and TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code='" & clsCommon.myCstr(txtMCC_Code.Value) & "'"
+                End If
+            End If
+            If ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Morning") = CompairStringResult.Equal Then
+                qry += " and TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift='M'"
+            ElseIf ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Evening") = CompairStringResult.Equal Then
+                qry += " and TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift='E'"
+            End If
+            qry += ") xxx Group By xxx.[Route Code],xxx.Shift_Date,xxx.shift order by Convert(int,xxx.[Route Code]),xxx.shift desc"
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterTemplate.FilterDescriptors.Clear()
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterView.Refresh()
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found/Posted to Display", Me.Text)
+                Exit Sub
+            Else
+                Gv1.DataSource = dt
+                RadPageView1.SelectedPage = RadPageViewPage2
+                SetGridFormatBMCDock()
+                ControlEnableDisable(False)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
 
     End Sub
 
+    Sub SetGridFormatSummary()
+        Gv1.TableElement.TableHeaderHeight = 40
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).IsVisible = True
+            'Gv1.Columns("SrNo").HeaderText = "S.No."
+            'Gv1.Columns("SNO").IsVisible = False
+            Gv1.Columns("Shift_Date").HeaderText = "Date"
+            Gv1.Columns("VLC_Name").HeaderText = "DCS Name"
+            Gv1.Columns("MCC").HeaderText = "MCC Name"
+            Gv1.Columns("Area").HeaderText = "Area"
+            Gv1.Columns("Shift").HeaderText = "Shift"
+            Gv1.Columns("Bulk_Route_Code").HeaderText = "Route Code"
+            Gv1.Columns("Dock_Collection_Milk_Type").HeaderText = "Dock Collection Milk Type"
+            Gv1.Columns("Reject_Type").HeaderText = "Reject Type"
+            Gv1.Columns("No_Of_Cans").HeaderText = "No Of Cans"
+            Gv1.Columns("Sweet_No_Of_Cans").HeaderText = "Sweet No Of Cans"
+            Gv1.Columns("Sweet_Milk_Weight").HeaderText = "Sweet Milk Weight"
+            Gv1.Columns("Sweet_Milk_FAT").HeaderText = "Sweet Milk FAT"
+            Gv1.Columns("Sweet_Milk_FATKG").HeaderText = "Sweet Milk FATKG"
+            Gv1.Columns("Sweet_Milk_SNF").HeaderText = "Sweet Milk SNF"
+            Gv1.Columns("Sweet_Milk_SNFKG").HeaderText = "Sweet Milk SNFKG"
+            Gv1.Columns("SOUR_No_Of_Cans").HeaderText = "SOUR No Of Cans"
+            Gv1.Columns("SOUR_Milk_Weight").HeaderText = "SOUR Milk Weight"
+            Gv1.Columns("SOUR_Milk_FAT").HeaderText = "SOUR Milk FAT"
+            Gv1.Columns("SOUR_Milk_FATKG").HeaderText = "SOUR Milk FATKG"
+            Gv1.Columns("SOUR_Milk_SNF").HeaderText = "SOUR Milk SNF"
+            Gv1.Columns("SOUR_Milk_SNFKG").HeaderText = "SOUR Milk SNFKG"
+            Gv1.Columns("CURD_No_Of_Cans").HeaderText = "CURD No Of Cans"
+            Gv1.Columns("CURD_Milk_Weight").HeaderText = "CURD Milk Weight"
+            Gv1.Columns("CURD_Milk_FAT").HeaderText = "CURD Milk FAT"
+            Gv1.Columns("CURD_Milk_FATKG").HeaderText = "CURD Milk FATKG"
+            Gv1.Columns("CURD_Milk_SNF").HeaderText = "CURD Milk SNF"
+            Gv1.Columns("CURD_Milk_SNFKG").HeaderText = "CURD Milk SNFKG"
+
+            Gv1.Columns(ii).BestFit()
+        Next
+
+        Dim EnteredQty As New GridViewSummaryItem("No_Of_Cans", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty)
+        Dim EnteredFatKg As New GridViewSummaryItem("Sweet_No_Of_Cans", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredFatKg)
+        Dim EnteredSnfKg As New GridViewSummaryItem("Sweet_Milk_Weight", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredSnfKg)
+        Dim EnteredSnfKg1 As New GridViewSummaryItem("Sweet_Milk_FATKG", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredSnfKg1)
+        Dim EnteredSnfKg2 As New GridViewSummaryItem("Sweet_Milk_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredSnfKg2)
+        Dim EnteredQty1 As New GridViewSummaryItem("SOUR_No_Of_Cans", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty1)
+        Dim EnteredFatKg1 As New GridViewSummaryItem("SOUR_Milk_Weight", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredFatKg1)
+        Dim EnteredFatKg12 As New GridViewSummaryItem("SOUR_Milk_FATKG", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredFatKg12)
+        Dim EnteredFatKg13 As New GridViewSummaryItem("SOUR_Milk_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredFatKg13)
+        Dim EnteredSnfKg11 As New GridViewSummaryItem("CURD_No_Of_Cans", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredSnfKg11)
+        Dim EnteredQty11 As New GridViewSummaryItem("CURD_Milk_Weight", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty11)
+        Dim EnteredQty12 As New GridViewSummaryItem("CURD_Milk_FATKG", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty12)
+        Dim EnteredQty113 As New GridViewSummaryItem("CURD_Milk_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty113)
+
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    End Sub
+    Sub SetGridFormatBMCDock()
+        Gv1.TableElement.TableHeaderHeight = 40
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).IsVisible = True
+            'Gv1.Columns("SrNo").HeaderText = "S.No."
+            'Gv1.Columns("SNO").IsVisible = False
+            Gv1.Columns("Shift_Date").HeaderText = "Date"
+            Gv1.Columns("Shift").HeaderText = "Shift"
+            Gv1.Columns("MCC_NAME").HeaderText = "MCC Name"
+            Gv1.Columns("Area").HeaderText = "Area"
+            Gv1.Columns("VLC Name").HeaderText = "DCS Name"
+            Gv1.Columns("Route").HeaderText = "Route No"
+            Gv1.Columns("Route Code").HeaderText = "Route Code"
+            'Gv1.Columns("MCC").HeaderText = "MCC"
+            'Gv1.Columns("Dock_Collection_Milk_Type").HeaderText = "Dock Collection Milk Type"
+            'Gv1.Columns("Reject_Type").HeaderText = "Reject Type"
+            Gv1.Columns("No Of Cans").HeaderText = "No Of Cans"
+            Gv1.Columns("Good Qty").HeaderText = "Good Qty"
+            Gv1.Columns("Good FAT %").HeaderText = "Good FAT %"
+            Gv1.Columns("Good FATKg").HeaderText = "Good FATKg"
+            Gv1.Columns("Good SNF %").HeaderText = "Good SNF %"
+            Gv1.Columns("Good SNFKG").HeaderText = "Good SNFKG"
+            Gv1.Columns("SOUR Qty").HeaderText = "SOUR Qty"
+            Gv1.Columns("SOUR FAT %").HeaderText = "SOUR FAT %"
+            Gv1.Columns("SOUR FATKg").HeaderText = "SOUR FATKg"
+            Gv1.Columns("SOUR SNF %").HeaderText = "SOUR SNF %"
+            Gv1.Columns("SOUR SNFKG").HeaderText = "SOUR SNFKG"
+            Gv1.Columns("CURD Qty").HeaderText = "CURD Qty"
+            Gv1.Columns("CURD FAT %").HeaderText = "CURD FAT %"
+            Gv1.Columns("CURD FATKg").HeaderText = "CURD FATKg"
+            Gv1.Columns("[CURD SNF %]").HeaderText = "CURD SNF %"
+            Gv1.Columns("CURD SNFKG").HeaderText = "CURD SNFKG"
+
+            Gv1.Columns(ii).BestFit()
+        Next
+
+        Dim EnteredQty As New GridViewSummaryItem("No Of Cans", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty)
+        Dim EnteredFatKg As New GridViewSummaryItem("Good Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredFatKg)
+        Dim EnteredSnfKg As New GridViewSummaryItem("Good FATKg", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredSnfKg)
+        Dim EnteredQty1 As New GridViewSummaryItem("Good SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty1)
+        Dim EnteredFatKg1 As New GridViewSummaryItem("SOUR Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredFatKg1)
+        Dim EnteredSnfKg1 As New GridViewSummaryItem("SOUR FATKg", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredSnfKg1)
+        Dim EnteredQty11 As New GridViewSummaryItem("SOUR SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty11)
+        Dim EnteredQty13 As New GridViewSummaryItem("CURD Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty13)
+        Dim EnteredQty14 As New GridViewSummaryItem("CURD FATKg", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty14)
+        Dim EnteredQty15 As New GridViewSummaryItem("CURD SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty15)
+
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    End Sub
     Sub SetGridFormatDockSummary()
         Gv1.TableElement.TableHeaderHeight = 40
         Gv1.MasterTemplate.ShowRowHeaderColumn = False
@@ -2124,9 +2501,11 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).IsVisible = True
-            Gv1.Columns("SNo").HeaderText = "S.No."
+            Gv1.Columns("SrNo").HeaderText = "S.No."
+            Gv1.Columns("SNO").IsVisible = False
             Gv1.Columns("Shift_Date").HeaderText = "Date"
             Gv1.Columns("Uploader_Code").HeaderText = "DCS Code"
+            Gv1.Columns("VLC_Name").HeaderText = "DCS Name"
             Gv1.Columns("MCC").HeaderText = "MCC"
             Gv1.Columns("Area").HeaderText = "Area"
             Gv1.Columns("Shift").HeaderText = "Shift"
@@ -2145,7 +2524,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             Gv1.Columns("CURD_No_Of_Cans").HeaderText = "CURD No Of Cans"
             Gv1.Columns("CURD_Milk_Weight").HeaderText = "CURD Milk Weight"
             Gv1.Columns("CURD_Milk_FAT").HeaderText = "CURD Milk FAT"
-            Gv1.Columns("CURD_Milk_SNF").HeaderText = "CURD_Milk_SNF"
+            Gv1.Columns("CURD_Milk_SNF").HeaderText = "CURD Milk SNF"
 
 
             Gv1.Columns(ii).BestFit()
@@ -2164,6 +2543,42 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         summaryRowItem.Add(EnteredSnfKg1)
         Dim EnteredQty11 As New GridViewSummaryItem("CURD_Milk_Weight", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(EnteredQty11)
+
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    End Sub
+
+    Sub SetGridFormatDockDetail()
+        Gv1.TableElement.TableHeaderHeight = 40
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).IsVisible = True
+            Gv1.Columns(ii).Width = 40
+            Gv1.Columns("SrNo").HeaderText = "S.No."
+            Gv1.Columns("Shift_Date").HeaderText = "Date"
+            Gv1.Columns("Shift").HeaderText = "Shift"
+            Gv1.Columns("Bulk_Route_Code").HeaderText = "Route No"
+            Gv1.Columns("SNO").HeaderText = "Sample No"
+            Gv1.Columns("Uploader_Code").HeaderText = "DCS Code"
+            Gv1.Columns("QBD").HeaderText = "Milk Type"
+            Gv1.Columns("Can").HeaderText = "Can"
+            Gv1.Columns("Milk_Weight").HeaderText = "Qty"
+            Gv1.Columns("Manual_Auto_Weight").HeaderText = "Weight AutoManual"
+            Gv1.Columns("FAT").HeaderText = "FAT"
+            Gv1.Columns("SNF").HeaderText = "SNF"
+            Gv1.Columns("QC_Manual_Auto").HeaderText = "QC ManualAuto"
+            Gv1.Columns("QAT").HeaderText = "QAP"
+
+            Gv1.Columns(ii).BestFit()
+        Next
+        Dim EnteredQty As New GridViewSummaryItem("Can", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredQty)
+        Dim EnteredFatKg As New GridViewSummaryItem("QAT", "{0:F0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredFatKg)
+        Dim EnteredSnfKg As New GridViewSummaryItem("Milk_Weight", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(EnteredSnfKg)
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -2586,6 +3001,11 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
     Private Sub rbtnBMCDCSPrint_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnBMCDCSPrint.CheckedChanged
         Try
             If rbtnBMCDCSPrint.Checked Then
+
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                    MyLabel4.Visible = False
+                    txtMCC_Code.Visible = False
+                End If
                 MyLabel4.Visible = False
                 cboItemType.Visible = False
                 MyLabel39.Visible = False
@@ -2870,5 +3290,15 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub rbtnDockDetail_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnDockDetail.CheckedChanged
+        If rbtnDockDetail.Checked Then
+            MyLabel4.Visible = True
+            txtMCC_Code.Visible = True
+        Else
+            MyLabel4.Visible = False
+            txtMCC_Code.Visible = False
+        End If
     End Sub
 End Class

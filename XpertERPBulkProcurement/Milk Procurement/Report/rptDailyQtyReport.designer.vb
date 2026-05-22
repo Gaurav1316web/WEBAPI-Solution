@@ -22,7 +22,7 @@ Partial Class rptDailyQtyReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -44,6 +44,7 @@ Partial Class rptDailyQtyReport
         Me.rbtnBMCDock = New System.Windows.Forms.RadioButton()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnAliasName = New System.Windows.Forms.RadioButton()
         Me.rbtnTranspoterGainlossSummary = New System.Windows.Forms.RadioButton()
         Me.rbtnDockShiftWise = New System.Windows.Forms.RadioButton()
         Me.rbtnDockDateWise = New System.Windows.Forms.RadioButton()
@@ -88,7 +89,7 @@ Partial Class rptDailyQtyReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnAliasName = New System.Windows.Forms.RadioButton()
+        Me.rbtnDockDetail = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -346,6 +347,7 @@ Partial Class rptDailyQtyReport
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDockDetail)
         Me.RadGroupBox2.Controls.Add(Me.rbtnBMCRoutePrint)
         Me.RadGroupBox2.Controls.Add(Me.rbtnBMCDCSPrint)
         Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
@@ -443,6 +445,16 @@ Partial Class rptDailyQtyReport
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(552, 88)
         Me.RadGroupBox1.TabIndex = 406
+        '
+        'rbtnAliasName
+        '
+        Me.rbtnAliasName.AutoSize = True
+        Me.rbtnAliasName.Location = New System.Drawing.Point(463, 60)
+        Me.rbtnAliasName.Name = "rbtnAliasName"
+        Me.rbtnAliasName.Size = New System.Drawing.Size(81, 17)
+        Me.rbtnAliasName.TabIndex = 458
+        Me.rbtnAliasName.Text = "Alias Name"
+        Me.rbtnAliasName.UseVisualStyleBackColor = True
         '
         'rbtnTranspoterGainlossSummary
         '
@@ -921,7 +933,8 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MyExportAPI = False
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -1012,15 +1025,16 @@ Partial Class rptDailyQtyReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rbtnAliasName
+        'rbtnDockDetail
         '
-        Me.rbtnAliasName.AutoSize = True
-        Me.rbtnAliasName.Location = New System.Drawing.Point(463, 60)
-        Me.rbtnAliasName.Name = "rbtnAliasName"
-        Me.rbtnAliasName.Size = New System.Drawing.Size(81, 17)
-        Me.rbtnAliasName.TabIndex = 458
-        Me.rbtnAliasName.Text = "Alias Name"
-        Me.rbtnAliasName.UseVisualStyleBackColor = True
+        Me.rbtnDockDetail.AutoSize = True
+        Me.rbtnDockDetail.Location = New System.Drawing.Point(302, 15)
+        Me.rbtnDockDetail.Name = "rbtnDockDetail"
+        Me.rbtnDockDetail.Size = New System.Drawing.Size(84, 17)
+        Me.rbtnDockDetail.TabIndex = 1502
+        Me.rbtnDockDetail.Text = "Dock Detail"
+        Me.rbtnDockDetail.UseVisualStyleBackColor = True
+        Me.rbtnDockDetail.Visible = False
         '
         'rptDailyQtyReport
         '
@@ -1155,5 +1169,6 @@ Partial Class rptDailyQtyReport
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents btnGainLoss As RadButton
     Friend WithEvents rbtnAliasName As RadioButton
+    Friend WithEvents rbtnDockDetail As RadioButton
 End Class
 
