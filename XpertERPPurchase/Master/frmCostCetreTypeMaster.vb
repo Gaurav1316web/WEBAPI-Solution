@@ -28,6 +28,7 @@ Public Class FrmCostCetreTypeMaster
     End Sub
 
     Private Sub FrmCostCetreTypeMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         SetUserMgmtNew()
         isNewEntry = True
 
@@ -212,14 +213,34 @@ Public Class FrmCostCetreTypeMaster
             Txtdepartmentcost.Focus()
             Return False
         End If
+        Dim checkEntry As String = "select EmpDepart from TSPL_COST_CENTER_Emp_Depart_Master where EmpDepart IN (" + clsCommon.GetMulcallString(txtMultDepartment.arrValueMember) + ")"
 
-        Dim checkEntry As String = "Select 1 from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + Txtdepartmentcost.Value + "' "
+        'Dim checkEntry As String = "select 1 from TSPL_COST_CENTER_Emp_Depart_Master where EmpDepart  IN (" + clsCommon.GetMulcallString(txtMultDepartment.arrValueMember) + ")"
+        'Dim checkEntry As String = "Select 1 from TSPL_COST_CENTER_TYPE_MASTER where Department_Cost='" + Txtdepartmentcost.Value + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(checkEntry)
+        'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '    clsCommon.MyMessageBoxShow(Me, "Department already exist", Me.Text)
+        '    Return False
+        'End If
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Department already exist", Me.Text)
-            Return False
-        End If
 
+            Dim strDuplicate As String = ""
+
+            For Each dr As DataRow In dt.Rows
+                strDuplicate &= dr("EmpDepart").ToString() & ", "
+            Next
+
+            If strDuplicate.EndsWith(", ") Then
+                strDuplicate = strDuplicate.Substring(0, strDuplicate.Length - 2)
+            End If
+
+            clsCommon.MyMessageBoxShow(Me,
+                               "Emp Department already exists : " & strDuplicate,
+                               Me.Text)
+
+            Return False
+
+        End If
         Return True
     End Function
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -240,15 +261,17 @@ Public Class FrmCostCetreTypeMaster
             Txtdepartmentcost.Value = obj.Department_Cost
             Labdepartmentcost.Text = obj.Department_Cost
             ' txtMultDepartment.arrValueMember = obj.EmpDepart
-            Dim arrEmp As New ArrayList
-            If txtMultDepartment.arrValueMember IsNot Nothing AndAlso txtMultDepartment.arrValueMember.Count > 0 Then
 
-                For i As Integer = 0 To obj.Arr.Count - 1
-                    arrEmp.Add(obj.Arr(i).EmpDepart)
-                Next
-            End If
-            txtMultDepartment.arrValueMember = arrEmp
-                If clsCommon.myLen(Txtdepartmentcost.Value) > 0 Then
+            txtMultDepartment.arrValueMember = obj.EmpDepart
+            'Dim arrEmp As New ArrayList
+            'If txtMultDepartment.arrValueMember IsNot Nothing AndAlso txtMultDepartment.arrValueMember.Count > 0 Then
+
+            '    For i As Integer = 0 To obj.Arr.Count - 1
+            '        arrEmp.Add(obj.Arr(i).EmpDepart)
+            '    Next
+            'End If
+            'txtMultDepartment.arrValueMember = arrEmp
+            If clsCommon.myLen(Txtdepartmentcost.Value) > 0 Then
                     Txtdepartmentcost.Enabled = False
                     'Txtdepartmentcost.Text = obj.Department_Cost
                 End If

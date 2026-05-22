@@ -1984,12 +1984,12 @@ Public Class clsPSShipmentHead
 
                     Dim custOutStanding As Double = clsCommon.myCdbl(OutStandingAmt)
                     If custOutStanding <= 0 Then
-                        Throw New Exception("Insufficient Balance.")
+                        Throw New Exception("Insufficient Balance. [ Customer Code : " + obj.Customer_Code + "]")
                     End If
                     custOutStanding = Math.Abs(custOutStanding)
                     Dim TotalDocAmt As Double = clsCommon.myCdbl(obj.Total_Amt)
                     If TotalDocAmt > custOutStanding Then
-                        Throw New Exception("Insufficient Balance.")
+                        Throw New Exception("Insufficient Balance. [ Customer Code : " + obj.Customer_Code + "]")
                     End If
                 End If
             End If
