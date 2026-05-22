@@ -397,7 +397,7 @@ Public Class FrmUserMaster
 #Region "Methods"
     Private Sub funfill()
 
-        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM,SSO,Sub_location,DataBase_Name from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
+        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Show_Manual_Collection,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM,SSO,Sub_location,DataBase_Name from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
         Dim dr As DataTable
         dr = clsDBFuncationality.GetDataTable(str)
         For Each row As DataRow In dr.Rows
@@ -405,6 +405,7 @@ Public Class FrmUserMaster
             txtPassword.Text = clsCommon.DecryptString(clsCommon.myCstr(row(1)))
             ChkViewMilkReceiptAndSample.Checked = (clsCommon.myCdbl(row("View_Milk_Receipt_Sample")) = 1)
             ChkDepartmentHead.Checked = (clsCommon.myCdbl(row("Department_Head")) = 1)
+            ChkShowManualCollection.Checked = (clsCommon.myCdbl(row("Show_Manual_Collection")) = 1)
             chkHRAdmin.Checked = (clsCommon.myCdbl(row("HR_Admin")) = 1)
             fndEmployeeCode.Value = row(2).ToString()
             EmployeeFinder.Value = row(2).ToString()
@@ -814,6 +815,7 @@ Public Class FrmUserMaster
         Dim coll As New Hashtable()
         clsCommon.AddColumnsForChange(coll, "EmployeeCode", EmployeeFinder.Value, True)
         clsCommon.AddColumnsForChange(coll, "Department_Head", IIf(ChkDepartmentHead.Checked, 1, 0))
+        clsCommon.AddColumnsForChange(coll, "Show_Manual_Collection", IIf(ChkShowManualCollection.Checked, 1, 0))
         clsCommon.AddColumnsForChange(coll, "HR_Admin", IIf(chkHRAdmin.Checked, 1, 0))
         clsCommon.AddColumnsForChange(coll, "View_Milk_Receipt_Sample", IIf(ChkViewMilkReceiptAndSample.Checked, 1, 0))
         clsCommon.AddColumnsForChange(coll, "InActive", IIf(chkInActive.Checked, "Y", "N"))
@@ -1138,6 +1140,7 @@ Public Class FrmUserMaster
         'lblzone.Text = ""
         ChkViewMilkReceiptAndSample.Checked = False
         ChkDepartmentHead.Checked = False
+        ChkShowManualCollection.Checked = False
         chkHRAdmin.Checked = False
         chkInActive.Checked = False
         chkInActive.Enabled = False

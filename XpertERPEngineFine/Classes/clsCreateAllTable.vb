@@ -14950,6 +14950,7 @@ END"
             coll.Add("Segment_code", "varchar(12) null")
             coll.Add("IP_For_Alert", "varchar(30) null")
             coll.Add("View_Milk_Receipt_Sample", "integer NULL")
+            coll.Add("Show_Manual_Collection", "integer NULL")
             coll.Add("Department_Head", "integer not null default 0")
             coll.Add("Licence_Reserved", "integer null")
             coll.Add("Default_Zone_Code", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
