@@ -23,13 +23,13 @@ Partial Class FrmUserMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblUserCode = New common.Controls.MyLabel()
         Me.lblUserType = New common.Controls.MyLabel()
         Me.lbl1 = New common.Controls.MyLabel()
@@ -54,6 +54,7 @@ Partial Class FrmUserMaster
         Me.rmImportZone = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmImportCustomerCategory = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.ChkShowManualCollection = New common.Controls.MyCheckBox()
         Me.TxtUnion = New common.UserControls.txtFinder()
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.TxtMultiBank = New common.UserControls.txtMultiSelectFinder()
@@ -161,6 +162,7 @@ Partial Class FrmUserMaster
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.ChkShowManualCollection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -353,16 +355,16 @@ Partial Class FrmUserMaster
         Me.ddlUserType.IsSourceFromTable = False
         Me.ddlUserType.IsSourceFromValueList = False
         Me.ddlUserType.IsUnique = False
-        RadListDataItem1.Text = "Level1"
-        RadListDataItem2.Text = "Level2"
-        RadListDataItem3.Text = "Level3"
-        RadListDataItem4.Text = "Level4"
-        RadListDataItem5.Text = "Level5"
-        Me.ddlUserType.Items.Add(RadListDataItem1)
-        Me.ddlUserType.Items.Add(RadListDataItem2)
-        Me.ddlUserType.Items.Add(RadListDataItem3)
-        Me.ddlUserType.Items.Add(RadListDataItem4)
-        Me.ddlUserType.Items.Add(RadListDataItem5)
+        RadListDataItem6.Text = "Level1"
+        RadListDataItem7.Text = "Level2"
+        RadListDataItem8.Text = "Level3"
+        RadListDataItem9.Text = "Level4"
+        RadListDataItem10.Text = "Level5"
+        Me.ddlUserType.Items.Add(RadListDataItem6)
+        Me.ddlUserType.Items.Add(RadListDataItem7)
+        Me.ddlUserType.Items.Add(RadListDataItem8)
+        Me.ddlUserType.Items.Add(RadListDataItem9)
+        Me.ddlUserType.Items.Add(RadListDataItem10)
         Me.ddlUserType.Location = New System.Drawing.Point(192, 154)
         Me.ddlUserType.MendatroryField = False
         Me.ddlUserType.MyLinkLable1 = Nothing
@@ -479,6 +481,7 @@ Partial Class FrmUserMaster
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.BackColor = System.Drawing.Color.Transparent
+        Me.RadGroupBox1.Controls.Add(Me.ChkShowManualCollection)
         Me.RadGroupBox1.Controls.Add(Me.TxtUnion)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel18)
         Me.RadGroupBox1.Controls.Add(Me.TxtMultiBank)
@@ -536,8 +539,19 @@ Partial Class FrmUserMaster
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, 3)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(601, 502)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(598, 502)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'ChkShowManualCollection
+        '
+        Me.ChkShowManualCollection.Location = New System.Drawing.Point(451, 264)
+        Me.ChkShowManualCollection.MyLinkLable1 = Nothing
+        Me.ChkShowManualCollection.MyLinkLable2 = Nothing
+        Me.ChkShowManualCollection.Name = "ChkShowManualCollection"
+        Me.ChkShowManualCollection.Size = New System.Drawing.Size(141, 18)
+        Me.ChkShowManualCollection.TabIndex = 411
+        Me.ChkShowManualCollection.Tag1 = Nothing
+        Me.ChkShowManualCollection.Text = "Show Manual Collection"
         '
         'TxtUnion
         '
@@ -781,7 +795,7 @@ Partial Class FrmUserMaster
         '
         'chkLicenceReserved
         '
-        Me.chkLicenceReserved.Location = New System.Drawing.Point(467, 263)
+        Me.chkLicenceReserved.Location = New System.Drawing.Point(347, 261)
         Me.chkLicenceReserved.MyLinkLable1 = Nothing
         Me.chkLicenceReserved.MyLinkLable2 = Nothing
         Me.chkLicenceReserved.Name = "chkLicenceReserved"
@@ -1805,7 +1819,7 @@ Partial Class FrmUserMaster
         Me.gvCustomer.MasterTemplate.AllowDeleteRow = False
         Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvCustomer.MyExportAPI = False
         Me.gvCustomer.MyExportFilePath = ""
         Me.gvCustomer.MyStopExport = False
@@ -1842,7 +1856,7 @@ Partial Class FrmUserMaster
         Me.gvUser.MasterTemplate.AllowDeleteRow = False
         Me.gvUser.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUser.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvUser.MyExportAPI = False
         Me.gvUser.MyExportFilePath = ""
         Me.gvUser.MyStopExport = False
@@ -1921,6 +1935,7 @@ Partial Class FrmUserMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.ChkShowManualCollection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2126,5 +2141,6 @@ Partial Class FrmUserMaster
     Friend WithEvents MyLabel18 As Controls.MyLabel
     Friend WithEvents FileSystemWatcher1 As IO.FileSystemWatcher
     Friend WithEvents TxtUnion As UserControls.txtFinder
+    Friend WithEvents ChkShowManualCollection As Controls.MyCheckBox
 End Class
 
