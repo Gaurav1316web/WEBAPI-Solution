@@ -63,13 +63,20 @@ Public Class clsReceiptInvoiceHead
             "where " + TSPL_Customer_Invoice_Head + ".Document_No ='" + StrCode + "' and Rejected_Type='N' )final   )XXX left outer join " &
             "TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXX.Comp_Code  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = XXX.Customer_Code left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code = XXX.Loc_Code left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state  left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=XXX.Document_No  order by XXX.Detail_Line_No  "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        Dim frmCRV As New frmCrystalReportViewer()
-        If SettingCostCenterlevel Then
-            frmCRV.funreport(Form_ID, CrystalReportFolder.SalesReport, dt, "crptAPInvc_Hierarchy", "AR INVOICE", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Dim frmCRV As New frmCrystalReportViewer()
+            If SettingCostCenterlevel Then
+                frmCRV.funreport(Form_ID, CrystalReportFolder.SalesReport, dt, "crptAPInvc_Hierarchy", "AR INVOICE", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+            Else
+                frmCRV.funreport(Form_ID, CrystalReportFolder.SalesReport, dt, "crptAPInvc", "AR INVOICE", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+            End If
+            frmCRV = Nothing
         Else
-            frmCRV.funreport(Form_ID, CrystalReportFolder.SalesReport, dt, "crptAPInvc", "AR INVOICE", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+            'clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow("No Data Found")
+
         End If
-        frmCRV = Nothing
+
         Return True
     End Function
 

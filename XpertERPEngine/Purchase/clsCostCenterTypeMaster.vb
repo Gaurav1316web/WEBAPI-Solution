@@ -75,7 +75,8 @@ Public Class clsCostCenterTypeMaster
     'End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsCostCenterTypeMaster
         Dim obj As clsCostCenterTypeMaster = Nothing
-        Dim qry As String = "select TSPL_COST_CENTER_TYPE_MASTER.* from TSPL_COST_CENTER_TYPE_MASTER   where 2=2"
+        Dim qry As String = "select  TSPL_COST_CENTER_TYPE_MASTER.* from TSPL_COST_CENTER_TYPE_MASTER
+  where 2=2"
         Dim whrclas As String = ""
         Select Case NavType
             Case NavigatorType.First
@@ -98,8 +99,16 @@ Public Class clsCostCenterTypeMaster
             obj.Cost_Code = clsCommon.myCstr(dt.Rows(0)("Cost_Code"))
             'obj.Department = clsCommon.myCstr(dt.Rows(0)("Department"))
             obj.Department_Cost = clsCommon.myCstr(dt.Rows(0)("Department_Cost"))
-            obj.Arr = clsCostCenterTypeDetail.GetData(obj.Code)
-
+            'obj.Arr = clsCostCenterTypeDetail.GetData(obj.Code)
+            qry = "select EmpDepart from TSPL_COST_CENTER_Emp_Depart_Master where Cost_Code='" & obj.Code & "'"
+            dt = New DataTable()
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                obj.EmpDepart = New ArrayList()
+                For Each dr As DataRow In dt.Rows
+                    obj.EmpDepart.Add(clsCommon.myCstr(dr("EmpDepart")))
+                Next
+            End If
         End If
         Return obj
     End Function

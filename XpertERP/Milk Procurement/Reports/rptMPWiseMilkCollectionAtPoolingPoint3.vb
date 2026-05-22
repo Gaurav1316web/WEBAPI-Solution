@@ -728,13 +728,13 @@ LEFT  JOIN TSPL_ZONE_MASTER ON TSPL_ZONE_MASTER.Zone_Code =TSPL_VENDOR_MASTER.Zo
             Dim Qry As String = Nothing
             Qry = "SELECT XXX.VLC_CODE,MAX(XXX.MCC_CODE)MCC_CODE,
 
-  MAX(XXX.DOC_CODE)DOC_CODE,CONVERT(varchar, XXX.DOC_DATE,103)DOC_DATE,XXX.SHIFT,max(XXX.DCS_Code) AS[DCS_Code],max(XXX.DCS_Uploader_code) as [DCS_Uploader_code],max(XXX.DCS_NAME) as [DCS_NAME],max(XXX.ROUTE_CODE) as [ROUTE_CODE],max(xxx.Zone_Code)Zone_Code,max(xxx.Description)[Zone_Name], sum(XXX.SRNQTY) as [SRNQTY],sum(xxx.ACC_Qty_LTR)[SRNLTR],sum(XXX.SRNFAT_KG)SRNFAT_KG,sum(XXX.SRNSNF_KG)SRNSNF_KG,
+  MAX(XXX.DOC_CODE)DOC_CODE,CONVERT(varchar, XXX.DOC_DATE,103)DOC_DATE,XXX.SHIFT,max(XXX.DCS_Code) AS[DCS_Code],max(XXX.DCS_Uploader_code) as [DCS_Uploader_code],max(XXX.DCS_NAME) as [DCS_NAME],max(XXX.ROUTE_CODE) as [ROUTE_CODE],max(xxx.Zone_Code)Zone_Code,max(xxx.Description)[Zone_Name],CONVERT(decimal(18,2),sum(XXX.SRNQTY)) as [SRNQTY],CONVERT(decimal(18,2),sum(xxx.ACC_Qty_LTR))[SRNLTR],CONVERT(decimal(18,2),sum(XXX.SRNFAT_KG))SRNFAT_KG,CONVERT(decimal(18,2),sum(XXX.SRNSNF_KG))SRNSNF_KG,
 sum(CAST((ISNULL(XXX.SRNFAT_KG,0) * 100 /NULLIF(XXX.SRNQTY,0)) AS DECIMAL(18,2))) AS SRNFatAVG,
 sum( CAST((ISNULL(XXX.SRNSNF_KG,0) * 100 / NULLIF(XXX.SRNQTY,0)) AS DECIMAL(18,2))) AS SRNSNFAVG
-,COUNT(XXX.Farmer_Count) AS Farmer_Count,
+,COUNT(XXX.Farmer_Count) AS Farmer_Count
 
-SUM(XXX.FARMERQTY) AS FARMERQTY	
-   ,SUM(XXX.FARMERFAT_KG) AS FARMERFAT_KG	,SUM(snf_KG) AS FARMERSNF_KG	,SUM(XXX.FARMERFatPer) AS FARMERFatPer,	SUM(XXX.FARMERSNFPer) AS  FARMERSNFPer	
+,CONVERT(decimal(18,2),SUM(XXX.FARMERQTY)) AS FARMERQTY	
+  ,CONVERT(decimal(18,2),SUM(XXX.FARMERFAT_KG)) AS FARMERFAT_KG	,CONVERT(decimal(18,2),SUM(snf_KG)) AS FARMERSNF_KG	,SUM(XXX.FARMERFatPer) AS FARMERFatPer,	SUM(XXX.FARMERSNFPer) AS  FARMERSNFPer	
 ,ISNULL(
     CAST(SUM(XXX.FARMERFAT_KG) * 100.0 / NULLIF(SUM(FARMERQTY), 0) AS DECIMAL(10,2))
 , 0.00) AS FARMERFATAVG,
@@ -1385,7 +1385,7 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
             If isPrint Then
                 Qry &= " , '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate.Value), "dd/MM/yyyy") + "' AS ToDate, TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_COMPANY_MASTER.State,TSPL_STATE_MASTER.STATE_NAME,'" & objCommonVar.CurrentUser & "' As PrintBy "
             End If
-            Qry &= " from ( Select [Union],MAX(Doc_Date) as Date, max(TotalDCS)TotalDCS,sum(MorningDCSCount)MorningDCSCount,SUM(MorningMPCount)MorningMPCount,sum(MorningQty/1000)MorningQty,SUM(MorningFATKG/1000)MorningFATKG,sum(MorningSNFKG/1000)MorningSNFKG,sum(MorningAmount/1000)MorningAmount,sum(EveningDCSCount)EveningDCSCount,sum(EveningMPCount)EveningMPCount,sum(EveningQty/1000)EveningQty,sum(EveningFATKG/1000)EveningFATKG,sum(EveningSNFKG/1000)EveningSNFKG,sum(EveningAmount/1000)EveningAmount  ,max(ZONE_CODE)ZONE_CODE,max(ZONE_NAME)ZONE_NAME from ( 
+            Qry &= " from ( Select [Union],MAX(Doc_Date) as Date, max(TotalDCS)TotalDCS,sum(MorningDCSCount)MorningDCSCount,SUM(MorningMPCount)MorningMPCount,CONVERT(decimal(18,2),sum(MorningQty/1000))MorningQty,CONVERT(decimal(18,2),SUM(MorningFATKG/1000))MorningFATKG,CONVERT(decimal(18,2),sum(MorningSNFKG/1000))MorningSNFKG,CONVERT(decimal(18,2),sum(MorningAmount/1000))MorningAmount,sum(EveningDCSCount)EveningDCSCount,sum(EveningMPCount)EveningMPCount,CONVERT(decimal(18,2),sum(EveningQty/1000))EveningQty,CONVERT(decimal(18,2),sum(EveningFATKG/1000))EveningFATKG,CONVERT(decimal(18,2),sum(EveningSNFKG/1000))EveningSNFKG,CONVERT(decimal(18,2),sum(EveningAmount/1000))EveningAmount  ,max(ZONE_CODE)ZONE_CODE,max(ZONE_NAME)ZONE_NAME from ( 
         select   [Union],Max(Convert(Varchar(10),Doc_Date,103)) as Doc_Date,Max([DCSCount]) As TotalDCS,
 Case When Max(shift)='M'  Then COUNT(Distinct vlc_code_vlc_Uploader) Else 0 End As MorningDCSCount, (Case When shift='M' Then Count(Distinct MP_Code) Else 0 End) As MorningMPCount,Sum(Case When shift='M' Then Qty Else 0 End) As MorningQty,
 Sum(Case When shift='M' Then fat_KG Else 0 End) As MorningFATKG,
