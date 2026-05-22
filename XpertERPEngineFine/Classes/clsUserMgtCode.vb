@@ -2,6 +2,8 @@
 Public Class clsUserMgtCode
     Public Const frmNIRQCvsWetQc As String = "NIRQ_VS_W"
     Public Const frmUnionWiseDockEntryReport As String = "UNN-DE-RPT"
+    Public Const FrmInActiveDCSReport As String = "UNN-IA-DC"
+
     Public Const frmSubRouteMaster As String = "SUB-RT-MSTR"
     Public Const frmAccountSalesReport As String = "ACC-SLS-RPT"
     Public Const frmPIPaymentStatusReport As String = "PIP-STS-RPT"

@@ -7769,16 +7769,16 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             If CheckCustomeroutStandingAmt Then
                 If Not clsCustomerMaster.IsCreditCustomer(txtVendorNo.Value) Then
 
-                    LoadOutstanding()
+                    LoadOutstanding(txtVendorNo.Value, Nothing)
 
                     Dim custOutStanding As Double = clsCommon.myCdbl(lblOutstandingDesc.Text)
                     If custOutStanding <= 0 Then
-                        Throw New Exception("Insufficient Balance.")
+                        Throw New Exception("Insufficient Balance. [ Customer Code : " + txtVendorNo.Value + "]")
                     End If
                     custOutStanding = Math.Abs(custOutStanding)
                     Dim TotalDocAmt As Double = clsCommon.myCdbl(lblTotRAmt.Text)
                     If TotalDocAmt > custOutStanding Then
-                        Throw New Exception("Insufficient Balance.")
+                        Throw New Exception("Insufficient Balance. [ Customer Code : " + txtVendorNo.Value + "]")
                     End If
                 End If
             End If
@@ -7794,16 +7794,16 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         Return True
     End Function
 
-    Private Sub LoadOutstanding()
+    Private Sub LoadOutstanding(ByVal strCustCode As String, ByVal trans As SqlTransaction)
         Dim qry As String = "Select  case when (( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt)) )>=0 then -abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) else abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) end  as BalAmt From ( " &
                     "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
                     "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
                     "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
                     "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
-                    "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", "'" + txtVendorNo.Value + "'", True, clsCommon.GetPrintDate(txtDate.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False, txtDocNo.Value) & "   " &
+                    "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", "'" + strCustCode + "'", True, clsCommon.GetPrintDate(txtDate.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, trans, False, txtDocNo.Value) & "   " &
                     " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
                     "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
-                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & txtVendorNo.Value & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
+                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & strCustCode & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
                     ") XXX GROUP BY ACode ORDER BY ACode"
         lblOutstandingDesc.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
     End Sub
@@ -8186,9 +8186,60 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     lstSkipobj = New List(Of clsPSShipmentDemand)
 
                     For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, 0, trans)
+
+                        If CheckCustomeroutStandingAmt Then
+                            If Not clsCustomerMaster.IsCreditCustomer(lst.Booth_Code, trans) Then
+
+                                LoadOutstanding(lst.Booth_Code, trans)
+
+                                Dim custOutStanding As Double = clsCommon.myCdbl(lblOutstandingDesc.Text)
+                                If custOutStanding <= 0 Then
+                                    If clsCommon.MyMessageBoxShow(Me, "Insufficient Balance. [ Customer Code : " + lst.Booth_Code + "] are you want to continue  ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                                        Throw New Exception("Insufficient Balance. [ Customer Code : " + lst.Booth_Code + "]")
+                                    Else
+                                        Continue For
+                                    End If
+
+                                End If
+                                custOutStanding = Math.Abs(custOutStanding)
+                                Dim TotalDocAmt As Double = clsCommon.myCdbl(lblTotRAmt.Text)
+                                If TotalDocAmt > custOutStanding Then
+                                    If clsCommon.MyMessageBoxShow(Me, "Insufficient Balance. [ Customer Code : " + lst.Booth_Code + "] are you want to continue  ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                                        Throw New Exception("Insufficient Balance. [ Customer Code : " + lst.Booth_Code + "]")
+                                    Else
+                                        Continue For
+                                    End If
+
+                                End If
+                            End If
+                        End If
                         lstobj.Add(lst)
                     Next
                     For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, 1, trans)
+                        If CheckCustomeroutStandingAmt Then
+                            If Not clsCustomerMaster.IsCreditCustomer(lst.Booth_Code, trans) Then
+
+                                LoadOutstanding(lst.Booth_Code, trans)
+
+                                Dim custOutStanding As Double = clsCommon.myCdbl(lblOutstandingDesc.Text)
+                                If custOutStanding <= 0 Then
+                                    If clsCommon.MyMessageBoxShow(Me, "Insufficient Balance. [ Customer Code : " + lst.Booth_Code + "] are you want to continue  ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                                        Throw New Exception("Insufficient Balance. [ Customer Code : " + lst.Booth_Code + "]")
+                                    Else
+                                        Continue For
+                                    End If
+                                End If
+                                custOutStanding = Math.Abs(custOutStanding)
+                                Dim TotalDocAmt As Double = clsCommon.myCdbl(lblTotRAmt.Text)
+                                If TotalDocAmt > custOutStanding Then
+                                    If clsCommon.MyMessageBoxShow(Me, "Insufficient Balance. [ Customer Code : " + lst.Booth_Code + "] are you want to continue  ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                                        Throw New Exception("Insufficient Balance. [ Customer Code : " + lst.Booth_Code + "]")
+                                    Else
+                                        Continue For
+                                    End If
+                                End If
+                            End If
+                        End If
                         lstSkipobj.Add(lst)
                     Next
                     'Else
@@ -10299,7 +10350,7 @@ order by TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code"
                         Next
                     End If
                 End If
-                LoadOutstanding()
+                LoadOutstanding(txtVendorNo.Value, Nothing)
             End If
             'txtCrate.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + ParentDocNo + "' and Unit_code='Crate' group by Unit_code"))
             If clsCommon.myLen(txtInvoiceNo.Text) > 0 Then
@@ -11435,7 +11486,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
                 If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
                     lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
                 End If
-                LoadOutstanding()
+                LoadOutstanding(txtVendorNo.Value, Nothing)
             Else
                 lblVendorName.Text = ""
                 txtTermCode.Value = ""
@@ -17093,6 +17144,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                                     Dim obj As New clsSNShipmentDCSItemDetail
                                     obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
                                     If ConvertIntoBillingUOM Then
+                                        DispatchQty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) * DisBillingItemConvFactor
                                         obj.UOM = DisBilling_UOM
                                         obj.Qty = Math.Ceiling(DispatchQty / DisBillingUOMConvFactor)
                                     Else
