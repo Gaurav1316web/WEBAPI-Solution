@@ -1166,11 +1166,19 @@ left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITE
                 Else
                     Qry += " (select case when Is_FreshItem=1 then 'LTR' else 'KG' end from TSPL_ITEM_MASTER where Item_Code=TSPL_ITEM_UOM_DETAIL.Item_code) "
                 End If
-                Qry += " ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code  
-left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code,TSPL_ITEM_UOM_DETAIL.UOM_Code from TSPL_ITEM_UOM_DETAIL 
+            Qry += " ) as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code  "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                Qry += " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code,TSPL_ITEM_UOM_DETAIL.UOM_Code from TSPL_ITEM_UOM_DETAIL 
+            where TSPL_ITEM_UOM_DETAIL.Print_UOM=1  ) as ITEMDETAIL4 on ITEMDETAIL4.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code  "
+            Else
+                Qry += "   left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code,TSPL_ITEM_UOM_DETAIL.UOM_Code from TSPL_ITEM_UOM_DETAIL 
 where TSPL_ITEM_UOM_DETAIL.Print_UOM=1  ) as ITEMDETAIL4 on ITEMDETAIL4.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code And ITEMDETAIL4.UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code "
+            End If
 
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+
+
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                     Qry += " left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code,UOM_code from TSPL_ITEM_UOM_DETAIL where ITEM_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And Print_UOM=1) as ITEMDETAIL3 on ITEMDETAIL3.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code "
                 Else
                     Qry += " left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) ITEMDETAIL3 ON TSPL_SD_sale_invoice_DETAIL.Item_Code = ITEMDETAIL3.item_code "
