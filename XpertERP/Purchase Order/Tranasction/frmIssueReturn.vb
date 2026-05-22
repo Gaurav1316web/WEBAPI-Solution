@@ -5311,7 +5311,7 @@ Public Class frmIssueReturn
             Dim val As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(type))
 
             If val = "Issue" Then
-                Dim sdt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptGatePassIssueReturn", "Issur/Return/Transfer GatePsss")
             End If
             frmCRV = Nothing
