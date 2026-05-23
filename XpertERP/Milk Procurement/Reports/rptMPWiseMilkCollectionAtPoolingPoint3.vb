@@ -1928,7 +1928,7 @@ Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_M
                     ReStoreGridLayout()
                     EnableDisableControl(False)
                     Dim summaryRowItem As New GridViewSummaryRowItem()
-                    Dim item1 As New GridViewSummaryItem("QTY", "{0:N2}", GridAggregateFunction.Sum)
+                    Dim item1 As New GridViewSummaryItem("Qty", "{0:N2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item1)
 
                     Dim item2 As New GridViewSummaryItem("Amount", "{0:N2}", GridAggregateFunction.Sum)
