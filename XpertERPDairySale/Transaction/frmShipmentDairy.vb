@@ -6233,7 +6233,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
     End Sub
     Public Sub GetDCDetails(ByVal trans As SqlTransaction)
         'If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal OrElse IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, False, DispatchPriceCodeForCreditCustomer) Then
-        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal OrElse ApplyCommissionTPTForCreditCustomer Then
+        If (clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cash_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal) OrElse ApplyCommissionTPTForCreditCustomer Then
             Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Transporter_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Security_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Booth_Security_Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
 left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
@@ -8565,6 +8565,8 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     Dim tcAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry1, trans))
                     qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt='" & clsCommon.myCstr(tcAmt) & "' where Document_Code='" & ParentDocNo & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Gross_Amount=(Total_Amt - Transporter_Commission_TotalAmt) where Document_Code='" & ParentDocNo & "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     'If DeductTPTFromDocAmt Then
                     qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt=0,Gross_Amount=Total_Amt where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')"
                         clsDBFuncationality.ExecuteNonQuery(qry1, trans)
@@ -8576,6 +8578,8 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     '    qry1 = "update tspl_sd_shipment_detail set Transporter_Commission_Amt=0 where DOCUMENT_CODE in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
                     'clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt='" & clsCommon.myCstr(tcAmt) & "' where Against_Shipment_No='" & ParentDocNo & "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Gross_Amount=(Total_Amt - Transporter_Commission_TotalAmt) where Against_Shipment_No='" & ParentDocNo & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     'If DeductTPTFromDocAmt Then
                     qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0,Gross_Amount=Total_Amt where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
