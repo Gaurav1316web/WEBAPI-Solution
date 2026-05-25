@@ -2072,6 +2072,15 @@ where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
         Dim tbl_TSPL_SD_SHIPMENT_HEAD As String = Nothing
         Dim tbl_TSPL_BOOKING_MATSER As String = Nothing
         Dim tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL As String = Nothing
+        Dim Customer_Name As String = ""
+        Dim add1 As String = ""
+        Dim add2 As String = ""
+        Dim add3 As String = ""
+        Dim PIN_Code As String = ""
+        Dim Phone1 As String = ""
+        Dim Phone2 As String = ""
+        Dim GSTNO As String = ""
+
         If isCancel Then
             tbl_TSPL_DAIRYSALE_GATEPASS_DETAIL = " TSPL_DAIRYSALE_GATEPASS_DETAIL_Cancel_Data As TSPL_DAIRYSALE_GATEPASS_Detail "
             tbl_TSPL_DAIRYSALE_GATEPASS_MASTER = " TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data As TSPL_DAIRYSALE_GATEPASS_MASTER "
@@ -2087,6 +2096,21 @@ where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
             tbl_TSPL_BOOKING_MATSER = " TSPL_BOOKING_MATSER "
             tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL = " TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL"
         End If
+        Dim strqry As String = "select Customer_Name,add1,add2,add3,PIN_Code,Phone1,Phone2,GSTNO from TSPL_CUSTOMER_MASTER where Cust_Code in(
+select Customer_Code from " + tbl_TSPL_SD_SHIPMENT_HEAD + " where Document_Code in(
+select distinct DOCUMENT_CODE from " + tbl_TSPL_SD_SHIPMENT_DETAIL + " where PK_ID in( select PK_ID from " + tbl_TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL + " where GPCode='" + StrCode + "'))) and IsDistributor='Y'"
+        Dim dts As DataTable = clsDBFuncationality.GetDataTable(strqry)
+        If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
+            Customer_Name = clsCommon.myCstr(dts.Rows(0)("Customer_Name"))
+            add1 = clsCommon.myCstr(dts.Rows(0)("add1"))
+            add2 = clsCommon.myCstr(dts.Rows(0)("add2"))
+            add3 = clsCommon.myCstr(dts.Rows(0)("add3"))
+            PIN_Code = clsCommon.myCstr(dts.Rows(0)("PIN_Code"))
+            Phone1 = clsCommon.myCstr(dts.Rows(0)("Phone1"))
+            Phone2 = clsCommon.myCstr(dts.Rows(0)("Phone2"))
+            GSTNO = clsCommon.myCstr(dts.Rows(0)("GSTNO"))
+        End If
+
         Dim Qry As String = ""
         Qry = " Select '" & clsCommon.myCstr(IIf(isCancel, "Y", "N")) & "' As isCancelled,max(xxx.CopyType)CopyType,STRING_AGG(TabBatch.BatchNo,CHAR(10)) as BatchNo,--TabBatch.BatchNo,
   STRING_AGG(CAST(Qty AS INT), CHAR(10)) as Batch_Qty,max(Comp_Phone2)Comp_Phone2,max(Comp_Add3)Comp_Add3,max(Comp_Add2)Comp_Add2,max(ConversionInLtr)ConversionInLtr,max(ConversionInCrate)ConversionInCrate, max(ConversionInPouch)ConversionInPouch,max(GP.GPDate)Document_Date,max(Is_Taxable)Is_Taxable,max(Shift)Shift,max(xxx.DOCUMENT_CODE)DOCUMENT_CODE,max(Line_No)Line_No, max(Row_Type)Row_Type,xxx.Item_Code,Sum(Qty)Qty,Sum(Balance_Qty)Balance_Qty,max(Order_Code)Order_Code,max(Unit_code)Unit_code,max(Location)Location, max(Item_Cost)Item_Cost,max(TAX1)TAX1,max(TAX1_Base_Amt)TAX1_Base_Amt,max(TAX1_Rate)TAX1_Rate,sum(TAX1_Amt)TAX1_Amt,max(TAX2)TAX2,max(TAX2_Base_Amt)TAX2_Base_Amt,max(TAX2_Rate)TAX2_Rate,sum(TAX2_Amt)TAX2_Amt,max(TAX3)TAX3,max(TAX3_Base_Amt)TAX3_Base_Amt,max(TAX3_Rate)TAX3_Rate,sum(TAX3_Amt)TAX3_Amt,max(TAX4)TAX4,max(TAX4_Base_Amt)TAX4_Base_Amt,max(TAX4_Rate)TAX4_Rate,sum(TAX4_Amt)TAX4_Amt,max(TAX5)TAX5,max(TAX5_Base_Amt)TAX5_Base_Amt,max(TAX5_Rate)TAX5_Rate,sum(TAX5_Amt)TAX5_Amt,max(TAX6)TAX6,max(TAX6_Base_Amt)TAX6_Base_Amt,max(TAX6_Rate)TAX6_Rate,sum(TAX6_Amt)TAX6_Amt,max(TAX7)TAX7,max(TAX7_Base_Amt)TAX7_Base_Amt,max(TAX7_Rate)TAX7_Rate,sum(TAX7_Amt)TAX7_Amt,max(TAX8)TAX8,max(TAX8_Base_Amt)TAX8_Base_Amt,max(TAX8_Rate)TAX8_Rate,sum(TAX8_Amt)TAX8_Amt,max(TAX9)TAX9,max(TAX9_Base_Amt)TAX9_Base_Amt,max(TAX9_Rate)TAX9_Rate,sum(TAX9_Amt)TAX9_Amt,max(TAX10)TAX10,max(TAX10_Base_Amt)TAX10_Base_Amt,max(TAX10_Rate)TAX10_Rate,sum(TAX10_Amt)TAX10_Amt,sum(Amount)Amount,max(Disc_Per)Disc_Per,sum(Disc_Amt)Disc_Amt,sum(Amt_Less_Discount)Amt_Less_Discount,sum(Total_Tax_Amt)Total_Tax_Amt,sum(Item_Net_Amt)Item_Net_Amt,max(Status)Status,max(MRP)MRP,max(Batch_No)Batch_No, max(MFG_Date)MFG_Date,max(Expiry_Date)Expiry_Date,sum(Free_Qty)Free_Qty,max(Specification)Specification,max(Remarks)Remarks,max(Assessable)Assessable,
@@ -2094,17 +2118,14 @@ where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
  max(vendor_desc)vendor_desc,max(Bin_No)Bin_No,max(Weight_UOM)Weight_UOM,max(HeadDiscPer)HeadDiscPer,sum(HeadDiscPerAmt)HeadDiscPerAmt,sum(DeliverQty)DeliverQty,max(Delivery_Code)Delivery_Code,sum(Crate)Crate,max(Commission_Rate)Commission_Rate,max(Commission_Party)Commission_Party,sum(Commission_Amt)Commission_Amt,
   sum(Amt_Less_Commission)Amt_Less_Commission, max(OrgUnit_code)OrgUnit_code, max(Delivery_Code_PS)Delivery_Code_PS,max(Item_Group)Item_Group,
  max(BOOK_QTY_UOM)BOOK_QTY_UOM,max(BOOK_Rate)BOOK_Rate,max(BOOK_RATE_UOM)BOOK_RATE_UOM,max(TAX_PAID)TAX_PAID,max(Alternate_UOM)Alternate_UOM,max(RATE_UOM)RATE_UOM,max(Scheme_Type)Scheme_Type,max(Scheme_Item_Code)Scheme_Item_Code,sum(Scheme_Qty)Scheme_Qty,max(Scheme_Item_UOM)Scheme_Item_UOM,max(Total_Item_WeightMetric)Total_Item_WeightMetric,max(Cash_Scheme_Code)Cash_Scheme_Code,max(Cash_Scheme_Type)Cash_Scheme_Type,max(Cash_Scheme_Pers)Cash_Scheme_Pers,sum(Cash_Scheme_Amount)Cash_Scheme_Amount,max(OrgRateUnit_code)OrgRateUnit_code,max(Rate_UnitQty)Rate_UnitQty,max(Alter_UnitQty)Alter_UnitQty,max(Sampling)Sampling,max(GatePass_No)GatePass_No,max(Disc_Scheme_Code)Disc_Scheme_Code,max(Disc_Scheme_Type)Disc_Scheme_Type,max(Disc_Scheme_Pers)Disc_Scheme_Pers,sum(Disc_Scheme_Amount)Disc_Scheme_Amount,max(AlternateRate)AlternateRate,max(ItemwiseTaxCode)ItemwiseTaxCode,max(Structure_Code)Structure_Code,sum(CAN)CAN,sum(ManualCan)ManualCan,sum(ItemLeakageAmount)ItemLeakageAmount,max(VS_CashSchemeCode)VS_CashSchemeCode,Sum(VS_Cash_Amt)VS_Cash_Amt,sum(VS_ltrInCrate)VS_ltrInCrate,max(Sub_Location_code)Sub_Location_code,max(Distributor_Commission_PKID)Distributor_Commission_PKID,max(Distributor_Commission_Rate)Distributor_Commission_Rate,max(Distributor_Commission_RateWithTax)Distributor_Commission_RateWithTax,sum(Distributor_Commission_Amt)Distributor_Commission_Amt,max(PK_ID)PK_ID,max(Security_Rate)Security_Rate,sum(Security_Amt)Security_Amt,max(Transporter_Commission_Rate)Transporter_Commission_Rate,Sum(Transporter_Commission_Amt)Transporter_Commission_Amt,max(Transporter)Transporter,max(Against_Booking_PK_ID)Against_Booking_PK_ID,max(Booth_Security_Rate)Booth_Security_Rate,sum(Booth_Security_Amt)Booth_Security_Amt,max(Scheme_Main_Item)Scheme_Main_Item,max(Disc_Per_Unit)Disc_Per_Unit,sum(Disc_Unit_Amt)Disc_Unit_Amt,max(REF_PK_ID)REF_PK_ID,max(REF_TPT_PK_ID)REF_TPT_PK_ID,max(Trip_No)Trip_No,max(Against_Cust_Ord_PK_ID)Against_Cust_Ord_PK_ID,max(Billing_Unit_code)Billing_Unit_code, sum(Billing_Qty)Billing_Qty,sum(Amount_with_Tax)Amount_with_Tax,sum(Booking_Qty)Booking_Qty,max(Access_Officer)Access_Officer,max(Item_Desc)Item_Desc,max(HSN_Code)HSN_Code, Sum(QtyInLtr)QtyInLtr,sum(QtyInKG)QtyInKG,sum(QtyInCrate)QtyInCrate,sum(QtyInPouch)QtyInPouch,max(FAT_Per)FAT_Per,max(SNF_Per)SNF_Per,max(Acidity)Acidity,max(Temperature)Temperature,max(MBRT_Hours)MBRT_Hours,max(Route_Desc)Route_Desc,max(Vehicle_Id)Vehicle_Id,max(Vehicle_Number)Vehicle_Number,
-(case when max(IsDistributor)=min(IsDistributor) then max(Customer_Name) else  max(case when IsDistributor='Y' then Customer_Name else null end) end ) Customer_Name,
-(case when max(IsDistributor)=min(IsDistributor) then max(Cust_Add1) else  max(case when IsDistributor='Y' then Cust_Add1 else null end) end ) Cust_Add1,
-(case when max(IsDistributor)=min(IsDistributor) then max(Cust_Add2) else  max(case when IsDistributor='Y' then Cust_Add2 else null end) end ) Cust_Add2,
-(case when max(IsDistributor)=min(IsDistributor) then max(Cust_Add3) else  max(case when IsDistributor='Y' then Cust_Add3 else null end) end ) Cust_Add3,
-(case when max(IsDistributor)=min(IsDistributor) then max(Cust_PINCode) else  max(case when IsDistributor='Y' then Cust_PINCode else null end) end ) Cust_PINCode,
-(case when max(IsDistributor)=min(IsDistributor) then max(Cust_Phone1) else  max(case when IsDistributor='Y' then Cust_Phone1 else null end) end ) Cust_Phone1,
-(case when max(IsDistributor)=min(IsDistributor) then max(Cust_Phone2) else  max(case when IsDistributor='Y' then Cust_Phone2 else null end) end ) Cust_Phone1,
- (case when max(IsDistributor)=min(IsDistributor) then max(GSTNO) else  max(case when IsDistributor='Y' then GSTNO else null end) end ) GSTNO,
---max(Customer_Name)Customer_Name,max(Cust_Add1)Cust_Add1,max(Cust_Add2)Cust_Add2,max(Cust_Add3)Cust_Add3,max(Cust_PINCode)Cust_PINCode,max(Cust_Phone1)Cust_Phone1,max(Cust_Phone2)Cust_Phone2,max(GSTNO)GSTNO,
+"
+        If clsCommon.myLen(Customer_Name) > 0 Then
+            Qry += " '" & Customer_Name & "' as Customer_Name,'" & add1 & "' as Cust_Add1,'" & add2 & "' as Cust_Add2,'" & add3 & "' as Cust_Add3,'" & PIN_Code & "' as Cust_PINCode,'" & Phone1 & "' as Cust_Phone1,'" & Phone2 & "' as Cust_Phone2,'" & GSTNO & "' as GSTNO, "
+        Else
+            Qry += " max(Customer_Name)Customer_Name,max(Cust_Add1)Cust_Add1,max(Cust_Add2)Cust_Add2,max(Cust_Add3)Cust_Add3,max(Cust_PINCode)Cust_PINCode,max(Cust_Phone1)Cust_Phone1,max(Cust_Phone2)Cust_Phone2,max(GSTNO)GSTNO, "
+        End If
 
- max(Comp_Name)Comp_Name	
+        Qry += "  max(Comp_Name)Comp_Name	
  ,max(Comp_Add1)Comp_Add1,max(Comp_City)Comp_City,max(Comp_State)Comp_State,max(Comp_GSTReg_No)Comp_GSTReg_No,max(Comp_PanNo)Comp_PanNo,max(Comp_Email)Comp_Email,
  max(Comp_Pincode)Comp_Pincode,max(Comp_Phone1)Comp_Phone1,max(State_Code)State_Code,max(STATE_NAME)STATE_NAME,max(Route_No)Route_No,max(GP.supply_date)supply_date,
  max(sublocation)sublocation,max(Comp_Code1)Comp_Code1,max(Is_Ambient)Is_Ambient,max(Is_FreshItem)Is_FreshItem,max(COL1)COL1,max(COL2)COL2,max(CopyType1)CopyType1,
