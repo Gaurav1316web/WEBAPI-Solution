@@ -23187,7 +23187,7 @@ END"
             coll.Add("Analysis_Time", "datetime not NULL")
             coll.Add("Product_Code", "Varchar(30) NULL")
             coll.Add("Product_Name", "Varchar(100) NULL")
-            coll.Add("Sample_Number", "Varchar(30) NULL")
+            coll.Add("Sample_Number", "Varchar(50) NULL")
             coll.Add("Sample_Type", "Varchar(30) NULL")
             coll.Add("Sample_Comment", "Varchar(100) NULL")
             coll.Add("Instrument_Name", "Varchar(100) NULL")
@@ -23208,6 +23208,8 @@ END"
             coll.Add("Fiber_DM", "Decimal(18,2) null")
             coll.Add("Ref_Fiber_DM", "Decimal(18,2) null")
             coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Vehicle_No", "Varchar(30) NULL")
+            coll.Add("Avg_Sample", "Varchar(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC_FOSS", coll, Nothing, False, False, "", "PK_Id", "Analysis_Time")
 
 

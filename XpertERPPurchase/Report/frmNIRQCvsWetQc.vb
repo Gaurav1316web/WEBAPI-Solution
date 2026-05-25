@@ -87,13 +87,15 @@ max(xxx.Vendor_Code)Vendor_Code,max(xxx.Vendor_Name)Vendor_Name,max(xxx.Bill_To_
              FROM ( SELECT * FROM ( SELECT TSPL_GRN_HEAD.VehicleNo,TSPL_GRN_DETAIL.Item_Desc ,TSPL_QC_CHECK_SRN_DETAIL.document_code,TSPL_NIR_QC.Document_No,convert(Varchar,TSPL_NIR_QC.Document_Date,103)Document_Date ,
              TSPL_SRN_HEAD.SRN_NO,convert(Varchar,TSPL_SRN_HEAD.SRN_DATE,103) AS SRN_DATE ,TSPL_MRN_HEAD.MRN_NO , convert(Varchar,TSPL_MRN_HEAD.mrn_date,103) AS mrn_date,
              TSPL_MRN_HEAD.Against_GRN as Against_GRN,convert(date,tspl_grn_head.GRN_DATE,103) as GRN_DATE,TSPL_MRN_HEAD.Vendor_Code as Vendor_Code,
-             TSPL_MRN_HEAD.Vendor_Name as Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location as Bill_To_Location,TSPL_QC_CHECK_SRN_DETAIL.ITEM_CODE,
+             TSPL_MRN_HEAD.Vendor_Name as Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location as Bill_To_Location,TSPL_MRN_detail.ITEM_CODE,
              TSPL_NIR_QC_FOSS.Moisture AS Moistures, TSPL_NIR_QC_FOSS.Silica_DM as Silica_DM,TSPL_NIR_QC_FOSS.Fat_DM AS Fat_DM,
              TSPL_NIR_QC_FOSS.Protein_DM AS Protein_DM,TSPL_NIR_QC_FOSS.Fiber_DM AS Fiber_DM, TSPL_QC_LOG_SHEET_MASTER.NIRQC_Para_type,
              TSPL_QC_CHECK_SRN_DETAIL.InputData,QC_Param_Code,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.ADD2,TSPL_LOCATION_MASTER.City_Code
     FROM TSPL_NIR_QC
     LEFT JOIN TSPL_NIR_QC_FOSS  ON TSPL_NIR_QC_FOSS.PK_Id = TSPL_NIR_QC.Against_Foss_PK_ID
     LEFT JOIN TSPL_MRN_HEAD  ON TSPL_MRN_HEAD.mrn_no = TSPL_NIR_QC.MRN_No
+	    LEFT JOIN TSPL_MRN_detail  ON TSPL_MRN_detail.mrn_no = TSPL_MRN_HEAD.MRN_No
+
     LEFT JOIN TSPL_QC_CHECK_SRN_DETAIL  ON TSPL_QC_CHECK_SRN_DETAIL.MRN_NO = TSPL_MRN_HEAD.MRN_NO
     LEFT JOIN tspl_grn_head  ON tspl_grn_head.Grn_no = TSPL_MRN_HEAD.Against_GRN
 	LEFT JOIN TSPL_GRN_DETAIL ON TSPL_GRN_DETAIL.Grn_no = tspl_grn_head.GRN_No
@@ -122,7 +124,7 @@ WHERE 2=2
                 QRY += "   and Against_Foss_PK_ID is not null "
             End If
             QRY += " ) AS SourceTable
-            PIVOT (MAX(InputData) FOR NIRQC_Para_type IN ( [Moisture],[Silica],[Fat],[Protein],[Fiber] )) AS PivotTable )XXX GROUP BY  xxx.Document_No"
+            PIVOT (MAX(InputData) FOR NIRQC_Para_type IN ( [Moisture],[Silica],[Fat],[Protein],[Fiber] )) AS PivotTable )XXX GROUP BY  xxx.Document_No order by GRN_DATE"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(QRY)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gv1.DataSource = dt
