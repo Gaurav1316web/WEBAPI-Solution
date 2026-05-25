@@ -124,7 +124,7 @@ WHERE 2=2
                 QRY += "   and Against_Foss_PK_ID is not null "
             End If
             QRY += " ) AS SourceTable
-            PIVOT (MAX(InputData) FOR NIRQC_Para_type IN ( [Moisture],[Silica],[Fat],[Protein],[Fiber] )) AS PivotTable )XXX GROUP BY  xxx.Document_No order by Document_Date"
+            PIVOT (MAX(InputData) FOR NIRQC_Para_type IN ( [Moisture],[Silica],[Fat],[Protein],[Fiber] )) AS PivotTable )XXX GROUP BY  xxx.Document_No order by GRN_DATE"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(QRY)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gv1.DataSource = dt
