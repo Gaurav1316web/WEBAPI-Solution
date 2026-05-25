@@ -8291,10 +8291,21 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
 
                 End If
                 Dim BoothCode As String = ""
-                If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") <> CompairStringResult.Equal Then
+                If clsCommon.myLen(txtDocNo.Value) > 0 Then
                     SaveData(False, trans)
+                    'Dim PDocCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code='" & txtDocNo.Value & "'", trans))
+                    'If clsCommon.CompairString(PDocCode, txtDocNo.Value) = CompairStringResult.Equal Then
+                    '    SaveData(False, trans)
+                    '    Dim strQry As String = "select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & PDocCode & "'  and Document_Code not in('" & PDocCode & "') order by Document_Code"
+                    '    Dim dtP As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+                    '    If dtP IsNot Nothing AndAlso dtP.Rows.Count > 0 Then
+                    '        For Each dr As DataRow In dtP.Rows
+                    '            LoadData()
+                    '        Next
+                    '    End If
+                    'End If
                 Else
-                    txtTransNo.Text = txtVendorNo.Value
+                        txtTransNo.Text = txtVendorNo.Value
                     If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
                         SaveData(False, trans)
                     End If
