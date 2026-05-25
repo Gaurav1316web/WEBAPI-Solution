@@ -976,11 +976,17 @@ Public Class FrmPrintFreshInvoice
  ,--Sum(Final.GrandTotalCrates)GrandTotalCrates,max(cast(Logo_Img as varbinary(max))) As Logo_Img, max(cast(Logo_Img2 as varbinary(max))) As Logo_Img2,
  Max(Final.Comp_Code)Comp_Code,Max(Final.Comp_Name)Comp_Name,Max(Final.comp_add1)comp_add1,Max(Final.comp_Fax)comp_Fax,Max(Final.comp_Email)comp_Email,Max(Final.comp_tinNo)comp_tinNo,Max(Final.cust_Code)cust_Code,Max(Final.Customer_Name)Customer_Name,Max(Final.cust_add1)cust_add1,Max(Final.cust_add2)cust_add2
  ,Max(Final.cust_add3)cust_add3,Max(Final.CustPhone)CustPhone,Max(Final.cust_fax)cust_fax,Max(Final.Cust_state)Cust_state,Max(Final.cust_Statename)cust_Statename,Max(Final.cust_Email)cust_Email,Max(Final.cust_website)cust_website,Max(Final.Customer_Pan)Customer_Pan,Max(Final.Ack_No)Ack_No,Max(Final.Ack_Date)Ack_Date,Max(Final.TaxableNonTaxable)TaxableNonTaxable,
+ max(TAX2)TAX2,max(TaxType2)TaxType2,sum(TAX2Amt)TAX2_Amt,max(TAX2_Rate)TAX2_Rate,
+ max(TAX3)TAX3,max(TaxType3)TaxType3,sum(TAX3Amt)TAX3_Amt,max(TAX3_Rate)TAX3_Rate,
+ max(TAX4)TAX4,max(TaxType4)TaxType4,sum(TAX4Amt)TAX4_Amt,max(TAX4_Rate)TAX4_Rate,
+ max(TAX5)TAX5,max(TaxType5)TaxType5,sum(TAX5_Amt)TAX5_Amt,
+ max(TAX6)TAX6,max(TaxType6)TaxType6,sum(TAX6_Amt)TAX6_Amt,
+ max(TAX1)TAX1,max(TaxType1)TaxType1,sum(TAX1Amt)TAX1_Amt,max(TAX1_Rate)TAX1_Rate,
 
  
 Max(Final.Route_No)Route_No,Max(Final.Route_Desc)Route_Desc,Sum(Final.Distributor_Commission_TotalAmt)Distributor_Commission_TotalAmt,
 Sum(Final.Transporter_Commission_TotalAmt)Transporter_Commission_TotalAmt,Max(Final.Transport_Id)Transport_Id,Max(Final.Transporter_Name)Transporter_Name,Max(Final.Against_Delivery_Code)Against_Delivery_Code,Max(Final.batchNO)batchNO,Max(Final.Batchqty)Batchqty,Max(Final.Credit_Customer)Credit_Customer,Max(Final.Ship_To_Code)Ship_To_Code,Max(Final.Ship_To_Desc)Ship_To_Desc,
-Max(Final.Ship_Address)Ship_Address,Max(Final.Ship_State)Ship_State,Max(Final.Ship_Pin_Code)Ship_Pin_Code,Max(Final.Ship_PAN)Ship_PAN,Max(Final.Ship_GSTNO)Ship_GSTNO,Max(Final.Booth_Security_Amt)Booth_Security_Amt,Max(Final.Billing_Unit_code)Billing_Unit_code,Sum(Final.Billing_Qty)Billing_Qty,Max(Final.BulkCF)BulkCF,Max(Final.Total_Basic_Amt)Total_Basic_Amt,
+Max(ISNULL(Final.Ship_Address,'')) AS Ship_Address,max(Ship_City)Ship_City,Max(Final.Ship_State)Ship_State,Max(Final.Ship_Pin_Code)Ship_Pin_Code,Max(Final.Ship_PAN)Ship_PAN,Max(Final.Ship_GSTNO)Ship_GSTNO,Max(Final.Booth_Security_Amt)Booth_Security_Amt,Max(Final.Billing_Unit_code)Billing_Unit_code,Sum(Final.Billing_Qty)Billing_Qty,Max(Final.BulkCF)BulkCF,Max(Final.Total_Basic_Amt)Total_Basic_Amt,
 Sum(Final.Total_Tax_Amt)Total_Tax_Amt,Max(Final.ActualRate)ActualRate,Sum(Final.Item_Net_Amt)Item_Net_Amt,Max(Final.Particulars)Particulars,
 Max(Final.CopyType)CopyType,Max(Final.UserName)UserName,Max(Final.SellerGST)SellerGST,Max(Final.Pan_No)Pan_No,Max(Final.Bank_Name)Bank_Name,Max(Final.BankAccountNo)BankAccountNo,Max(Final.BankBranchAddress)BankBranchAddress,Max(Final.BankIFSCCode)BankIFSCCode,Max(Final.Tcan_No)Tcan_No,Max(Final.RateLtr)RateLtr
  
