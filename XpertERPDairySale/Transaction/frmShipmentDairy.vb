@@ -8305,7 +8305,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     '    End If
                     'End If
                 Else
-                        txtTransNo.Text = txtVendorNo.Value
+                    txtTransNo.Text = txtVendorNo.Value
                     If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
                         SaveData(False, trans)
                     End If
@@ -8567,7 +8567,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     'If DeductTPTFromDocAmt Then
                     qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt=0,Gross_Amount=Total_Amt where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')"
-                        clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     'Else
                     '    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt=0 where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')"
                     '    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
@@ -8579,13 +8579,13 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     'If DeductTPTFromDocAmt Then
                     qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0,Gross_Amount=Total_Amt where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
-                        clsDBFuncationality.ExecuteNonQuery(qry1, trans)
-                        'Else
-                        '    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
-                        '    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
-                        'End If
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    'Else
+                    '    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
+                    '    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    'End If
 
-                        qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
+                    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     'qry1 = "update TSPL_SD_SALE_INVOICE_DETAIL set Transporter_Commission_Amt=0 where DOCUMENT_CODE in(select DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')))"
                     'clsDBFuncationality.ExecuteNonQuery(qry1, trans)
