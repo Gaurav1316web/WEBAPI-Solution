@@ -7,6 +7,8 @@ Imports XpertERPHRandPayroll
 Public Class frmVSP_VLCMaster
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim ClickCount As Integer = 0
+
     Dim userCode, companyCode As String
     Dim str As String
     Dim OneTimeCheck As Boolean = False
@@ -45,6 +47,9 @@ Public Class frmVSP_VLCMaster
 
 #Region "Page Load"
     Private Sub frmVSP_VLCMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        LoadIntegratedStatus()
+        cmbIntegrated.Enabled = False
+
         arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
         UserPrefix = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PrefixForUserMaster, clsFixedParameterCode.PrefixForUserMaster, Nothing))
         AllowVSPMasterAutoPrefix = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowVSPMasterAutoPrefix, clsFixedParameterCode.AllowVSPMasterAutoPrefix, Nothing))
@@ -66,7 +71,7 @@ Public Class frmVSP_VLCMaster
         LoadAccountType()
         ' If EnableBankFromMaster Then
         txtbankcodedes.Visible = True
-            txtbankcodedes2.Visible = True
+        txtbankcodedes2.Visible = True
         'Else
         '    txtbankcodedes.Visible = False
         '    txtbankcodedes2.Visible = False
@@ -665,6 +670,22 @@ Public Class frmVSP_VLCMaster
                 lblGrampanchayat.Text = clsGrampanchayatMaster.GetName(clsCommon.myCstr(myDr("GRAMPANCHAYAT_CODE")))
                 txtRevenueVillage.Value = clsCommon.myCstr(myDr("REVENUE_VILLAGE_CODE"))
                 lblRevenueVillage.Text = clsRevenueVillageMaster.GetName(clsCommon.myCstr(myDr("REVENUE_VILLAGE_CODE")))
+                'cmbIntegrated.SelectedValue = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select REIL_Integrated from TSPL_VLC_MASTER_HEAD where VSP_Code = '" + clsCommon.myCstr(fndvendorNo.Value) + "' "))
+                Dim integratedValue As String = clsCommon.myCstr(
+    clsDBFuncationality.getSingleValue(
+        "select REIL_Integrated from TSPL_VLC_MASTER_HEAD where VSP_Code = '" + clsCommon.myCstr(fndvendorNo.Value) + "' "
+    )
+)
+
+                If integratedValue = "0" Then
+                    cmbIntegrated.Text = "NONE"
+
+                ElseIf integratedValue = "1" Then
+                    cmbIntegrated.Text = "REIL"
+
+                ElseIf integratedValue = "2" Then
+                    cmbIntegrated.Text = "KTPL"
+                End If
                 '================================================== ,  ,  , 
                 UcAttachment1.LoadData(fndvendorNo.Value)
             Next
@@ -690,6 +711,39 @@ Public Class frmVSP_VLCMaster
             'trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Sub LoadIntegratedStatus()
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = Nothing
+
+        'dr = dt.NewRow()
+        'dr("Code") = ""
+        'dr("Name") = "Select"
+        'dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = 0
+        dr("Name") = "None"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = 1
+        dr("Name") = "REIL"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = 2
+        dr("Name") = "KTPL"
+        dt.Rows.Add(dr)
+
+
+
+        cmbIntegrated.DataSource = dt
+        cmbIntegrated.ValueMember = "Code"
+        cmbIntegrated.DisplayMember = "Name"
     End Sub
     'For inserting the data in the database
     Public Sub funinsert()
@@ -995,7 +1049,17 @@ Public Class frmVSP_VLCMaster
             If objCommonVar.ApplyDefaultsInMaster = True Then
                 CreateDefaultMasters(trans)
             End If
+            'Dim INTEGRATES_ID As String = Nothing
+
+            'If cmbIntegrated.SelectedIndex = "NONE" Then
+            '    INTEGRATES_ID = 0
+            'ElseIf cmbIntegrated.SelectedIndex = "REIL" Then
+            '    INTEGRATES_ID = 1
+            'ElseIf cmbIntegrated.SelectedIndex = "KTPL" Then
+            '    INTEGRATES_ID = 2
+            'End If
             'VLC
+
             If clsCommon.myLen(txtvlcname.Text) > 0 Then
                 VLCSaveData(True, trans)
                 If objCommonVar.ApplyDefaultsInMaster = True Then
@@ -1205,7 +1269,9 @@ Public Class frmVSP_VLCMaster
             obj.IsSuspense = chkSuspense.Checked
             obj.Loyalty_Rate = txtLoyaltyPer.Value
             obj.Shift_Cow_Limit = txtShiftCowLimit.Value
-            obj.REIL_Integrated = chkIntegrated.Checked
+            'obj.REIL_Integrated = chkIntegrated.Checked
+            obj.REIL_Integrated = clsCommon.myCdbl(cmbIntegrated.SelectedValue)
+
             If chkOwnBMC.Checked Then
                 obj.TFOwnBMC = True
                 obj.OwnBMCDate = txtOwnBMCDate.Value
@@ -1237,6 +1303,37 @@ Public Class frmVSP_VLCMaster
                 chkIntMilkCollection.Checked = obj.Integrate_Milk_Collection
                 txtVLCCodeVlcUploader.Text = clsCommon.myCstr(obj.VLC_CODE_VLC_UPLOADER)
                 txtvlcname.Text = obj.vlcName
+                cmbIntegrated.SelectedValue = obj.REIL_Integrated
+
+                'If clsCommon.myCdbl(obj.REIL_Integrated) = 0 Then
+                '    cmbIntegrated.SelectedValue = "None"
+
+                'ElseIf clsCommon.myCdbl(obj.REIL_Integrated) = 1 Then
+                '    cmbIntegrated.SelectedValue = "REIL"
+
+                'ElseIf clsCommon.myCdbl(obj.REIL_Integrated) = 2 Then
+                '    cmbIntegrated.SelectedValue = "KTPL"
+                'End If
+                'cmbIntegrated.SelectedValue = clsCommon.myCdbl(obj.REIL_Integrated)
+
+                '                Dim integratedValue As String = clsCommon.myCstr(
+                '    clsDBFuncationality.getSingleValue(
+                '        "select REIL_Integrated from TSPL_VLC_MASTER_HEAD where VSP_Code = '" + clsCommon.myCstr(fndvendorNo.Value) + "' "
+                '    )
+                ')
+                '                cmbIntegrated.SelectedValue =
+
+                '                If integratedValue = "0" Then
+                '                    cmbIntegrated.SEL = "NONE"
+
+                '                ElseIf integratedValue = "1" Then
+                '                    cmbIntegrated.Text = "REIL"
+
+                '                ElseIf integratedValue = "2" Then
+                '                    cmbIntegrated.Text = "KTPL"
+                '                End If
+                cmbIntegrated.Enabled = False
+
                 'txtvehicalname.Text = obj.vehical
                 txtvspcode.Value = obj.vspCode
                 If obj.Apply_Cow_Price = True Then
@@ -1795,6 +1892,23 @@ Public Class frmVSP_VLCMaster
                     HeadLoadBasis = "L"
                 End If
             End If
+            'Dim INTEGRATES_ID As String = Nothing
+            ''If cmbIntegrated.SelectedIndex = 0 Then
+            ''    INTEGRATES = "NONE"
+            ''ElseIf cmbIntegrated.SelectedIndex = 1 Then
+            ''    INTEGRATES = "REIL"
+            ''ElseIf cmbIntegrated.SelectedIndex = 2 Then
+            ''    INTEGRATES = "KTPL"
+            ''End If
+            'If cmbIntegrated.SelectedIndex = "NONE" Then
+            '    INTEGRATES_ID = 0
+            'ElseIf cmbIntegrated.SelectedIndex = "REIL" Then
+            '    INTEGRATES_ID = 1
+            'ElseIf cmbIntegrated.SelectedIndex = "KTPL" Then
+            '    INTEGRATES_ID = 2
+            'End If
+
+
             'Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "T", "F") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
             'clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
             'VLC 
@@ -2665,6 +2779,7 @@ Public Class frmVSP_VLCMaster
 
     'this function will reset all the fields for new entry
     Public Sub funreset()
+
         UcAttachment1.Form_ID = clsUserMgtCode.frmVSPMaster
         UcAttachment1.BlankAllControls()
         chk_isblacklist.Checked = False
@@ -2832,6 +2947,9 @@ Public Class frmVSP_VLCMaster
         funSetDefaultData()
         'VLC
         VLC_reset()
+        cmbIntegrated.SelectedValue = 0
+        cmbIntegrated.Enabled = True
+
     End Sub
 
     Private Sub VLC_reset()
@@ -7355,6 +7473,44 @@ Public Class frmVSP_VLCMaster
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    'Private Sub lblIntegrated_DoubleClick(sender As Object, e As EventArgs) Handles lblIntegrated.DoubleClick
+    '    Try
+    '        Dim frm As New FrmPWD(Nothing)
+    '        frm.strType = clsFixedParameterType.Transactionupdate
+    '        frm.strCode = clsFixedParameterCode.VendorIntegratedMaster
+    '        frm.ShowDialog()
+    '        If frm.isPasswordCorrect Then
+    '            cmbIntegrated.Enabled = True
+    '            'ShowRemarks()
+    '            'OneTimeCheck = True
+    '        End If
+    '    Catch ex As Exception
+
+    '    End Try
+    'End Sub
+
+    Private Sub lblIntegrated_Click(sender As Object, e As EventArgs) Handles lblIntegrated.Click
+
+        ClickCount += 1
+
+        If ClickCount = 3 Then
+
+            ClickCount = 0
+
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.Transactionupdate
+            frm.strCode = clsFixedParameterCode.VendorIntegratedMaster
+            frm.ShowDialog()
+
+            If frm.isPasswordCorrect Then
+                cmbIntegrated.Enabled = True
+                'ShowRemarks()
+                'OneTimeCheck = True
+            End If
+
+        End If
     End Sub
 
 

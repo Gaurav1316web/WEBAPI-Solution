@@ -23,17 +23,20 @@ Partial Class frmVSP_VLCMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadPrintWatermark3 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadPrintWatermark2 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
         Me.btnclear = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
@@ -51,6 +54,9 @@ Partial Class frmVSP_VLCMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblIntegrated = New common.Controls.MyLabel()
+        Me.cmbIntegrated = New common.Controls.MyComboBox()
+        Me.MyLabel29 = New common.Controls.MyLabel()
         Me.chkIntMilkCollection = New common.Controls.MyCheckBox()
         Me.chkIntegrated = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel59 = New common.Controls.MyLabel()
@@ -96,7 +102,6 @@ Partial Class frmVSP_VLCMaster
         Me.lblMCCOwnBMC = New common.Controls.MyLabel()
         Me.lblOwnMCC = New common.Controls.MyLabel()
         Me.txtMCCOwnBMC = New common.UserControls.txtFinder()
-        Me.MyLabel29 = New common.Controls.MyLabel()
         Me.cmbGender = New common.Controls.MyComboBox()
         Me.MyLabel27 = New common.Controls.MyLabel()
         Me.ddlGender = New common.Controls.MyComboBox()
@@ -330,6 +335,9 @@ Partial Class frmVSP_VLCMaster
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblIntegrated, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbIntegrated, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIntMilkCollection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIntegrated, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -368,7 +376,6 @@ Partial Class frmVSP_VLCMaster
         CType(Me.lblRegistrationNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCCOwnBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblOwnMCC, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbGender, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlGender, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -707,6 +714,8 @@ Partial Class frmVSP_VLCMaster
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblIntegrated)
+        Me.RadPageViewPage1.Controls.Add(Me.cmbIntegrated)
         Me.RadPageViewPage1.Controls.Add(Me.chkIntMilkCollection)
         Me.RadPageViewPage1.Controls.Add(Me.chkIntegrated)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel59)
@@ -759,6 +768,59 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1057, 398)
         Me.RadPageViewPage1.Text = "Secretary Address"
+        '
+        'lblIntegrated
+        '
+        Me.lblIntegrated.FieldName = Nothing
+        Me.lblIntegrated.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIntegrated.Location = New System.Drawing.Point(12, 282)
+        Me.lblIntegrated.Name = "lblIntegrated"
+        Me.lblIntegrated.Size = New System.Drawing.Size(117, 16)
+        Me.lblIntegrated.TabIndex = 1463
+        Me.lblIntegrated.Text = "Third party Integration"
+        '
+        'cmbIntegrated
+        '
+        Me.cmbIntegrated.AutoCompleteDisplayMember = Nothing
+        Me.cmbIntegrated.AutoCompleteValueMember = Nothing
+        Me.cmbIntegrated.CalculationExpression = Nothing
+        Me.cmbIntegrated.DropDownAnimationEnabled = True
+        Me.cmbIntegrated.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbIntegrated.FieldCode = Nothing
+        Me.cmbIntegrated.FieldDesc = Nothing
+        Me.cmbIntegrated.FieldMaxLength = 0
+        Me.cmbIntegrated.FieldName = Nothing
+        Me.cmbIntegrated.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbIntegrated.isCalculatedField = False
+        Me.cmbIntegrated.IsSourceFromTable = False
+        Me.cmbIntegrated.IsSourceFromValueList = False
+        Me.cmbIntegrated.IsUnique = False
+        RadListDataItem12.Text = "None"
+        RadListDataItem13.Text = "REIL"
+        RadListDataItem14.Text = "KTPL"
+        Me.cmbIntegrated.Items.Add(RadListDataItem12)
+        Me.cmbIntegrated.Items.Add(RadListDataItem13)
+        Me.cmbIntegrated.Items.Add(RadListDataItem14)
+        Me.cmbIntegrated.Location = New System.Drawing.Point(177, 280)
+        Me.cmbIntegrated.MendatroryField = True
+        Me.cmbIntegrated.MyLinkLable1 = Me.MyLabel29
+        Me.cmbIntegrated.MyLinkLable2 = Nothing
+        Me.cmbIntegrated.Name = "cmbIntegrated"
+        Me.cmbIntegrated.ReferenceFieldDesc = Nothing
+        Me.cmbIntegrated.ReferenceFieldName = Nothing
+        Me.cmbIntegrated.ReferenceTableName = Nothing
+        Me.cmbIntegrated.Size = New System.Drawing.Size(124, 18)
+        Me.cmbIntegrated.TabIndex = 1462
+        '
+        'MyLabel29
+        '
+        Me.MyLabel29.FieldName = Nothing
+        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel29.Location = New System.Drawing.Point(12, 134)
+        Me.MyLabel29.Name = "MyLabel29"
+        Me.MyLabel29.Size = New System.Drawing.Size(44, 16)
+        Me.MyLabel29.TabIndex = 349
+        Me.MyLabel29.Text = "Gender"
         '
         'chkIntMilkCollection
         '
@@ -1028,14 +1090,14 @@ Partial Class frmVSP_VLCMaster
         Me.CmbHeadLoadServiceBasis.IsSourceFromTable = False
         Me.CmbHeadLoadServiceBasis.IsSourceFromValueList = False
         Me.CmbHeadLoadServiceBasis.IsUnique = False
-        RadListDataItem5.Text = "Select"
-        RadListDataItem6.Text = "%(Percentage)"
-        RadListDataItem7.Text = "Rate/Kg"
-        RadListDataItem8.Text = "Rate/Ltr"
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem5)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem6)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem7)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "%(Percentage)"
+        RadListDataItem3.Text = "Rate/Kg"
+        RadListDataItem15.Text = "Rate/Ltr"
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem1)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem2)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem3)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem15)
         Me.CmbHeadLoadServiceBasis.Location = New System.Drawing.Point(588, 230)
         Me.CmbHeadLoadServiceBasis.MendatroryField = True
         Me.CmbHeadLoadServiceBasis.MyLinkLable1 = Me.MyLabel54
@@ -1473,16 +1535,6 @@ Partial Class frmVSP_VLCMaster
         Me.txtMCCOwnBMC.TabIndex = 1453
         Me.txtMCCOwnBMC.Value = ""
         '
-        'MyLabel29
-        '
-        Me.MyLabel29.FieldName = Nothing
-        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel29.Location = New System.Drawing.Point(12, 134)
-        Me.MyLabel29.Name = "MyLabel29"
-        Me.MyLabel29.Size = New System.Drawing.Size(44, 16)
-        Me.MyLabel29.TabIndex = 349
-        Me.MyLabel29.Text = "Gender"
-        '
         'cmbGender
         '
         Me.cmbGender.AutoCompleteDisplayMember = Nothing
@@ -1499,10 +1551,10 @@ Partial Class frmVSP_VLCMaster
         Me.cmbGender.IsSourceFromTable = False
         Me.cmbGender.IsSourceFromValueList = False
         Me.cmbGender.IsUnique = False
-        RadListDataItem9.Text = "Male"
-        RadListDataItem10.Text = "Female"
-        Me.cmbGender.Items.Add(RadListDataItem9)
-        Me.cmbGender.Items.Add(RadListDataItem10)
+        RadListDataItem4.Text = "Male"
+        RadListDataItem5.Text = "Female"
+        Me.cmbGender.Items.Add(RadListDataItem4)
+        Me.cmbGender.Items.Add(RadListDataItem5)
         Me.cmbGender.Location = New System.Drawing.Point(178, 134)
         Me.cmbGender.MendatroryField = True
         Me.cmbGender.MyLinkLable1 = Me.MyLabel29
@@ -1541,10 +1593,10 @@ Partial Class frmVSP_VLCMaster
         Me.ddlGender.IsSourceFromTable = False
         Me.ddlGender.IsSourceFromValueList = False
         Me.ddlGender.IsUnique = False
-        RadListDataItem1.Text = "Male"
-        RadListDataItem2.Text = "Female"
-        Me.ddlGender.Items.Add(RadListDataItem1)
-        Me.ddlGender.Items.Add(RadListDataItem2)
+        RadListDataItem6.Text = "Male"
+        RadListDataItem7.Text = "Female"
+        Me.ddlGender.Items.Add(RadListDataItem6)
+        Me.ddlGender.Items.Add(RadListDataItem7)
         Me.ddlGender.Location = New System.Drawing.Point(747, 463)
         Me.ddlGender.MendatroryField = True
         Me.ddlGender.MyLinkLable1 = Me.MyLabel27
@@ -5273,7 +5325,7 @@ Partial Class frmVSP_VLCMaster
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportAPI = False
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
@@ -5398,7 +5450,7 @@ Partial Class frmVSP_VLCMaster
         Me.ClsMyPrintDocument1.LeftMiddleText = Nothing
         Me.ClsMyPrintDocument1.LeftUpperFont = Nothing
         Me.ClsMyPrintDocument1.LeftUpperText = Nothing
-        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark3
+        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark2
         '
         'RadMenu1
         '
@@ -5432,6 +5484,9 @@ Partial Class frmVSP_VLCMaster
         Me.pageCus.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblIntegrated, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbIntegrated, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIntMilkCollection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIntegrated, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5471,7 +5526,6 @@ Partial Class frmVSP_VLCMaster
         CType(Me.lblRegistrationNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCCOwnBMC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblOwnMCC, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbGender, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlGender, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5984,5 +6038,7 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents ImportPayeeName As RadMenuItem
     Friend WithEvents MyLabel60 As common.Controls.MyLabel
     Friend WithEvents txtPayeeNameSaving As common.Controls.MyTextBox
+    Friend WithEvents lblIntegrated As common.Controls.MyLabel
+    Friend WithEvents cmbIntegrated As common.Controls.MyComboBox
 End Class
 
