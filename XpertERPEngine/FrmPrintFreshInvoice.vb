@@ -1041,7 +1041,7 @@ TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEAD
                 Qry += " from( Select "
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
-                Qry += "  Access_Officer,CINNo, "
+                Qry += "  CINNo, "
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 Qry += " TSPL_SD_SALE_INVOICE_detail.item_cost,  "
