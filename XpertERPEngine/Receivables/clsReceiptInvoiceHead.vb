@@ -27,10 +27,17 @@ Public Class clsReceiptInvoiceHead
 
     Public Shared Function funARInvoicePrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal txtDate As DateTime, ByVal StrCode As String, ByVal IsEInvoiceApply As Integer, ByVal SettingCostCenterlevel As Boolean) As Boolean
         Dim TSPL_Customer_Invoice_Head As String = Nothing
+        Dim TSPL_JOURNAL_DETAILS As String = Nothing
+        Dim TSPL_JOURNAL_MASTER As String = Nothing
         If isCancel Then
             TSPL_Customer_Invoice_Head = "TSPL_Customer_Invoice_Head_cancel_data"
+            TSPL_JOURNAL_DETAILS = "TSPL_JOURNAL_DETAILS_cancel_data"
+            TSPL_JOURNAL_MASTER = "TSPL_JOURNAL_MASTER_cancel_data"
         Else
             TSPL_Customer_Invoice_Head = "TSPL_Customer_Invoice_Head"
+            TSPL_JOURNAL_DETAILS = "TSPL_JOURNAL_DETAILS"
+            TSPL_JOURNAL_MASTER = "TSPL_JOURNAL_MASTER"
+
         End If
 
         Dim qry As String = "SELECT"
@@ -49,19 +56,19 @@ Public Class clsReceiptInvoiceHead
             "final.Modify_By ,final.Detail_Line_No ,final .Comp_Code,Description ,final.Cost_Centre_Code,final.Cost_Center_Fin_Name,final.Hirerachy_Code,final.HIRERACHY_Name,final.Hirerachy_Code3 ,final.Hirerachy_Code4,final.TapalNo,final.DateAndTime  from " &
             "(select isnull(" + TSPL_Customer_Invoice_Head + ".RefDocNo,'') as RefDocNo, " + TSPL_Customer_Invoice_Head + ".Loc_Code," &
             " TSPL_LOCATION_MASTER.Add1 + case When TSPL_LOCATION_MASTER.Add2='' Then '' else ', '+ Convert(Varchar(50),TSPL_LOCATION_MASTER.Add2, 103) End + Case When TSPL_LOCATION_MASTER.Add3='' Then '' Else ', '+ COnvert( Varchar,TSPL_LOCATION_MASTER.Add3,103) end + case When TSPL_LOCATION_MASTER.City_Code ='' then '' else ', '+ Convert(Varchar,TSPL_LOCATION_MASTER.City_Code, 103) end+ Case When TSPL_LOCATION_MASTER.State='' Then '' else ', '+Convert(Varchar, loc_state.STATE_NAME ) end +  Case When TSPL_LOCATION_MASTER.Pin_code='' Then '' Else ', '+ Convert(Varchar,TSPL_LOCATION_MASTER.Pin_code, 103)  end  as locAdd," &
-            " Location_Desc,TSPL_CUSTOMER_MASTER.Tin_No,TSPL_CUSTOMER_MASTER.PAN," + TSPL_Customer_Invoice_Head + ".Description,case  when TSPL_JOURNAL_DETAILS.Amount >=0 then TSPL_JOURNAL_DETAILS.Amount else 0 end as DrAmt ," &
-            " case  when TSPL_JOURNAL_DETAILS.Amount <0 then TSPL_JOURNAL_DETAILS.Amount*-1 else 0 end as CrAmt, " + TSPL_Customer_Invoice_Head + ".Document_No, Document_Date , case when " + TSPL_Customer_Invoice_Head + ".Status=1 then 'Authorized' else 'UnAuthorized' end as Status , " &
+            " Location_Desc,TSPL_CUSTOMER_MASTER.Tin_No,TSPL_CUSTOMER_MASTER.PAN," + TSPL_Customer_Invoice_Head + ".Description,case  when " + TSPL_JOURNAL_DETAILS + ".Amount >=0 then " + TSPL_JOURNAL_DETAILS + ".Amount else 0 end as DrAmt ," &
+            " case  when " + TSPL_JOURNAL_DETAILS + ".Amount <0 then " + TSPL_JOURNAL_DETAILS + ".Amount*-1 else 0 end as CrAmt, " + TSPL_Customer_Invoice_Head + ".Document_No, Document_Date , case when " + TSPL_Customer_Invoice_Head + ".Status=1 then 'Authorized' else 'UnAuthorized' end as Status , " &
             " case WHEN isnull(AgainstServiceInvoice,'')='Y' then 'Tax Invoice' when " + TSPL_Customer_Invoice_Head + ".Document_Type='I' then 'Invoice' else case when " + TSPL_Customer_Invoice_Head + ".Document_Type='D' then 'Debit Note' else case when " + TSPL_Customer_Invoice_Head + ".Document_Type='C' then 'Credit Note' else '' end end end as Document_Type," &
-            " Account_Set,Document_Total as DocAmt,  Customer_Code ," + TSPL_Customer_Invoice_Head + ".Customer_Name,tspl_user_master.User_Name as Created_By,user_master_modify.User_Name as Modify_By  , TSPL_JOURNAL_DETAILS.Detail_Line_No as Detail_Line_No ," &
-            " TSPL_JOURNAL_DETAILS.Account_code as Account_Code , TSPL_JOURNAL_DETAILS.Account_Desc as Account_Desc ,TSPL_JOURNAL_DETAILS.Amount , 0 as Discount ,TSPL_JOURNAL_DETAILS.Amount as Amount_less_Discount , 0 Total_Tax ,TSPL_JOURNAL_DETAILS.Amount as Total_Amount  ," &
-            " " + TSPL_Customer_Invoice_Head + ".Comp_Code ,TSPL_JOURNAL_DETAILS.Cost_Centre_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name,TSPL_JOURNAL_DETAILS.Hirerachy_Code,TSPL_HIRERACHY_LEVEL_MASTER.Description as HIRERACHY_Name,TSPL_JOURNAL_DETAILS.Hirerachy_Code3 ,TSPL_JOURNAL_DETAILS.Hirerachy_Code4," + TSPL_Customer_Invoice_Head + ".TapalNo," + TSPL_Customer_Invoice_Head + ".DateAndTime  from " + TSPL_Customer_Invoice_Head + " " &
-            " left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No = " + TSPL_Customer_Invoice_Head + ".Document_No left outer join TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Voucher_No = TSPL_JOURNAL_MASTER.Voucher_No   " &
+            " Account_Set,Document_Total as DocAmt,  Customer_Code ," + TSPL_Customer_Invoice_Head + ".Customer_Name,tspl_user_master.User_Name as Created_By,user_master_modify.User_Name as Modify_By  , " + TSPL_JOURNAL_DETAILS + ".Detail_Line_No as Detail_Line_No ," &
+            " " + TSPL_JOURNAL_DETAILS + ".Account_code as Account_Code , " + TSPL_JOURNAL_DETAILS + ".Account_Desc as Account_Desc ," + TSPL_JOURNAL_DETAILS + ".Amount , 0 as Discount ," + TSPL_JOURNAL_DETAILS + ".Amount as Amount_less_Discount , 0 Total_Tax ," + TSPL_JOURNAL_DETAILS + ".Amount as Total_Amount  ," &
+            " " + TSPL_Customer_Invoice_Head + ".Comp_Code ," + TSPL_JOURNAL_DETAILS + ".Cost_Centre_Code,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name," + TSPL_JOURNAL_DETAILS + ".Hirerachy_Code,TSPL_HIRERACHY_LEVEL_MASTER.Description as HIRERACHY_Name," + TSPL_JOURNAL_DETAILS + ".Hirerachy_Code3 ," + TSPL_JOURNAL_DETAILS + ".Hirerachy_Code4," + TSPL_Customer_Invoice_Head + ".TapalNo," + TSPL_Customer_Invoice_Head + ".DateAndTime  from " + TSPL_Customer_Invoice_Head + " " &
+            " left outer join " + TSPL_JOURNAL_MASTER + " on " + TSPL_JOURNAL_MASTER + ".Source_Doc_No = " + TSPL_Customer_Invoice_Head + ".Document_No left outer join " + TSPL_JOURNAL_DETAILS + " on " + TSPL_JOURNAL_DETAILS + ".Voucher_No = " + TSPL_JOURNAL_MASTER + ".Voucher_No   " &
             " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code= " + TSPL_Customer_Invoice_Head + ".Customer_Code  left outer join TSPL_LOCATION_MASTER on left(TSPL_LOCATION_MASTER.Location_Code,3)=" + TSPL_Customer_Invoice_Head + ".Loc_Code  " &
-            " left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code = TSPL_JOURNAL_DETAILS.Cost_Centre_Code  left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code = TSPL_JOURNAL_DETAILS.Hirerachy_Code  left outer join TSPL_STATE_MASTER as loc_state on loc_state.STATE_CODE =TSPL_LOCATION_MASTER.State  " &
+            " left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code = " + TSPL_JOURNAL_DETAILS + ".Cost_Centre_Code  left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code = " + TSPL_JOURNAL_DETAILS + ".Hirerachy_Code  left outer join TSPL_STATE_MASTER as loc_state on loc_state.STATE_CODE =TSPL_LOCATION_MASTER.State  " &
             " left outer join tspl_user_master on tspl_user_master.User_Code=" + TSPL_Customer_Invoice_Head + ".Created_By " &
             " left outer join tspl_user_master as user_master_modify on user_master_modify.User_Code=" + TSPL_Customer_Invoice_Head + ".Modify_By " &
             "where " + TSPL_Customer_Invoice_Head + ".Document_No ='" + StrCode + "' and Rejected_Type='N' )final   )XXX left outer join " &
-            "TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXX.Comp_Code  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = XXX.Customer_Code left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code = XXX.Loc_Code left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state  left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=XXX.Document_No  order by XXX.Detail_Line_No  "
+            "TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXX.Comp_Code  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = XXX.Customer_Code left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code = XXX.Loc_Code left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state  left outer join " + TSPL_Customer_Invoice_Head + " on " + TSPL_Customer_Invoice_Head + ".Document_No=XXX.Document_No  order by XXX.Detail_Line_No  "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()

@@ -309,7 +309,16 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
                   , TSPL_VENDOR_INVOICE_HEAD_Cancel_Data.Document_Total as [Document Amount]
                   ,TSPL_VENDOR_INVOICE_HEAD_Cancel_Data.Created_By as [Created By] 
                   , convert(varchar,TSPL_VENDOR_INVOICE_HEAD_Cancel_Data.Created_Date,103) as [Created Date], Description,TSPL_VENDOR_INVOICE_HEAD_Cancel_Data.Cancel_By as [Cancelled By],convert(varchar,TSPL_VENDOR_INVOICE_HEAD_Cancel_Data.Cancel_On,103) as [Cancelled Date] from TSPL_VENDOR_INVOICE_HEAD_Cancel_Data 
-            WHERE  "
+            WHERE (Against_POInvoice_No IS NULL OR Against_POInvoice_No = '')
+AND (Against_PurchaseReturn_No IS NULL OR Against_PurchaseReturn_No = '')
+AND (Against_Acquisition IS NULL OR Against_Acquisition = '')
+AND (Against_MillkPurchaseInvoice_No IS NULL OR Against_MillkPurchaseInvoice_No = '')
+AND (Against_BulkMillkPurchaseInvoice_No IS NULL OR Against_BulkMillkPurchaseInvoice_No = '')
+AND (Against_VSPItemIssue_No IS NULL OR Against_VSPItemIssue_No = '')
+AND (Against_MCC_Material_Sale IS NULL OR Against_MCC_Material_Sale = '')
+AND (Against_VSP_Asset_Issue IS NULL OR Against_VSP_Asset_Issue = '')
+AND (Against_MCC_Material_Sale_Return IS NULL OR Against_MCC_Material_Sale_Return = '')
+AND (Against_TransferToSavingPKID IS NULL OR Against_TransferToSavingPKID = '') and "
                 If rbtnCancelDate.IsChecked Then
                     qry += " convert(date,TSPL_VENDOR_INVOICE_HEAD_CANCEL_DATA.cancel_on ,103) >= convert(date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_VENDOR_INVOICE_HEAD_Cancel_Data.cancel_on,103) <= convert(date,'" + dtpToDate.Value + "',103) "
                 Else
@@ -341,7 +350,7 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
                   ", TSPL_Customer_Invoice_Head_Delete_DATA.Document_Total as [Document Amount] " &
                   ",TSPL_Customer_Invoice_Head_Delete_DATA.Created_By as [Created By] " &
                   ", convert(varchar,TSPL_Customer_Invoice_Head_Delete_DATA.Created_Date,103) as [Created Date], Description,TSPL_Customer_Invoice_Head_Delete_DATA.Delete_By as [Delete By],convert(varchar,TSPL_Customer_Invoice_Head_Delete_DATA.Delete_On,103) as [Delete Date] from TSPL_Customer_Invoice_Head_Delete_DATA " &
-                  " WHERE  "
+                  " WHERE    "
                 If rbtnCancelDate.IsChecked Then
                     qry += " convert(date,TSPL_Customer_Invoice_Head_Delete_Data.Delete_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_Customer_Invoice_Head_Delete_Data.Delete_On,103) <= convert(date,'" + dtpToDate.Value + "',103) "
                 Else
@@ -359,7 +368,19 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
                   ", TSPL_Customer_Invoice_Head_CANCEL_DATA.Document_Total as [Document Amount] " &
                   ",TSPL_Customer_Invoice_Head_CANCEL_DATA.Created_By as [Created By] " &
                   ", convert(varchar,TSPL_Customer_Invoice_Head_CANCEL_DATA.Created_Date,103) as [Created Date], Description,TSPL_Customer_Invoice_Head_CANCEL_DATA.Cancel_By as [Cancelled By],convert(varchar,TSPL_Customer_Invoice_Head_CANCEL_DATA.Cancel_On,103) as [Cancelled Date] from TSPL_Customer_Invoice_Head_CANCEL_DATA " &
-                  " WHERE  "
+                  " WHERE  (AgainstScrap IS NULL OR AgainstScrap = '')
+AND (AgainstScrapReturn IS NULL OR AgainstScrapReturn = '')
+AND (AgainstServiceInvoice IS NULL OR AgainstServiceInvoice = '')
+AND (Is_Against_Security_Receipt IS NULL OR Is_Against_Security_Receipt = '')
+
+AND (Against_Sale_No IS NULL OR Against_Sale_No = '')
+AND (Against_MCC_Material_Sale_Return IS NULL OR Against_MCC_Material_Sale_Return = '')
+AND (Against_VCGL IS NULL OR Against_VCGL = '')
+AND (Against_Service_Visit_Code IS NULL OR Against_Service_Visit_Code = '')
+AND (Against_Asset_Disposal IS NULL OR Against_Asset_Disposal = '')
+AND (Against_Security_Receipt_No IS NULL OR Against_Security_Receipt_No = '')
+AND (Against_Subsidy_No IS NULL OR Against_Subsidy_No = '')
+AND (Against_Sale_Return_No IS NULL OR Against_Sale_Return_No = '') and "
                 If rbtnCancelDate.IsChecked Then
                     qry += " convert(date,TSPL_Customer_Invoice_Head_CANCEL_DATA.cancel_on ,103) >= convert(date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_Customer_Invoice_Head_CANCEL_DATA.cancel_on,103) <= convert(date,'" + dtpToDate.Value + "',103) "
                 Else
