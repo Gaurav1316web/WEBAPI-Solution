@@ -23,11 +23,18 @@ Partial Class frmNIRQC
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.LBLitem3 = New common.Controls.MyLabel()
-        Me.LBLitem5 = New common.Controls.MyLabel()
-        Me.LBLitem2 = New common.Controls.MyLabel()
-        Me.LBLitem4 = New common.Controls.MyLabel()
-        Me.LBLitem1 = New common.Controls.MyLabel()
+        Me.txtAccept = New System.Windows.Forms.Label()
+        Me.chkManual = New Telerik.WinControls.UI.RadCheckBox()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.LBListFat = New common.Controls.MyLabel()
+        Me.LBListFiber = New common.Controls.MyLabel()
+        Me.LBListSilica = New common.Controls.MyLabel()
+        Me.LBListProtein = New common.Controls.MyLabel()
+        Me.LBListMoisture = New common.Controls.MyLabel()
         Me.lblSampleNO = New common.Controls.MyLabel()
         Me.txtSampleNo = New common.UserControls.txtFinder()
         Me.UsLock1 = New common.usLock()
@@ -71,19 +78,20 @@ Partial Class frmNIRQC
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.MyLabel8 = New common.Controls.MyLabel()
-        Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.MyLabel15 = New common.Controls.MyLabel()
-        Me.MyLabel16 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.LBLitem3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LBLitem5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LBLitem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LBLitem4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LBLitem1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkManual, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LBListFat, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LBListFiber, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LBListSilica, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LBListProtein, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LBListMoisture, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSampleNO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -123,11 +131,6 @@ Partial Class frmNIRQC
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -142,16 +145,18 @@ Partial Class frmNIRQC
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtAccept)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkManual)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel16)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel15)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel12)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel8)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel7)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.LBLitem3)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.LBLitem5)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.LBLitem2)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.LBLitem4)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.LBLitem1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.LBListFat)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.LBListFiber)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.LBListSilica)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.LBListProtein)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.LBListMoisture)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblSampleNO)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtSampleNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock1)
@@ -181,65 +186,139 @@ Partial Class frmNIRQC
         Me.SplitContainer1.SplitterDistance = 467
         Me.SplitContainer1.TabIndex = 0
         '
-        'LBLitem3
+        'txtAccept
         '
-        Me.LBLitem3.AutoSize = False
-        Me.LBLitem3.BorderVisible = True
-        Me.LBLitem3.FieldName = Nothing
-        Me.LBLitem3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLitem3.Location = New System.Drawing.Point(111, 403)
-        Me.LBLitem3.Name = "LBLitem3"
-        Me.LBLitem3.Size = New System.Drawing.Size(190, 18)
-        Me.LBLitem3.TabIndex = 21
-        Me.LBLitem3.TextWrap = False
+        Me.txtAccept.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtAccept.AutoSize = True
+        Me.txtAccept.BackColor = System.Drawing.Color.LightGreen
+        Me.txtAccept.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAccept.Location = New System.Drawing.Point(501, 35)
+        Me.txtAccept.MaximumSize = New System.Drawing.Size(107, 20)
+        Me.txtAccept.MinimumSize = New System.Drawing.Size(107, 20)
+        Me.txtAccept.Name = "txtAccept"
+        Me.txtAccept.Size = New System.Drawing.Size(107, 20)
+        Me.txtAccept.TabIndex = 1092
+        Me.txtAccept.Text = "Accepted"
+        Me.txtAccept.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'LBLitem5
+        'chkManual
         '
-        Me.LBLitem5.AutoSize = False
-        Me.LBLitem5.BorderVisible = True
-        Me.LBLitem5.FieldName = Nothing
-        Me.LBLitem5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLitem5.Location = New System.Drawing.Point(388, 379)
-        Me.LBLitem5.Name = "LBLitem5"
-        Me.LBLitem5.Size = New System.Drawing.Size(190, 18)
-        Me.LBLitem5.TabIndex = 20
-        Me.LBLitem5.TextWrap = False
+        Me.chkManual.Location = New System.Drawing.Point(376, 34)
+        Me.chkManual.Name = "chkManual"
+        Me.chkManual.Size = New System.Drawing.Size(57, 18)
+        Me.chkManual.TabIndex = 1091
+        Me.chkManual.Text = "Manual"
+        Me.chkManual.Visible = False
         '
-        'LBLitem2
+        'MyLabel16
         '
-        Me.LBLitem2.AutoSize = False
-        Me.LBLitem2.BorderVisible = True
-        Me.LBLitem2.FieldName = Nothing
-        Me.LBLitem2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLitem2.Location = New System.Drawing.Point(111, 379)
-        Me.LBLitem2.Name = "LBLitem2"
-        Me.LBLitem2.Size = New System.Drawing.Size(190, 18)
-        Me.LBLitem2.TabIndex = 19
-        Me.LBLitem2.TextWrap = False
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(325, 379)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(32, 16)
+        Me.MyLabel16.TabIndex = 26
+        Me.MyLabel16.Text = "Fiber"
         '
-        'LBLitem4
+        'MyLabel15
         '
-        Me.LBLitem4.AutoSize = False
-        Me.LBLitem4.BorderVisible = True
-        Me.LBLitem4.FieldName = Nothing
-        Me.LBLitem4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLitem4.Location = New System.Drawing.Point(388, 355)
-        Me.LBLitem4.Name = "LBLitem4"
-        Me.LBLitem4.Size = New System.Drawing.Size(190, 18)
-        Me.LBLitem4.TabIndex = 18
-        Me.LBLitem4.TextWrap = False
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(323, 357)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(42, 16)
+        Me.MyLabel15.TabIndex = 25
+        Me.MyLabel15.Text = "Protein"
         '
-        'LBLitem1
+        'MyLabel12
         '
-        Me.LBLitem1.AutoSize = False
-        Me.LBLitem1.BorderVisible = True
-        Me.LBLitem1.FieldName = Nothing
-        Me.LBLitem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LBLitem1.Location = New System.Drawing.Point(111, 355)
-        Me.LBLitem1.Name = "LBLitem1"
-        Me.LBLitem1.Size = New System.Drawing.Size(190, 18)
-        Me.LBLitem1.TabIndex = 17
-        Me.LBLitem1.TextWrap = False
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(15, 403)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(23, 16)
+        Me.MyLabel12.TabIndex = 24
+        Me.MyLabel12.Text = "Fat"
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(13, 381)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(33, 16)
+        Me.MyLabel8.TabIndex = 23
+        Me.MyLabel8.Text = "Silica"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(13, 355)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(50, 16)
+        Me.MyLabel7.TabIndex = 22
+        Me.MyLabel7.Text = "Moisture"
+        '
+        'LBListFat
+        '
+        Me.LBListFat.AutoSize = False
+        Me.LBListFat.BorderVisible = True
+        Me.LBListFat.FieldName = Nothing
+        Me.LBListFat.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBListFat.Location = New System.Drawing.Point(111, 403)
+        Me.LBListFat.Name = "LBListFat"
+        Me.LBListFat.Size = New System.Drawing.Size(190, 18)
+        Me.LBListFat.TabIndex = 21
+        Me.LBListFat.TextWrap = False
+        '
+        'LBListFiber
+        '
+        Me.LBListFiber.AutoSize = False
+        Me.LBListFiber.BorderVisible = True
+        Me.LBListFiber.FieldName = Nothing
+        Me.LBListFiber.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBListFiber.Location = New System.Drawing.Point(388, 379)
+        Me.LBListFiber.Name = "LBListFiber"
+        Me.LBListFiber.Size = New System.Drawing.Size(190, 18)
+        Me.LBListFiber.TabIndex = 20
+        Me.LBListFiber.TextWrap = False
+        '
+        'LBListSilica
+        '
+        Me.LBListSilica.AutoSize = False
+        Me.LBListSilica.BorderVisible = True
+        Me.LBListSilica.FieldName = Nothing
+        Me.LBListSilica.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBListSilica.Location = New System.Drawing.Point(111, 379)
+        Me.LBListSilica.Name = "LBListSilica"
+        Me.LBListSilica.Size = New System.Drawing.Size(190, 18)
+        Me.LBListSilica.TabIndex = 19
+        Me.LBListSilica.TextWrap = False
+        '
+        'LBListProtein
+        '
+        Me.LBListProtein.AutoSize = False
+        Me.LBListProtein.BorderVisible = True
+        Me.LBListProtein.FieldName = Nothing
+        Me.LBListProtein.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBListProtein.Location = New System.Drawing.Point(388, 355)
+        Me.LBListProtein.Name = "LBListProtein"
+        Me.LBListProtein.Size = New System.Drawing.Size(190, 18)
+        Me.LBListProtein.TabIndex = 18
+        Me.LBListProtein.TextWrap = False
+        '
+        'LBListMoisture
+        '
+        Me.LBListMoisture.AutoSize = False
+        Me.LBListMoisture.BorderVisible = True
+        Me.LBListMoisture.FieldName = Nothing
+        Me.LBListMoisture.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LBListMoisture.Location = New System.Drawing.Point(111, 355)
+        Me.LBListMoisture.Name = "LBListMoisture"
+        Me.LBListMoisture.Size = New System.Drawing.Size(190, 18)
+        Me.LBListMoisture.TabIndex = 17
+        Me.LBListMoisture.TextWrap = False
         '
         'lblSampleNO
         '
@@ -802,56 +881,6 @@ Partial Class frmNIRQC
         Me.btnClose.TabIndex = 2
         Me.btnClose.Text = "Close"
         '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(13, 355)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(50, 16)
-        Me.MyLabel7.TabIndex = 22
-        Me.MyLabel7.Text = "Moisture"
-        '
-        'MyLabel8
-        '
-        Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(13, 381)
-        Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(33, 16)
-        Me.MyLabel8.TabIndex = 23
-        Me.MyLabel8.Text = "Silica"
-        '
-        'MyLabel12
-        '
-        Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(15, 403)
-        Me.MyLabel12.Name = "MyLabel12"
-        Me.MyLabel12.Size = New System.Drawing.Size(23, 16)
-        Me.MyLabel12.TabIndex = 24
-        Me.MyLabel12.Text = "Fat"
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(323, 357)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(42, 16)
-        Me.MyLabel15.TabIndex = 25
-        Me.MyLabel15.Text = "Protein"
-        '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(325, 379)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(32, 16)
-        Me.MyLabel16.TabIndex = 26
-        Me.MyLabel16.Text = "Fiber"
-        '
         'frmNIRQC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -868,11 +897,17 @@ Partial Class frmNIRQC
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.LBLitem3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LBLitem5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LBLitem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LBLitem4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LBLitem1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkManual, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LBListFat, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LBListFiber, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LBListSilica, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LBListProtein, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LBListMoisture, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSampleNO, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
@@ -913,11 +948,6 @@ Partial Class frmNIRQC
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -966,15 +996,17 @@ Partial Class frmNIRQC
     Friend WithEvents CancelBtn As RadButton
     Friend WithEvents lblSampleNO As common.Controls.MyLabel
     Friend WithEvents txtSampleNo As common.UserControls.txtFinder
-    Friend WithEvents LBLitem3 As common.Controls.MyLabel
-    Friend WithEvents LBLitem5 As common.Controls.MyLabel
-    Friend WithEvents LBLitem2 As common.Controls.MyLabel
-    Friend WithEvents LBLitem4 As common.Controls.MyLabel
-    Friend WithEvents LBLitem1 As common.Controls.MyLabel
+    Friend WithEvents LBListFat As common.Controls.MyLabel
+    Friend WithEvents LBListFiber As common.Controls.MyLabel
+    Friend WithEvents LBListSilica As common.Controls.MyLabel
+    Friend WithEvents LBListProtein As common.Controls.MyLabel
+    Friend WithEvents LBListMoisture As common.Controls.MyLabel
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents MyLabel12 As common.Controls.MyLabel
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents chkManual As RadCheckBox
+    Friend WithEvents txtAccept As Label
 End Class
 

@@ -6233,7 +6233,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
     End Sub
     Public Sub GetDCDetails(ByVal trans As SqlTransaction)
         'If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal OrElse IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, False, DispatchPriceCodeForCreditCustomer) Then
-        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal OrElse ApplyCommissionTPTForCreditCustomer Then
+        If (clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cash_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal) OrElse ApplyCommissionTPTForCreditCustomer Then
             Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Transporter_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Security_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Booth_Security_Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
 left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
@@ -8291,8 +8291,19 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
 
                 End If
                 Dim BoothCode As String = ""
-                If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") <> CompairStringResult.Equal Then
+                If clsCommon.myLen(txtDocNo.Value) > 0 Then
                     SaveData(False, trans)
+                    'Dim PDocCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code='" & txtDocNo.Value & "'", trans))
+                    'If clsCommon.CompairString(PDocCode, txtDocNo.Value) = CompairStringResult.Equal Then
+                    '    SaveData(False, trans)
+                    '    Dim strQry As String = "select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & PDocCode & "'  and Document_Code not in('" & PDocCode & "') order by Document_Code"
+                    '    Dim dtP As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+                    '    If dtP IsNot Nothing AndAlso dtP.Rows.Count > 0 Then
+                    '        For Each dr As DataRow In dtP.Rows
+                    '            LoadData()
+                    '        Next
+                    '    End If
+                    'End If
                 Else
                     txtTransNo.Text = txtVendorNo.Value
                     If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
@@ -8554,9 +8565,11 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     Dim tcAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry1, trans))
                     qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt='" & clsCommon.myCstr(tcAmt) & "' where Document_Code='" & ParentDocNo & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Gross_Amount=(Total_Amt - Transporter_Commission_TotalAmt) where Document_Code='" & ParentDocNo & "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     'If DeductTPTFromDocAmt Then
                     qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt=0,Gross_Amount=Total_Amt where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')"
-                        clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     'Else
                     '    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt=0 where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')"
                     '    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
@@ -8566,15 +8579,17 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     'clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt='" & clsCommon.myCstr(tcAmt) & "' where Against_Shipment_No='" & ParentDocNo & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Gross_Amount=(Total_Amt - Transporter_Commission_TotalAmt) where Against_Shipment_No='" & ParentDocNo & "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     'If DeductTPTFromDocAmt Then
                     qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0,Gross_Amount=Total_Amt where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
-                        clsDBFuncationality.ExecuteNonQuery(qry1, trans)
-                        'Else
-                        '    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
-                        '    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
-                        'End If
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    'Else
+                    '    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
+                    '    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    'End If
 
-                        qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
+                    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     'qry1 = "update TSPL_SD_SALE_INVOICE_DETAIL set Transporter_Commission_Amt=0 where DOCUMENT_CODE in(select DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')))"
                     'clsDBFuncationality.ExecuteNonQuery(qry1, trans)
@@ -14532,7 +14547,7 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("TaxableNonTaxable")), "T") = CompairStringResult.Equal Then
                         filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     Else
-                        filePath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, "crptMultipleInvoicePrintJDH", "Bill Of Supply")
+                        filePath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, "crptMultipleInvoicePrintBKN", "Bill Of Supply")
                     End If
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceNAG", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())

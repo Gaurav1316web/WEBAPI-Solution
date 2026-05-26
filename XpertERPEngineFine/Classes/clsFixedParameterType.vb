@@ -978,6 +978,7 @@ Public Class clsFixedParameterType
     Public Const MinuteGateEntryToGrossWeight As String = "Minute Gate Entry To Gross Weight"
     Public Const MinuteGrossWeightToTareWeight As String = "Minute Gross Weight To Tare Weight"
     Public Const NoOfDaysForMultiInceForSameVSPForSamePayCycle As String = "NoOfDaysForMultiInceForSameVSPForSamePayCycle"
+    Public Const NoOfDaysForShowFOSSDocument As String = "NoOfDaysForShowFOSSDocument"
     Public Const PurchaseCounterOnTransactionType As String = "Purchase Counter On Transaction Type"
     Public Const BulkProcurementCounterOnEntryType As String = "Bulk Procurement Counter On Entry Type"
     Public Const StopForRepeatedFATSNF As String = "Stop Repeat FAT SNF"
@@ -2522,6 +2523,7 @@ Public Class clsFixedParameterCode
     Public Const MinuteGateEntryToGrossWeight As String = "Minute Gate Entry To Gross Weight"
     Public Const MinuteGrossWeightToTareWeight As String = "Minute Gross Weight To Tare Weight"
     Public Const NoOfDaysForMultiInceForSameVSPForSamePayCycle As String = "NoOfDaysForMultiInceForSameVSPForSamePayCycle"
+    Public Const NoOfDaysForShowFOSSDocument As String = "NoOfDaysForShowFOSSDocument"
     Public Const PurchaseCounterOnTransactionType As String = "Purchase Counter On Transaction Type"
     Public Const BulkProcurementCounterOnEntryType As String = "Bulk Procurement Counter On Entry Type"
     Public Const StopForRepeatedFATSNF As String = "Stop Repeat FAT SNF"
@@ -4253,6 +4255,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MinuteGateEntryToGrossWeight, clsFixedParameterCode.MinuteGateEntryToGrossWeight, "10", "Average Minute Gate Entry To Gross Weight")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MinuteGrossWeightToTareWeight, clsFixedParameterCode.MinuteGrossWeightToTareWeight, "10", "Average Minute Gross Weight To Tare Weight")
         InsertDefaultValueFixedParameter(clsFixedParameterType.NoOfDaysForMultiInceForSameVSPForSamePayCycle, clsFixedParameterCode.NoOfDaysForMultiInceForSameVSPForSamePayCycle, "0", "0:No of days in Payment Cycle,1:No of Collection days for Incentive applied")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.NoOfDaysForShowFOSSDocument, clsFixedParameterCode.NoOfDaysForShowFOSSDocument, "5", "No of days For Show FOSS Document")
+
         ''----Balwinder on UDL Plant
         InsertDefaultValueFixedParameter(clsFixedParameterType.PurchaseCounterOnTransactionType, clsFixedParameterCode.PurchaseCounterOnTransactionType, "0", "1:ON;0 OFF Form Prefixe Generation of PO")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopForRepeatedFATSNF, clsFixedParameterCode.StopForRepeatedFATSNF, "1", "Do not pick sample if Previous and current FAT and SNF is same")
@@ -5391,6 +5395,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.MinuteGateEntryToGrossWeight, clsFixedParameterCode.MinuteGateEntryToGrossWeight, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.MinuteGrossWeightToTareWeight, clsFixedParameterCode.MinuteGrossWeightToTareWeight, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.NoOfDaysForMultiInceForSameVSPForSamePayCycle, clsFixedParameterCode.NoOfDaysForMultiInceForSameVSPForSamePayCycle, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.NIRQC, clsFixedParameterType.NoOfDaysForShowFOSSDocument, clsFixedParameterCode.NoOfDaysForShowFOSSDocument, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.PurchaseCounterOnTransactionType, clsFixedParameterCode.PurchaseCounterOnTransactionType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSample, clsFixedParameterType.StopForRepeatedFATSNF, clsFixedParameterCode.StopForRepeatedFATSNF, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSample, clsFixedParameterType.SampleFONTSize, clsFixedParameterCode.SampleFONTSize, EnumControlType.NumericBox)

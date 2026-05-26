@@ -6,11 +6,13 @@ Public Class clsNIRQC
     Public Document_Date As DateTime
     Public MRN_No As String = Nothing
     Public QC_Status As Integer = Nothing
+    Public FOSS_Status As String = Nothing
     Public QC_Remarks As String = Nothing
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posted_Date As DateTime? = Nothing
     Public Form_ID As String
     Public Against_Foss_PK_ID As String = Nothing
+    Public Is_Manual As Integer
 #End Region
     Public Shared Function CheckNIRQCUsedInSRN(ByVal strSRNNo As String, ByVal trans As SqlTransaction) As Boolean
         Dim qry As String = "select sum(fin.[cnt]) from (Select 1 as [cnt],TSPL_SRN_DETAIL.SRN_No from TSPL_SRN_DETAIL 
@@ -41,6 +43,8 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
                 clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm:ss tt"))
                 clsCommon.AddColumnsForChange(coll, "MRN_No", obj.MRN_No)
                 clsCommon.AddColumnsForChange(coll, "QC_Status", obj.QC_Status)
+                clsCommon.AddColumnsForChange(coll, "FOSS_Status", obj.FOSS_Status)
+                clsCommon.AddColumnsForChange(coll, "Is_Manual", obj.Is_Manual)
                 clsCommon.AddColumnsForChange(coll, "QC_Remarks", obj.QC_Remarks)
                 clsCommon.AddColumnsForChange(coll, "Against_Foss_PK_ID", obj.Against_Foss_PK_ID, True)
 
@@ -117,6 +121,8 @@ where TSPL_MRN_DETAIL.MRN_No='" & strMRN & "' and TSPL_MRN_HEAD.Status=1 and TSP
             obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
             obj.MRN_No = clsCommon.myCstr(dt.Rows(0)("MRN_No"))
             obj.QC_Status = clsCommon.myCDecimal(dt.Rows(0)("QC_Status"))
+            obj.FOSS_Status = clsCommon.myCstr(dt.Rows(0)("FOSS_Status"))
+            obj.Is_Manual = clsCommon.myCdbl(dt.Rows(0)("Is_Manual"))
             obj.QC_Remarks = clsCommon.myCstr(dt.Rows(0)("QC_Remarks"))
             If clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1 Then
                 obj.Status = ERPTransactionStatus.Approved

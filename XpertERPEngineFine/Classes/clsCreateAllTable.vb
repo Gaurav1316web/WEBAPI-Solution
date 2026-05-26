@@ -14978,7 +14978,7 @@ END"
             coll.Add("ANDROID_DEVICE_OS_VERSION", "varchar(30) null")
             coll.Add("DataBase_Name", "varchar(15) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
-            Try
+            Try 
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column SSO varchar(30) null")
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column ANDROID_DEVICE_MODEL_MANUFACTURER varchar(100) null")
                 clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_SSO ON TSPL_USER_MASTER (SSO) WHERE SSO IS NOT NULL;")
@@ -23187,7 +23187,7 @@ END"
             coll.Add("Analysis_Time", "datetime not NULL")
             coll.Add("Product_Code", "Varchar(30) NULL")
             coll.Add("Product_Name", "Varchar(100) NULL")
-            coll.Add("Sample_Number", "Varchar(30) NULL")
+            coll.Add("Sample_Number", "Varchar(50) NULL")
             coll.Add("Sample_Type", "Varchar(30) NULL")
             coll.Add("Sample_Comment", "Varchar(100) NULL")
             coll.Add("Instrument_Name", "Varchar(100) NULL")
@@ -23208,6 +23208,8 @@ END"
             coll.Add("Fiber_DM", "Decimal(18,2) null")
             coll.Add("Ref_Fiber_DM", "Decimal(18,2) null")
             coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Vehicle_No", "Varchar(30) NULL")
+            coll.Add("Avg_Sample", "Varchar(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC_FOSS", coll, Nothing, False, False, "", "PK_Id", "Analysis_Time")
 
 
@@ -57530,6 +57532,8 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Posted_By", "varchar(12) NULL References TSPL_USER_MASTER(User_Code)")
             coll.Add("Posted_Date", "Datetime NULL")
             coll.Add("Against_Foss_PK_ID", "integer NULL References TSPL_NIR_QC_FOSS(PK_Id)")
+            coll.Add("FOSS_Status", "Varchar(20) Null")
+            coll.Add("Is_Manual", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)()
