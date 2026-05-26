@@ -14978,7 +14978,7 @@ END"
             coll.Add("ANDROID_DEVICE_OS_VERSION", "varchar(30) null")
             coll.Add("DataBase_Name", "varchar(15) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
-            Try
+            Try 
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column SSO varchar(30) null")
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column ANDROID_DEVICE_MODEL_MANUFACTURER varchar(100) null")
                 clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_SSO ON TSPL_USER_MASTER (SSO) WHERE SSO IS NOT NULL;")
@@ -57532,6 +57532,8 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Posted_By", "varchar(12) NULL References TSPL_USER_MASTER(User_Code)")
             coll.Add("Posted_Date", "Datetime NULL")
             coll.Add("Against_Foss_PK_ID", "integer NULL References TSPL_NIR_QC_FOSS(PK_Id)")
+            coll.Add("FOSS_Status", "Varchar(20) Null")
+            coll.Add("Is_Manual", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)()

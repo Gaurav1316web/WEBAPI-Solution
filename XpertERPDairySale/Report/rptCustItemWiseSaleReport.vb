@@ -1288,7 +1288,7 @@ where  ITEM_CODE = TSPL_SD_SHIPMENT_DETAIL.Item_Code and EFFECTIVE_DATE <= '" & 
             End If
 
             Qry += " ,SUM(" & TableName & "_HEAD.TAX5_Amt) AS TAX5_Amt,
-    SUM(" & TableName & "_DETAIL.Transporter_Commission_Amt) AS Transporter_Commission_Amt,
+    max(" & TableName & "_HEAD.Transporter_Commission_TotalAmt) AS Transporter_Commission_Amt,
     MAX(TSPL_CUSTOMER_MASTER.Customer_Name) AS Customer_Name,
     SUM(
         CASE 
@@ -1383,57 +1383,57 @@ LEFT JOIN TSPL_COMPANY_MASTER
             from(
                                             select 
                                             TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_SD_SHIPMENT_HEAD.Document_Code,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
-                                            TSPL_COMPANY_MASTER.Comp_Name,TSPL_SD_SHIPMENT_DETAIL.Item_Code,
+                                            TSPL_COMPANY_MASTER.Comp_Name,
                                             (TSPL_COMPANY_MASTER.Add1 + TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3) as CompAddress, 
                                             TSPL_CUSTOMER_MASTER.GSTNO as GSTNO,
-                                             case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount else 0 end as Taxable_Amount,
-                                             case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' Then TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount else 0 end as Non_Taxable_Amount,
-                                             Case when TSPL_SD_SHIPMENT_DETAIL.TAX1 = 'IGST' Then isnull(TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt,0) else(
-                                            Case when ISNULL(TSPL_SD_SHIPMENT_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SHIPMENT_DETAIL.tax2,'')='KKF' Then (case when TSPL_SD_SHIPMENT_DETAIL.TAX3='IGST' Then (TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt+TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt+TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt)else (TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt+TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt+TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt +TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt) end) else 0 end) end as GSTAmt,
+                                            case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Taxable_Amount,
+                                             case when TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' Then TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount else 0 end as Non_Taxable_Amount,
+                                             Case when TSPL_SD_SHIPMENT_HEAD.TAX1 = 'IGST' Then isnull(TSPL_SD_SHIPMENT_HEAD.TAX1_Amt,0) else(
+                                            Case when ISNULL(TSPL_SD_SHIPMENT_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SD_SHIPMENT_HEAD.tax2,'')='KKF' Then (case when TSPL_SD_SHIPMENT_HEAD.TAX3='IGST' Then (TSPL_SD_SHIPMENT_HEAD.TAX1_Amt+TSPL_SD_SHIPMENT_HEAD.TAX2_Amt+TSPL_SD_SHIPMENT_HEAD.TAX3_Amt)else (TSPL_SD_SHIPMENT_HEAD.TAX1_Amt+TSPL_SD_SHIPMENT_HEAD.TAX2_Amt+TSPL_SD_SHIPMENT_HEAD.TAX3_Amt +TSPL_SD_SHIPMENT_HEAD.TAX4_Amt) end) else 0 end) end as GSTAmt,
 
-                                            CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='CGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='CGST' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt else 0 END  AS [CGST Amt],
+                                            CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='CGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX1_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='CGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX2_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='CGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX3_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='CGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX4_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='CGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX5_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='CGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX6_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='CGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX7_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='CGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX8_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='CGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX9_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='CGST' THEN TSPL_SD_SHIPMENT_HEAD.TAX10_Amt else 0 END  AS [CGST Amt],
 
-                                           CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
-                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='SGST'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
-               				                WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='SGST' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt else 0 END  AS [SGST Amt],
+                                           CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='SGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX1_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='SGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX2_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='SGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX3_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='SGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX4_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='SGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX5_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='SGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX6_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='SGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX7_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='SGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX8_Amt
+                				            WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='SGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX9_Amt
+               				                WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='SGST' THEN TSPL_SD_SHIPMENT_HEAD.TAX10_Amt else 0 END  AS [SGST Amt],
 
-                                            CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='KKF'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='KKF' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt else 0 END 
+                                            CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='KKF'  THEN TSPL_SD_SHIPMENT_HEAD.TAX1_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='KKF'  THEN TSPL_SD_SHIPMENT_HEAD.TAX2_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='KKF'  THEN TSPL_SD_SHIPMENT_HEAD.TAX3_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='KKF'  THEN TSPL_SD_SHIPMENT_HEAD.TAX4_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='KKF'  THEN TSPL_SD_SHIPMENT_HEAD.TAX5_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='KKF'  THEN TSPL_SD_SHIPMENT_HEAD.TAX6_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='KKF'  THEN TSPL_SD_SHIPMENT_HEAD.TAX7_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='KKF'  THEN TSPL_SD_SHIPMENT_HEAD.TAX8_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='KKF'  THEN TSPL_SD_SHIPMENT_HEAD.TAX9_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='KKF' THEN TSPL_SD_SHIPMENT_HEAD.TAX10_Amt else 0 END 
                             				AS [KKF_Amt],
-                                                  CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='MANDITAX'  THEN TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt
-                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='MANDITAX' THEN TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt else 0 END 
+                                                  CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='MANDITAX'  THEN TSPL_SD_SHIPMENT_HEAD.TAX1_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='MANDITAX'  THEN TSPL_SD_SHIPMENT_HEAD.TAX2_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX3='MANDITAX'  THEN TSPL_SD_SHIPMENT_HEAD.TAX3_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX4='MANDITAX'  THEN TSPL_SD_SHIPMENT_HEAD.TAX4_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX5='MANDITAX'  THEN TSPL_SD_SHIPMENT_HEAD.TAX5_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX6='MANDITAX'  THEN TSPL_SD_SHIPMENT_HEAD.TAX6_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX7='MANDITAX'  THEN TSPL_SD_SHIPMENT_HEAD.TAX7_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX8='MANDITAX'  THEN TSPL_SD_SHIPMENT_HEAD.TAX8_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='MANDITAX'  THEN TSPL_SD_SHIPMENT_HEAD.TAX9_Amt
+                            				WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='MANDITAX' THEN TSPL_SD_SHIPMENT_HEAD.TAX10_Amt else 0 END 
                             				AS  [Mandi_Tax_Amt],
                                             CASE WHEN TSPL_SD_SHIPMENT_HEAD.TAX1='CGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX1_Amt
                             				WHEN TSPL_SD_SHIPMENT_HEAD.TAX2='CGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX2_Amt
@@ -1457,12 +1457,12 @@ LEFT JOIN TSPL_COMPANY_MASTER
                             				WHEN TSPL_SD_SHIPMENT_HEAD.TAX9='SGST'  THEN TSPL_SD_SHIPMENT_HEAD.TAX9_Amt
                             				WHEN TSPL_SD_SHIPMENT_HEAD.TAX10='SGST' THEN TSPL_SD_SHIPMENT_HEAD.TAX10_Amt else 0 END 
                             				AS  [SGST Amt Head],
-                                            Case when TSPL_SD_SHIPMENT_DETAIL.TAX1 = 'IGST' Then isnull(TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt,0) else(
-                                            Case when ISNULL(TSPL_SD_SHIPMENT_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SHIPMENT_DETAIL.tax2,'')='KKF' Then (case when TSPL_SD_SHIPMENT_DETAIL.TAX3='IGST' Then TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt else (case when    
-                                            TSPL_SD_SHIPMENT_DETAIL.TAX5='TCS' Then TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt else 0 end) end) else (case when TSPL_SD_SHIPMENT_DETAIL.tax2='TCS' Then TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt else ((case when TSPL_SD_SHIPMENT_DETAIL.tax3='TCS' Then TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt else 0 end)) end) end) end as TCS_AMT,
-                                       isnull(TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,0) as Trp_othcharg
+                                            Case when TSPL_SD_SHIPMENT_HEAD.TAX1 = 'IGST' Then isnull(TSPL_SD_SHIPMENT_HEAD.TAX2_Amt,0) else(
+                                            Case when ISNULL(TSPL_SD_SHIPMENT_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SD_SHIPMENT_HEAD.tax2,'')='KKF' Then (case when TSPL_SD_SHIPMENT_HEAD.TAX3='IGST' Then TSPL_SD_SHIPMENT_HEAD.TAX4_Amt else (case when    
+                                            TSPL_SD_SHIPMENT_HEAD.TAX5='TCS' Then TSPL_SD_SHIPMENT_HEAD.TAX5_Amt else 0 end) end) else (case when TSPL_SD_SHIPMENT_HEAD.tax2='TCS' Then TSPL_SD_SHIPMENT_HEAD.TAX2_Amt else ((case when TSPL_SD_SHIPMENT_HEAD.tax3='TCS' Then TSPL_SD_SHIPMENT_HEAD.TAX3_Amt else 0 end)) end) end) end as TCS_AMT,
+                                        isnull(TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,0) as Trp_othcharg
                                             from TSPL_SD_SHIPMENT_HEAD
-                                            left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
+                                            
                                             left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                                             left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='BKN'
                 WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'and TSPL_SD_SHIPMENT_HEAD.Status=1  " + whrcls + "
@@ -1529,57 +1529,57 @@ LEFT JOIN TSPL_COMPANY_MASTER
             from(
                                             select 
                                             TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Code,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' as ToDate,
-                                            TSPL_COMPANY_MASTER.Comp_Name,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,
+                                            TSPL_COMPANY_MASTER.Comp_Name,
                                             (TSPL_COMPANY_MASTER.Add1 + TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3) as CompAddress, 
                                             TSPL_CUSTOMER_MASTER.GSTNO as GSTNO,
-                                             case when TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable=1 Then TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount else 0 end as Taxable_Amount,
-                                             case when TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable=0 Then TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount else 0 end as Non_Taxable_Amount,
-                                             Case when TSPL_SD_SALE_INVOICE_DETAIL.TAX1 = 'IGST' Then isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt,0) else(
-                                            Case when ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='KKF' Then (case when TSPL_SD_SALE_INVOICE_DETAIL.TAX3='IGST' Then (TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt+TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt+TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt)else (TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt+TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt+TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt +TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt) end) else 0 end) end as GSTAmt,
+                                             case when TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable=1 Then TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount else 0 end as Taxable_Amount,
+                                             case when TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable=0 Then TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount else 0 end as Non_Taxable_Amount,
+                                             Case when TSPL_SD_SALE_INVOICE_HEAD.TAX1 = 'IGST' Then isnull(TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt,0) else(
+                                            Case when ISNULL(TSPL_SD_SALE_INVOICE_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_HEAD.tax2,'')='KKF' Then (case when TSPL_SD_SALE_INVOICE_HEAD.TAX3='IGST' Then (TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt+TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt+TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt)else (TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt+TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt+TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt +TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt) end) else 0 end) end as GSTAmt,
 
-                                            CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX2='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX3='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX4='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX5='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX6='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX7='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX8='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX9='CGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX10='CGST' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt else 0 END  AS [CGST Amt],
+                                            CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='CGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX2='CGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX3='CGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX4='CGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX5='CGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX6='CGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX6_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX7='CGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX7_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX8='CGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX8_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX9='CGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX9_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX10='CGST' THEN TSPL_SD_SALE_INVOICE_HEAD.TAX10_Amt else 0 END  AS [CGST Amt],
 
-                                           CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX2='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX3='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX4='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX5='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX6='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX7='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX8='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt
-                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX9='SGST'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
-               				                WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX10='SGST' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt else 0 END  AS [SGST Amt],
+                                           CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='SGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX2='SGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX3='SGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX4='SGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX5='SGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX6='SGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX6_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX7='SGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX7_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX8='SGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX8_Amt
+                				            WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX9='SGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX9_Amt
+               				                WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX10='SGST' THEN TSPL_SD_SALE_INVOICE_HEAD.TAX10_Amt else 0 END  AS [SGST Amt],
 
-                                            CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX2='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX3='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX4='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX5='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX6='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX7='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX8='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX9='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX10='KKF' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt else 0 END 
+                                            CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='KKF'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX2='KKF'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX3='KKF'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX4='KKF'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX5='KKF'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX6='KKF'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX6_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX7='KKF'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX7_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX8='KKF'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX8_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX9='KKF'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX9_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX10='KKF' THEN TSPL_SD_SALE_INVOICE_HEAD.TAX10_Amt else 0 END 
                             				AS [KKF_Amt],
-                                                  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX2='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX3='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX4='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX5='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX6='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX7='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX8='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX9='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt
-                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX10='MANDITAX' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt else 0 END 
+                                                  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX2='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX3='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX4='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX5='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX6='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX6_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX7='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX7_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX8='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX8_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX9='MANDITAX'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX9_Amt
+                            				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX10='MANDITAX' THEN TSPL_SD_SALE_INVOICE_HEAD.TAX10_Amt else 0 END 
                             				AS  [Mandi_Tax_Amt],
                                             CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='CGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt
                             				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX2='CGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt
@@ -1603,12 +1603,12 @@ LEFT JOIN TSPL_COMPANY_MASTER
                             				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX9='SGST'  THEN TSPL_SD_SALE_INVOICE_HEAD.TAX9_Amt
                             				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX10='SGST' THEN TSPL_SD_SALE_INVOICE_HEAD.TAX10_Amt else 0 END 
                             				AS  [SGST Amt Head],
-                                            Case when TSPL_SD_SALE_INVOICE_DETAIL.TAX1 = 'IGST' Then isnull(TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt,0) else(
-                                            Case when ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='KKF' Then (case when TSPL_SD_SALE_INVOICE_DETAIL.TAX3='IGST' Then TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt else (case when    
-                                            TSPL_SD_SALE_INVOICE_DETAIL.TAX5='TCS' Then TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt else 0 end) end) else (case when TSPL_SD_SALE_INVOICE_DETAIL.tax2='TCS' Then TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt else ((case when TSPL_SD_SALE_INVOICE_DETAIL.tax3='TCS' Then TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt else 0 end)) end) end) end as TCS_AMT,
-                                       isnull(TSPL_SD_SALE_INVOICE_DETAIL.Transporter_Commission_Amt,0) as Trp_othcharg
+                                            Case when TSPL_SD_SALE_INVOICE_HEAD.TAX1 = 'IGST' Then isnull(TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt,0) else(
+                                            Case when ISNULL(TSPL_SD_SALE_INVOICE_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_HEAD.tax2,'')='KKF' Then (case when TSPL_SD_SALE_INVOICE_HEAD.TAX3='IGST' Then TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt else (case when    
+                                            TSPL_SD_SALE_INVOICE_HEAD.TAX5='TCS' Then TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt else 0 end) end) else (case when TSPL_SD_SALE_INVOICE_HEAD.tax2='TCS' Then TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt else ((case when TSPL_SD_SALE_INVOICE_HEAD.tax3='TCS' Then TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt else 0 end)) end) end) end as TCS_AMT,
+                                       isnull(TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,0) as Trp_othcharg 
                                             from TSPL_SD_SALE_INVOICE_HEAD
-                                            left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+                                            
                                             left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
                                             left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='BKN'
                 WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'and TSPL_SD_SALE_INVOICE_HEAD.Status=1  " + whrcls + "

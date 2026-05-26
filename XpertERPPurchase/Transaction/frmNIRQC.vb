@@ -10,6 +10,7 @@ Public Class frmNIRQC
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
     Dim Qry As String
+    Dim NoOfDaysForShowFOSSDocument As Integer
 #End Region
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.capexmaster)
@@ -31,7 +32,7 @@ Public Class frmNIRQC
     End Sub
     Private Sub FrmCapexMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-
+            NoOfDaysForShowFOSSDocument = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.NoOfDaysForShowFOSSDocument, clsFixedParameterCode.NoOfDaysForShowFOSSDocument, Nothing))
             SetUserMgmtNew()
             LoadQCStatus()
             AddNew()
@@ -46,6 +47,7 @@ Public Class frmNIRQC
                 LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
             End If
             CancelBtn.Enabled = False
+            chkManual.Visible = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select isnull(Show_Manual_Collection,0) from TSPL_USER_MASTER where user_code = '" & objCommonVar.CurrentUserCode & "'") = 1)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -87,14 +89,15 @@ Public Class frmNIRQC
         btnPrint.Enabled = True
         btnPrint.Visible = True
         btnDelete.Enabled = False
-        LBLitem1.Text = ""
-        LBLitem2.Text = ""
-        LBLitem3.Text = ""
-        LBLitem4.Text = ""
-        LBLitem5.Text = ""
-        txtSampleNo.Value = Nothing
+        LBListMoisture.Text = ""
+        LBListSilica.Text = ""
+        LBListFat.Text = ""
+        LBListProtein.Text = ""
+        LBListFiber.Text = ""
+        txtSampleNo.Value = ""
         'txtDate.Value = clsCommon.GETSERVERDATE()
         BlankAllControls()
+        txtAccept.Visible = False
     End Sub
     Sub BlankAllControls()
         txtCode.Value = ""
@@ -131,28 +134,41 @@ Public Class frmNIRQC
             txtMRNNo.Value = obj.MRN_No
             ' txtSampleNo.Value = obj.REF_PK_ID
             txtRemarks.Text = obj.QC_Remarks
-            txtSampleNo.Value = clsDBFuncationality.getSingleValue(" select Sample_Number  from TSPL_NIR_QC_FOSS  where PK_ID='" + obj.Against_Foss_PK_ID + "'")
+            txtSampleNo.Value = obj.Against_Foss_PK_ID
 
-            Dim qry1 As String = "SELECT  Moisture,Silica_DM,Fat_DM,Protein_DM,Fiber_DM  FROM TSPL_NIR_QC_FOSS WHERE Sample_Number= '" + txtSampleNo.Value + "'"
+            Dim qry1 As String = "SELECT  Moisture,Silica_DM,Fat_DM,Protein_DM,Fiber_DM  FROM TSPL_NIR_QC_FOSS WHERE PK_Id= '" + txtSampleNo.Value + "'"
             Dim dts As DataTable = clsDBFuncationality.GetDataTable(qry1)
             If dts.Rows.Count > 0 Then
 
-                LBLitem1.Text = dts.Rows(0)("Moisture").ToString()
-                LBLitem2.Text = dts.Rows(0)("Silica_DM").ToString()
-                LBLitem3.Text = dts.Rows(0)("Fat_DM").ToString()
-                LBLitem4.Text = dts.Rows(0)("Protein_DM").ToString()
-                LBLitem5.Text = dts.Rows(0)("Fiber_DM").ToString()
+                LBListMoisture.Text = dts.Rows(0)("Moisture").ToString()
+                LBListSilica.Text = dts.Rows(0)("Silica_DM").ToString()
+                LBListFat.Text = dts.Rows(0)("Fat_DM").ToString()
+                LBListProtein.Text = dts.Rows(0)("Protein_DM").ToString()
+                LBListFiber.Text = dts.Rows(0)("Fiber_DM").ToString()
 
-                LBLitem1.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-                LBLitem2.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-                LBLitem3.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-                LBLitem4.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-                LBLitem5.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                LBListMoisture.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                LBListSilica.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                LBListFat.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                LBListProtein.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                LBListFiber.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
 
 
             End If
             cboVisualQCStatus.SelectedValue = clsCommon.myCstr(obj.QC_Status)
             UsLock1.Status = obj.Status
+            txtAccept.Text = obj.FOSS_Status
+            chkManual.Checked = IIf(obj.Is_Manual = 1, True, False)
+            txtAccept.Visible = True
+            If clsCommon.myLen(obj.FOSS_Status) <= 0 Then
+                txtAccept.BackColor = Color.Gray
+            ElseIf clsCommon.CompairString(obj.FOSS_Status, "Accepted") = CompairStringResult.Equal Then
+                txtAccept.BackColor = Color.Green
+            ElseIf clsCommon.CompairString(obj.FOSS_Status, "Under Deviation") = CompairStringResult.Equal Then
+                txtAccept.BackColor = Color.Yellow
+                txtAccept.Enabled = True
+            ElseIf clsCommon.CompairString(obj.FOSS_Status, "Rejected") = CompairStringResult.Equal Then
+                txtAccept.BackColor = Color.Red
+            End If
             If obj.Status = ERPTransactionStatus.Approved Then
                 btnSave.Enabled = False
                 btnPost.Enabled = False
@@ -183,7 +199,9 @@ Public Class frmNIRQC
                 obj.QC_Remarks = txtRemarks.Text
                 obj.QC_Status = clsCommon.myCDecimal(cboVisualQCStatus.SelectedValue)
                 obj.Form_ID = Me.Form_ID
-                Dim sampleNo As String = txtSampleNo.Value.ToString().Trim()
+                obj.FOSS_Status = txtAccept.Text
+                obj.Is_Manual = IIf(chkManual.Checked = True, 1, 0)
+                'Dim sampleNo As String = txtSampleNo.Value.ToString().Trim()
                 '           Dim cnt As Integer = Convert.ToInt32(clsDBFuncationality.getSingleValue("SELECT COUNT(*)  FROM TSPL_NIR_QC  INNER JOIN TSPL_NIR_QC_FOSS  ON TSPL_NIR_QC.REF_PK_ID = TSPL_NIR_QC_FOSS.PK_Id
                 'WHERE TSPL_NIR_QC_FOSS.Sample_Number = '" & sampleNo & "'"))
                 '           If cnt > 0 Then
@@ -192,7 +210,7 @@ Public Class frmNIRQC
                 '               Exit Sub
                 '           End If
 
-                obj.Against_Foss_PK_ID = clsDBFuncationality.getSingleValue("select PK_Id  from TSPL_NIR_QC_FOSS WHERE Sample_Number='" + txtSampleNo.Value + "'  ")
+                obj.Against_Foss_PK_ID = txtSampleNo.Value
 
                 'If clsCommon.CompairString(clsCommon.myCstr(cboVisualQCStatus.SelectedItem), "Not Ok") <> CompairStringResult.Equal Then
                 'Dim dt As DataTable = clsDBFuncationality.GetDataTable(ReturnMRNDataQry())
@@ -227,10 +245,12 @@ Public Class frmNIRQC
         If clsCommon.myCDate(txtDate.Value, "dd/MM/yyyy") < clsCommon.myCDate(lblWeightmentDate.Text, "dd/MM/yyyy") Then
             Throw New Exception(" NIR QC date can't be less then Weighment date !")
         End If
-        'If clsCommon.myLen(txtSampleNo.Value) <= 0 Then
-        '    txtSampleNo.Focus()
-        '    Throw New Exception("Please select Sample No")
-        'End If
+        If chkManual.Checked = False Then
+            If clsCommon.myLen(txtSampleNo.Value) <= 0 Then
+                Throw New Exception("Please select " & txtSampleNo.MyLinkLable1.Text)
+            End If
+        End If
+
         Return True
     End Function
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
@@ -306,7 +326,6 @@ Public Class frmNIRQC
         AddNew()
     End Sub
     Private Sub txtMRNNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMRNNo._MYValidating
-        AddNew()
         Dim qry As String = "select 
 TSPL_MRN_DETAIL.MRN_No,TSPL_MRN_HEAD.MRN_Date,
 TSPL_MRN_HEAD.Against_GRN,TSPL_GRN_HEAD.GRN_Date,TSPL_GRN_HEAD.VehicleNo ,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_MRN_HEAD.Vendor_Code,TSPL_MRN_HEAD.Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_MRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc , case when TSPL_GRN_HEAD.VisualQCStatus=1 then 'Ok' when TSPL_GRN_HEAD.VisualQCStatus='2' then 'Not Ok' when TSPL_GRN_HEAD.VisualQCStatus='3' then 'Partial Ok'  when TSPL_GRN_HEAD.VisualQCStatus='4' then 'On Hold' else 'Pending' end as [Visual QC Status], case when TSPL_GRN_HEAD.VisualQCStatusSecond=1 then 'Ok' when TSPL_GRN_HEAD.VisualQCStatusSecond='2' then 'Not Ok' when TSPL_GRN_HEAD.VisualQCStatusSecond='3' then 'Partial Ok'  when TSPL_GRN_HEAD.VisualQCStatusSecond='4' then 'On Hold' else ' ' end as [Visual QC Second Status]
@@ -498,62 +517,169 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
     Private Sub txtSampleNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSampleNo._MYValidating
         Try
             Dim InstrumentalId As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" & lblBillToLocationCode.Text & "'"))
-            'Dim InstrumentalId As String = ""
-
-            'If obj IsNot Nothing AndAlso Not IsDBNull(obj) Then
-            '    InstrumentalId = obj.ToString()
-            'End If
-            'Dim InstrumentalId As String = clsDBFuncationality.getSingleValue("select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" + lblBillToLocation)Code.Text + "'")
             Dim ProductId As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select NIR_QC_Product_ID from TSPL_ITEM_MASTER where Item_Code='" + lblItem.Text + "'"))
 
             Dim qry1 As String = " select NIR_QC_Instrumental_ID from TSPL_LOCATION_MASTER where Location_Code='" + lblBillToLocationCode.Text + "'"
 
 
-            Dim QRY11 As String = "SELECT TSPL_NIR_QC_FOSS.Sample_Number ,TSPL_NIR_QC_FOSS.Sample_Type AS [Sample Type],TSPL_NIR_QC_FOSS.Sample_Comment AS [Comment],TSPL_NIR_QC_FOSS.Product_Code AS [Product Code],TSPL_NIR_QC_FOSS.Instrument_Serial_Number as [Instrument No.],Moisture,Silica_DM as [Silica],Fat_DM AS [Fat],Protein_DM as [Protein],Fiber_DM AS [Fiber]
-                FROM TSPL_NIR_QC_FOSS
-			    left outer join TSPL_NIR_QC on TSPL_NIR_QC.Against_Foss_PK_ID=TSPL_NIR_QC_FOSS.PK_Id
-				--    left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_NIR_QC.Mrn_no
-			  --  LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MRN_DETAIL.Location
-			   -- LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE=TSPL_MRN_DETAIL.Item_Code
-			    ---Where 2=2  and  TSPL_NIR_QC_FOSS.PK_Id NOT IN (
-               -- SELECT distinct  TSPL_NIR_QC.Against_Foss_PK_ID FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.Against_Foss_PK_ID IS NOT NULL) 
-             "
-            txtSampleNo.Value = clsCommon.ShowSelectForm("Location@Plant@Master", QRY11, "Sample_Number", "  TSPL_NIR_QC_FOSS.Instrument_Serial_Number='" + InstrumentalId + "'
-                           and TSPL_NIR_QC_FOSS.Product_Code 	='" + ProductId + "'
-            			and convert(date,TSPL_NIR_QC_FOSS.Analysis_Time,103) =CONVERT(DATE,'" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "',103)
-            and 	not exists (Select  1 FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.Against_Foss_PK_ID = TSPL_NIR_QC_FOSS.PK_Id and  TSPL_NIR_QC.Document_No not in ('" + txtCode.Value + "') ) ", txtSampleNo.Value, "Sample_Number", isButtonClicked)
+            Dim QRY11 As String = "SELECT TSPL_NIR_QC_FOSS.PK_Id as SampleID, TSPL_NIR_QC_FOSS.Sample_Number as [Sample Number] ,TSPL_NIR_QC_FOSS.Vehicle_No as [Vehicle No],format( TSPL_NIR_QC_FOSS.Analysis_Time,'dd/MM/yyyy hh:mm tt') as [Analysis Time],TSPL_NIR_QC_FOSS.Sample_Type AS [Sample Type],TSPL_NIR_QC_FOSS.Sample_Comment AS [Comment],TSPL_NIR_QC_FOSS.Product_Code AS [Product Code],TSPL_NIR_QC_FOSS.Instrument_Serial_Number as [Instrument No.],Moisture,Silica_DM as [Silica],Fat_DM AS [Fat],Protein_DM as [Protein],Fiber_DM AS [Fiber]
+                FROM TSPL_NIR_QC_FOSS "
 
-            '       txtSampleNo.Value = clsCommon.ShowSelectForm("Location@Plant@Master", QRY11, "Sample_Number", "  TSPL_NIR_QC_FOSS.Instrument_Serial_Number='" + InstrumentalId + "'
-            '           and TSPL_NIR_QC_FOSS.Product_Code 	='" + ProductId + "'
-            '", txtSampleNo.Value, "Sample_Number", isButtonClicked)
+            Dim Whr As String = " TSPL_NIR_QC_FOSS.Instrument_Serial_Number='" + InstrumentalId + "'
+and TSPL_NIR_QC_FOSS.Product_Code 	='" + ProductId + "'
+and convert(date,TSPL_NIR_QC_FOSS.Analysis_Time,103) >= CONVERT(DATE,'" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "',103)
+and convert(date,TSPL_NIR_QC_FOSS.Analysis_Time,103) <= CONVERT(DATE,'" + clsCommon.GetPrintDate(txtDate.Value.AddDays(NoOfDaysForShowFOSSDocument), "dd/MMM/yyyy") + "',103)
+and not exists ( Select 1 FROM TSPL_NIR_QC WHERE TSPL_NIR_QC.Against_Foss_PK_ID = TSPL_NIR_QC_FOSS.PK_Id and  TSPL_NIR_QC.Document_No not in ('" + txtCode.Value + "') ) "
 
-
-            If Trim(txtSampleNo.Value) = "" Then Exit Sub
-
+            txtSampleNo.Value = clsCommon.ShowSelectForm("Location@Plant@Master", QRY11, "SampleID", Whr, txtSampleNo.Value, "SampleID", isButtonClicked)
             Dim dt As New DataTable
-            Dim qry12 As String = "SELECT  Moisture,Silica_DM,Fat_DM,Protein_DM,Fiber_DM  FROM TSPL_NIR_QC_FOSS WHERE Sample_Number= '" + txtSampleNo.Value + "'"
-
+            Dim qry12 As String = "SELECT  Moisture,Silica_DM,Fat_DM,Protein_DM,Fiber_DM  FROM TSPL_NIR_QC_FOSS WHERE PK_Id= '" + txtSampleNo.Value + "'"
             Dim dts As DataTable = clsDBFuncationality.GetDataTable(qry12)
             If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
-
-                LBLitem1.Text = dts.Rows(0)("Moisture").ToString()
-                LBLitem2.Text = dts.Rows(0)("Silica_DM").ToString()
-                LBLitem3.Text = dts.Rows(0)("Fat_DM").ToString()
-                LBLitem4.Text = dts.Rows(0)("Protein_DM").ToString()
-                LBLitem5.Text = dts.Rows(0)("Fiber_DM").ToString()
-
+                LBListMoisture.Text = dts.Rows(0)("Moisture").ToString()
+                LBListSilica.Text = dts.Rows(0)("Silica_DM").ToString()
+                LBListFat.Text = dts.Rows(0)("Fat_DM").ToString()
+                LBListProtein.Text = dts.Rows(0)("Protein_DM").ToString()
+                LBListFiber.Text = dts.Rows(0)("Fiber_DM").ToString()
+                UpdateStausNewInput()
             Else
-                clsCommon.MyMessageBoxShow(Me, "No data found for Sample Number : " & txtSampleNo.Value, Me.Text)
-
-                LBLitem1.Text = ""
-                LBLitem2.Text = ""
-                LBLitem3.Text = ""
-                LBLitem4.Text = ""
-                LBLitem5.Text = ""
-
+                LBListMoisture.Text = ""
+                LBListSilica.Text = ""
+                LBListFat.Text = ""
+                LBListProtein.Text = ""
+                LBListFiber.Text = ""
+                txtAccept.Text = ""
+                txtAccept.BackColor = Color.Gray
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Private Sub UpdateStausNewInput()
+        Dim NetResult As Boolean
+        Dim TempInputData As Decimal = 0
+        Dim InputDataDeductionPer As Decimal = 0
+        Try
+            Dim qry As String = "select isnull(TSPL_QC_LOG_SHEET_MASTER.NIRQC_Para_type,'')as NIRQC_Para_type,(TSPL_PARAMETER_RANGE_MASTER_QC.lower_range) as lower_range,(TSPL_PARAMETER_RANGE_MASTER_QC.upper_range) as upper_range,(TSPL_PARAMETER_RANGE_MASTER_QC.status) as status,(TSPL_PARAMETER_RANGE_MASTER_QC.value1) as value1,(TSPL_PARAMETER_RANGE_MASTER_QC.qc_status) as qc_status,(TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_Per) as Deduction_Per
+                ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_lower_range
+                ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_upper_range
+                ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_Ratio
+                ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_lower_range2
+                ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_upper_range2
+                ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_Ratio2
+                ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_lower_range3
+                ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_upper_range3
+                ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_Ratio3
+                 ,TSPL_PARAMETER_RANGE_MASTER_QC.Deduction_Method
+                 from TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER left outer join TSPL_PARAMETER_RANGE_MASTER_QC on TSPL_PARAMETER_RANGE_MASTER_QC.qc_param_code=TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.QC_code and TSPL_PARAMETER_RANGE_MASTER_QC.trans_id='standard' left outer join TSPL_QC_LOG_SHEET_MASTER on TSPL_QC_LOG_SHEET_MASTER.code=TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.QC_code 
+                left outer join tspl_item_master on tspl_item_master.item_code=TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.item_code where TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.item_code = '" + lblItem.Text + "' and NIRQC_Para_type in ('Moisture','Silica','Fat','Protein','Fiber')  "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim TempDedPercentage As Decimal = 0
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    If clsCommon.CompairString(dr("NIRQC_Para_type"), "Moisture") = CompairStringResult.Equal Then
+                        TempInputData = clsCommon.myCDecimal(LBListMoisture.Text)
+                    ElseIf clsCommon.CompairString(dr("NIRQC_Para_type"), "Silica") = CompairStringResult.Equal Then
+                        TempInputData = clsCommon.myCDecimal(LBListSilica.Text)
+                    ElseIf clsCommon.CompairString(dr("NIRQC_Para_type"), "Fat") = CompairStringResult.Equal Then
+                        TempInputData = clsCommon.myCDecimal(LBListFat.Text)
+                    ElseIf clsCommon.CompairString(dr("NIRQC_Para_type"), "Protein") = CompairStringResult.Equal Then
+                        TempInputData = clsCommon.myCDecimal(LBListProtein.Text)
+                    ElseIf clsCommon.CompairString(dr("NIRQC_Para_type"), "Fiber") = CompairStringResult.Equal Then
+                        TempInputData = clsCommon.myCDecimal(LBListFiber.Text)
+                    End If
+                    If clsCommon.myCDecimal(TempInputData) > 0 Then
+                        If TempInputData >= clsCommon.myCDecimal(dr("lower_range")) And TempInputData <= clsCommon.myCDecimal(dr("upper_range")) Then
+                            NetResult = True
+                        ElseIf TempInputData >= clsCommon.myCDecimal(dr("Deduction_lower_range")) AndAlso TempInputData <= clsCommon.myCDecimal(dr("Deduction_upper_range")) Then
+                            NetResult = True
+                            If clsCommon.myCDecimal(dr("Deduction_Method")) = 0 Then
+                                If clsCommon.myCDecimal(dr("Deduction_lower_range")) > clsCommon.myCDecimal(dr("upper_range")) Then
+                                    InputDataDeductionPer = System.Math.Round((TempInputData - clsCommon.myCDecimal(dt.Rows(0)("upper_range"))) * clsCommon.myCDecimal(dt.Rows(0)("Deduction_Ratio")), 2, MidpointRounding.AwayFromZero)
+                                ElseIf clsCommon.myCDecimal(dt.Rows(0)("Deduction_lower_range")) < clsCommon.myCDecimal(dt.Rows(0)("lower_range")) Then
+                                    InputDataDeductionPer = System.Math.Round((clsCommon.myCDecimal(dt.Rows(0)("lower_range")) - TempInputData) * clsCommon.myCDecimal(dt.Rows(0)("Deduction_Ratio")), 2, MidpointRounding.AwayFromZero)
+                                Else
+                                    InputDataDeductionPer = System.Math.Round((clsCommon.myCDecimal(dt.Rows(0)("lower_range")) - TempInputData) * clsCommon.myCDecimal(dt.Rows(0)("Deduction_Ratio")), 2, MidpointRounding.AwayFromZero)
+                                End If
+                            Else
+                                InputDataDeductionPer = System.Math.Round(clsCommon.myCDecimal(dt.Rows(0)("Deduction_Ratio")), 2, MidpointRounding.AwayFromZero)
+                            End If
+                            If clsCommon.myCdbl(InputDataDeductionPer) > 0 Then
+                                Exit For
+                            End If
+                        ElseIf TempInputData >= clsCommon.myCDecimal(dr("Deduction_lower_range2")) AndAlso TempInputData <= clsCommon.myCDecimal(dr("Deduction_upper_range2")) Then
+                            NetResult = True
+                            If clsCommon.myCDecimal(dr("Deduction_Method")) = 0 Then
+                                If clsCommon.myCDecimal(dr("Deduction_lower_range2")) > clsCommon.myCDecimal(dr("upper_range")) Then
+                                    TempDedPercentage = ((clsCommon.myCDecimal(dr("Deduction_upper_range")) - clsCommon.myCDecimal(dr("upper_range"))) * clsCommon.myCDecimal(dr("Deduction_Ratio")))
+                                    InputDataDeductionPer = System.Math.Round(TempDedPercentage + ((TempInputData - clsCommon.myCDecimal(dr("Deduction_upper_range"))) * clsCommon.myCDecimal(dr("Deduction_Ratio2"))), 2, MidpointRounding.AwayFromZero)
+                                ElseIf clsCommon.myCDecimal(dr("Deduction_lower_range2")) < clsCommon.myCDecimal(dr("lower_range")) Then
+                                    TempDedPercentage = ((clsCommon.myCDecimal(dr("lower_range")) - clsCommon.myCDecimal(dr("Deduction_lower_range"))) * clsCommon.myCDecimal(dr("Deduction_Ratio")))
+                                    InputDataDeductionPer = System.Math.Round(TempDedPercentage + ((clsCommon.myCDecimal(dr("Deduction_lower_range")) - TempInputData) * clsCommon.myCDecimal(dr("Deduction_Ratio2"))), 2, MidpointRounding.AwayFromZero)
+                                Else
+                                    InputDataDeductionPer = System.Math.Round((clsCommon.myCDecimal(dr("lower_range")) - TempInputData) * clsCommon.myCDecimal(dr("Deduction_Ratio2")), 2, MidpointRounding.AwayFromZero)
+                                End If
+                            Else
+                                InputDataDeductionPer = System.Math.Round(clsCommon.myCDecimal(dr("Deduction_Ratio2")), 2, MidpointRounding.AwayFromZero)
+                            End If
+                            If clsCommon.myCdbl(InputDataDeductionPer) > 0 Then
+                                Exit For
+                            End If
+                        ElseIf TempInputData >= clsCommon.myCDecimal(dr("Deduction_lower_range3")) AndAlso TempInputData <= clsCommon.myCDecimal(dr("Deduction_upper_range3")) Then
+                            NetResult = True
+                            If clsCommon.myCDecimal(dr("Deduction_Method")) = 0 Then
+                                If clsCommon.myCDecimal(dr("Deduction_lower_range3")) > clsCommon.myCDecimal(dr("upper_range")) Then
+                                    TempDedPercentage = ((clsCommon.myCDecimal(dr("Deduction_upper_range")) - clsCommon.myCDecimal(dr("upper_range"))) * clsCommon.myCDecimal(dr("Deduction_Ratio")))
+                                    TempDedPercentage += ((clsCommon.myCDecimal(dr("Deduction_upper_range2")) - clsCommon.myCDecimal(dr("Deduction_upper_range"))) * clsCommon.myCDecimal(dr("Deduction_Ratio2")))
+                                    InputDataDeductionPer = System.Math.Round(TempDedPercentage + ((TempInputData - clsCommon.myCDecimal(dr("Deduction_upper_range2"))) * clsCommon.myCDecimal(dr("Deduction_Ratio3"))), 2, MidpointRounding.AwayFromZero)
+                                ElseIf clsCommon.myCDecimal(dr("Deduction_lower_range3")) < clsCommon.myCDecimal(dr("lower_range")) Then
+                                    TempDedPercentage = ((clsCommon.myCDecimal(dr("lower_range")) - clsCommon.myCDecimal(dr("Deduction_lower_range"))) * clsCommon.myCDecimal(dr("Deduction_Ratio")))
+                                    TempDedPercentage += ((clsCommon.myCDecimal(dr("Deduction_lower_range")) - clsCommon.myCDecimal(dr("Deduction_lower_range2"))) * clsCommon.myCDecimal(dr("Deduction_Ratio2")))
+                                    InputDataDeductionPer = System.Math.Round(TempDedPercentage + ((clsCommon.myCDecimal(dr("Deduction_lower_range2")) - TempInputData) * clsCommon.myCDecimal(dr("Deduction_Ratio3"))), 2, MidpointRounding.AwayFromZero)
+                                Else
+                                    InputDataDeductionPer = System.Math.Round((clsCommon.myCDecimal(dr("lower_range")) - TempInputData) * clsCommon.myCDecimal(dr("Deduction_Ratio3")), 2, MidpointRounding.AwayFromZero)
+                                End If
+                            Else
+                                InputDataDeductionPer = System.Math.Round(clsCommon.myCDecimal(dr("Deduction_Ratio3")), 2, MidpointRounding.AwayFromZero)
+                            End If
+                            If clsCommon.myCdbl(InputDataDeductionPer) > 0 Then
+                                Exit For
+                            End If
+                        Else
+                            InputDataDeductionPer = 0
+                            NetResult = False
+                            Exit For
+                        End If
+                    End If
+                Next
+            End If
+            Dim strTempResult As Boolean = True
+                    Dim strTempUD As Boolean = False
+
+            If Not NetResult Then
+                strTempResult = False
+            End If
+            If clsCommon.myCdbl(InputDataDeductionPer) > 0 Then
+                strTempUD = True
+            End If
+
+            If strTempResult Then
+                If strTempUD = True Then
+                    txtAccept.Text = "Under Deviation"
+                    txtAccept.BackColor = Color.Yellow
+                ElseIf strTempUD = False Then
+                    txtAccept.Text = "Accepted"
+                    txtAccept.BackColor = Color.Green
+                End If
+            ElseIf Not strTempResult Then
+                txtAccept.Text = "Rejected"
+                txtAccept.BackColor = Color.Red
+            End If
+            txtAccept.Visible = True
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
     End Sub
 End Class
