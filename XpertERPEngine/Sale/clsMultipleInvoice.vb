@@ -442,6 +442,8 @@ Public Class clsMultipleInvoice
         obj = New clsPSInvoiceHead()
         Dim Taxable As Integer = 0
         Try
+            Dim MergeTCAmtofCreditCust As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MergeTCAmtofCreditCust, clsFixedParameterCode.MergeTCAmtofCreditCust, trans)) = 1, True, False)
+
             obj.Nine_NR_No = objShipment.Nine_NR_No
             If clsCommon.CompairString(objShipment.DO_Item_Type, "NT") = CompairStringResult.Equal Then
                 Taxable = 0
@@ -679,7 +681,11 @@ Public Class clsMultipleInvoice
             obj.Discount_Base = 0
             obj.Distributor_Commission_TotalAmt = 0
             obj.Security_TotalAmt = 0
-            obj.Transporter_Commission_TotalAmt = 0
+            If MergeTCAmtofCreditCust Then
+                obj.Transporter_Commission_TotalAmt = objShipment.Transporter_Commission_TotalAmt
+            Else
+                obj.Transporter_Commission_TotalAmt = 0
+            End If
             obj.TotalSubsidyAmt = 0
             obj.Gross_Amount = 0
 
@@ -922,11 +928,20 @@ Public Class clsMultipleInvoice
                     obj.TAX10_Amt += objShipmentDetail.TAX10_Amt
                     obj.Distributor_Commission_TotalAmt += objShipmentDetail.Distributor_Commission_Amt
                     obj.Security_TotalAmt += objShipmentDetail.Security_Amt
-                    obj.Transporter_Commission_TotalAmt += objShipmentDetail.Transporter_Commission_Amt
+                    If Not MergeTCAmtofCreditCust Then
+                        obj.Transporter_Commission_TotalAmt += objShipmentDetail.Transporter_Commission_Amt
+                    End If
                     Dim DeductTPTFromDocAmt As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeductTPTFromDocAmt, clsFixedParameterCode.DeductTPTFromDocAmt, trans)) = 1, True, False)
                     If DeductTPTFromDocAmt Then
-                        obj.TotalSubsidyAmt += objShipmentDetail.Transporter_Commission_Amt
-                        obj.Gross_Amount = (objShipment.Total_Amt - obj.Transporter_Commission_TotalAmt)
+                        If MergeTCAmtofCreditCust Then
+                            obj.TotalSubsidyAmt = obj.Transporter_Commission_TotalAmt
+                            obj.Gross_Amount = (objShipment.Total_Amt - obj.Transporter_Commission_TotalAmt)
+                        Else
+                            obj.TotalSubsidyAmt += objShipmentDetail.Transporter_Commission_Amt
+                            obj.Gross_Amount = (objShipment.Total_Amt - obj.Transporter_Commission_TotalAmt)
+                        End If
+
+
                     Else
                         obj.Gross_Amount = objShipment.Total_Amt
                     End If

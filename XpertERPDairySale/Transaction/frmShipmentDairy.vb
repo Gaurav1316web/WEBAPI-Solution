@@ -6233,7 +6233,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
     End Sub
     Public Sub GetDCDetails(ByVal trans As SqlTransaction)
         'If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal OrElse IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, False, DispatchPriceCodeForCreditCustomer) Then
-        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal OrElse ApplyCommissionTPTForCreditCustomer Then
+        If (clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(Credit_Customer,'N') as Credit_Customer  from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(Cash_Customer,'N') as Cash_Customer  from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'", trans)), "N") = CompairStringResult.Equal) OrElse ApplyCommissionTPTForCreditCustomer Then
             Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Transporter_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Security_Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Booth_Security_Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
 left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
@@ -7219,7 +7219,15 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         Try
             Xtra.TransactionValidity(txtDate.Value)
             If SettDistributorWiseBilling Then
-                MergeDistributorItems(True, False, trans)
+                Dim isCreditCust As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", Nothing))
+                Dim isCashCust As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cash_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", Nothing))
+
+                If clsCommon.CompairString(isCreditCust, "Y") = CompairStringResult.Equal OrElse clsCommon.CompairString(isCashCust, "Y") = CompairStringResult.Equal Then
+                    MergeDistributorItems(True, True, trans)
+                Else
+                    MergeDistributorItems(True, False, trans)
+
+                End If
 
             End If
             If ServerDateTimeForTaxableInvoice Then
@@ -8095,13 +8103,25 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             Dim TransType_Str As String = ""
             Dim blnBatchqty As Boolean = False
             Dim isNewDocumentorExistingdoc As Boolean = True
+            Dim isSubLocation As Boolean = False
+            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select IsSubLocationWise from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'", trans)), "Y") = CompairStringResult.Equal Then
+                isSubLocation = True
+            Else
+                isSubLocation = False
+            End If
+            If clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0 Then
+                isNewDocumentorExistingdoc = False
+            Else
+                isNewDocumentorExistingdoc = True
+            End If
             ' fifo start
-            TransType_Str = IIf(rbtn_Fresh.IsChecked = True, "FS", "PS")
-            TransType_Str = TransType_Str & "-SH"
-            For ii As Integer = 0 To gv1.Rows.Count - 1
-                If gv1.Rows(ii).Cells(colIsBatchItem).Value = True Then
-                    Dim strBatchunion As String = ""
-                    If RunBatchFifowise = 1 Then
+            If isNewDocumentorExistingdoc = True Then
+                TransType_Str = IIf(rbtn_Fresh.IsChecked = True, "FS", "PS")
+                TransType_Str = TransType_Str & "-SH"
+                For ii As Integer = 0 To gv1.Rows.Count - 1
+                    If gv1.Rows(ii).Cells(colIsBatchItem).Value = True Then
+                        Dim strBatchunion As String = ""
+                        'If RunBatchFifowise = 1 Then
                         If ii > 0 Then
                             Dim strICodeOuter As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
                             For jj As Integer = 0 To ii - 1
@@ -8109,18 +8129,20 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                                 If clsCommon.CompairString(strICodeOuter, strICodeInner) = CompairStringResult.Equal Then
                                     Dim arr As List(Of clsBatchInventory) = Nothing
                                     arr = TryCast(gv1.Rows(jj).Cells(colICode).Tag, List(Of clsBatchInventory))
-                                    For Each obj As clsBatchInventory In arr
-                                        Dim dblqty As Double = obj.Qty
-                                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)) <> CompairStringResult.Equal Then
-                                            dblqty = GetConvQuantity(strICodeInner, clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value), obj.Qty, trans)
-                                        End If
-                                        strBatchunion += " union all select '" & clsCommon.myCstr(obj.Batch_No) & "' as Batch_No, " &
-                                                    "'" & clsCommon.myCstr(obj.Manual_BatchNo) & "' as Manual_BatchNo,'O' as In_Out_Type, " &
-                                                    "'" & clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value) & "' as OrgUOM," & dblqty & " as OrgQty,0 as OrgMRP, " &
-                                                    "'" & clsCommon.GetPrintDate(obj.Expiry_Date, "dd/MMM/yyyy") & "' as Expiry_Date, " &
-                                                    "'" & clsCommon.GetPrintDate(obj.Manufacture_Date, "dd/MMM/yyyy") & "' as Manufacture_Date, " &
-                                                    "" & dblqty & " as Qty, 0 as MRP "
-                                    Next
+                                    If arr IsNot Nothing Then
+                                        For Each obj As clsBatchInventory In arr
+                                            Dim dblqty As Double = obj.Qty
+                                            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)) <> CompairStringResult.Equal Then
+                                                dblqty = GetConvQuantity(strICodeInner, clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value), obj.Qty, trans)
+                                            End If
+                                            strBatchunion += " union all select '" & clsCommon.myCstr(obj.Batch_No) & "' as Batch_No, " &
+                                                        "'" & clsCommon.myCstr(obj.Manual_BatchNo) & "' as Manual_BatchNo,'O' as In_Out_Type, " &
+                                                        "'" & clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value) & "' as OrgUOM," & dblqty & " as OrgQty,0 as OrgMRP, " &
+                                                        "'" & clsCommon.GetPrintDate(obj.Expiry_Date, "dd/MMM/yyyy") & "' as Expiry_Date, " &
+                                                        "'" & clsCommon.GetPrintDate(obj.Manufacture_Date, "dd/MMM/yyyy") & "' as Manufacture_Date, " &
+                                                        "" & dblqty & " as Qty, 0 as MRP,'' as RALNo,'' as VehicleNo "
+                                        Next
+                                    End If
                                 End If
                             Next
                         End If
@@ -8128,7 +8150,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                         Dim frm As frmBatchItemOut = New frmBatchItemOut()
                         frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                         frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-                        frm.strLocationCode = txtBillToLocation.Value
+                        If isSubLocation Then
+                            frm.strLocationCode = txtSubLocation.Value
+                        Else
+                            frm.strLocationCode = txtBillToLocation.Value
+                        End If
+                        'frm.strLocationCode = txtBillToLocation.Value
                         frm.strCurrDocNo = txtDocNo.Value
                         frm.strCurrDocType = TransType_Str
                         '"PS-SH"
@@ -8136,22 +8163,126 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                         'frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value) comment by balwinder on UDL on 02/12/2016
                         frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
                         frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
-                        If frm.OpenSerialList(0, "", strBatchunion, False, False, trans) Then
+                        Dim isMilkItem As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_Milk_Pouch  from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'", trans)) = 0, False, True)
+                        If frm.OpenSerialList(0, "", strBatchunion, False, IIf(isMilkItem = True, True, False), trans) Then
                             gv1.CurrentRow.Cells(colICode).Tag = frm.arr
                             blnBatchqty = True
+                            If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso btnPost.Enabled Then
+                                If isSubLocation Then
+                                    clsBatchInventory.SaveData(TransType_Str, txtDocNo.Value, txtDate.Value, "O", clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtSubLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colLineNo).Value), 0, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), gv1.CurrentRow.Cells(colICode).Tag, trans)
+
+                                Else
+                                    clsBatchInventory.SaveData(TransType_Str, txtDocNo.Value, txtDate.Value, "O", clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colLineNo).Value), 0, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), gv1.CurrentRow.Cells(colICode).Tag, trans)
+
+                                End If
+                            End If
                         Else
                             Dim batchQty As Double = 0
                             For Each obj As clsBatchInventory In frm.arr
                                 batchQty += obj.Qty
                             Next
-                            ' clsCommon.MyMessageBoxShow(Me, "Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
-                            Throw New Exception("Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty))
+                            clsCommon.MyMessageBoxShow(Me, "Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
                             blnBatchqty = False
                             Exit Sub
                         End If
+                        'End If
+                    End If
+                Next
+            Else
+                If clsCommon.myCBool(gv1.CurrentRow.Cells(colIsBatchItem).Value) Then
+                    TransType_Str = IIf(rbtn_Fresh.IsChecked = True, "FS", "PS")
+                    TransType_Str = TransType_Str & "-SH"
+                    Dim frm As frmBatchItemOut = New frmBatchItemOut()
+                    frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+                    frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
+                    If isSubLocation Then
+                        frm.strLocationCode = txtSubLocation.Value
+                    Else
+                        frm.strLocationCode = txtBillToLocation.Value
+                    End If
+                    frm.strCurrDocNo = txtDocNo.Value
+                    frm.strCurrDocType = TransType_Str
+                    '"PS-SH"
+                    frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+                    'frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value) comment by balwinder On UDL On 02/12/2016
+                    frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+                    If checkstockmrpwise Then
+                        frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
+                    End If
+                    frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
+                    frm.ShowDialog()
+                    If Not frm.isCencelButtonClicked Then
+                        gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                        If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso btnPost.Enabled Then
+                            Dim strQry As String = "delete TSPL_BATCH_ITEM  where Document_Code='" + txtDocNo.Value + "' and Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and UOM='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "'"
+                            clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+                            If isSubLocation Then
+                                clsBatchInventory.SaveData(TransType_Str, txtDocNo.Value, txtDate.Value, "O", clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtSubLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colLineNo).Value), 0, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), gv1.CurrentRow.Cells(colICode).Tag, trans)
+
+                            Else
+                                clsBatchInventory.SaveData(TransType_Str, txtDocNo.Value, txtDate.Value, "O", clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colLineNo).Value), 0, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), gv1.CurrentRow.Cells(colICode).Tag, trans)
+
+                            End If
+                        End If
                     End If
                 End If
-            Next
+            End If
+            'TransType_Str = IIf(rbtn_Fresh.IsChecked = True, "FS", "PS")
+            'TransType_Str = TransType_Str & "-SH"
+            'For ii As Integer = 0 To gv1.Rows.Count - 1
+            '    If gv1.Rows(ii).Cells(colIsBatchItem).Value = True Then
+            '        Dim strBatchunion As String = ""
+            '        If RunBatchFifowise = 1 Then
+            '            If ii > 0 Then
+            '                Dim strICodeOuter As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
+            '                For jj As Integer = 0 To ii - 1
+            '                    Dim strICodeInner As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
+            '                    If clsCommon.CompairString(strICodeOuter, strICodeInner) = CompairStringResult.Equal Then
+            '                        Dim arr As List(Of clsBatchInventory) = Nothing
+            '                        arr = TryCast(gv1.Rows(jj).Cells(colICode).Tag, List(Of clsBatchInventory))
+            '                        For Each obj As clsBatchInventory In arr
+            '                            Dim dblqty As Double = obj.Qty
+            '                            If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)) <> CompairStringResult.Equal Then
+            '                                dblqty = GetConvQuantity(strICodeInner, clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value), obj.Qty, trans)
+            '                            End If
+            '                            strBatchunion += " union all select '" & clsCommon.myCstr(obj.Batch_No) & "' as Batch_No, " &
+            '                                        "'" & clsCommon.myCstr(obj.Manual_BatchNo) & "' as Manual_BatchNo,'O' as In_Out_Type, " &
+            '                                        "'" & clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value) & "' as OrgUOM," & dblqty & " as OrgQty,0 as OrgMRP, " &
+            '                                        "'" & clsCommon.GetPrintDate(obj.Expiry_Date, "dd/MMM/yyyy") & "' as Expiry_Date, " &
+            '                                        "'" & clsCommon.GetPrintDate(obj.Manufacture_Date, "dd/MMM/yyyy") & "' as Manufacture_Date, " &
+            '                                        "" & dblqty & " as Qty, 0 as MRP "
+            '                        Next
+            '                    End If
+            '                Next
+            '            End If
+            '            gv1.CurrentRow = gv1.Rows(ii)
+            '            Dim frm As frmBatchItemOut = New frmBatchItemOut()
+            '            frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+            '            frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
+            '            frm.strLocationCode = txtBillToLocation.Value
+            '            frm.strCurrDocNo = txtDocNo.Value
+            '            frm.strCurrDocType = TransType_Str
+            '            '"PS-SH"
+            '            frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+            '            'frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value) comment by balwinder on UDL on 02/12/2016
+            '            frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+            '            frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
+            '            If frm.OpenSerialList(0, "", strBatchunion, False, False, trans) Then
+            '                gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+            '                blnBatchqty = True
+            '            Else
+            '                Dim batchQty As Double = 0
+            '                For Each obj As clsBatchInventory In frm.arr
+            '                    batchQty += obj.Qty
+            '                Next
+            '                ' clsCommon.MyMessageBoxShow(Me, "Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty), Me.Text)
+            '                Throw New Exception("Please increase stock Item Code - " & frm.strItemCode & " , Entered Qty - " & clsCommon.myCstr(frm.dblqty) & " Batch Qty - " & clsCommon.myCstr(batchQty))
+            '                blnBatchqty = False
+            '                Exit Sub
+            '            End If
+            '        End If
+            '    End If
+            'Next
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -8170,6 +8301,17 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 Dim BoothCode As String = ""
                 If clsCommon.myLen(txtDocNo.Value) > 0 Then
                     SaveData(False, trans)
+                    'Dim PDocCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ParentDocNo from TSPL_SD_SHIPMENT_HEAD where Document_Code='" & txtDocNo.Value & "'", trans))
+                    'If clsCommon.CompairString(PDocCode, txtDocNo.Value) = CompairStringResult.Equal Then
+                    '    SaveData(False, trans)
+                    '    Dim strQry As String = "select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & PDocCode & "'  and Document_Code not in('" & PDocCode & "') order by Document_Code"
+                    '    Dim dtP As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+                    '    If dtP IsNot Nothing AndAlso dtP.Rows.Count > 0 Then
+                    '        For Each dr As DataRow In dtP.Rows
+                    '            LoadData()
+                    '        Next
+                    '    End If
+                    'End If
                 Else
                     txtTransNo.Text = txtVendorNo.Value
                     If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
@@ -8431,12 +8573,34 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     Dim tcAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry1, trans))
                     qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt='" & clsCommon.myCstr(tcAmt) & "' where Document_Code='" & ParentDocNo & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
-                    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt=0 where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')"
+                    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Gross_Amount=(Total_Amt - Transporter_Commission_TotalAmt) where Document_Code='" & ParentDocNo & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    'If DeductTPTFromDocAmt Then
+                    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt=0,Gross_Amount=Total_Amt where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    'Else
+                    '    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt=0 where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')"
+                    '    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    'End If
+
+                    '    qry1 = "update tspl_sd_shipment_detail set Transporter_Commission_Amt=0 where DOCUMENT_CODE in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
+                    'clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                     qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt='" & clsCommon.myCstr(tcAmt) & "' where Against_Shipment_No='" & ParentDocNo & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Gross_Amount=(Total_Amt - Transporter_Commission_TotalAmt) where Against_Shipment_No='" & ParentDocNo & "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    'If DeductTPTFromDocAmt Then
+                    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0,Gross_Amount=Total_Amt where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    'Else
+                    '    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
+                    '    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    'End If
+
                     qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
                     clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    'qry1 = "update TSPL_SD_SALE_INVOICE_DETAIL set Transporter_Commission_Amt=0 where DOCUMENT_CODE in(select DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')))"
+                    'clsDBFuncationality.ExecuteNonQuery(qry1, trans)
                 End If
                 trans.Commit()
                 If Not IsAutoClose Then
@@ -14391,7 +14555,7 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("TaxableNonTaxable")), "T") = CompairStringResult.Equal Then
                         filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     Else
-                        filePath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, "crptMultipleInvoicePrintJDH", "Bill Of Supply")
+                        filePath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, "crptMultipleInvoicePrintBKN", "Bill Of Supply")
                     End If
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "NAG") = CompairStringResult.Equal Then
                     filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceNAG", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
@@ -17064,7 +17228,10 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                             If clsCommon.CompairString(isCreditCust, "Y") = CompairStringResult.Equal OrElse clsCommon.CompairString(isCashCust, "Y") = CompairStringResult.Equal Then
                                 IsCreditCustomer = True
                                 isCashcredit = "Y"
-                                'strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value)
+                                'If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                                '    'strKey = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Cust_Code").Value)
+                                '    strKey = strKey.ToUpper()
+                                'End If
                             Else
                                 IsOnlyCreditCust = False
                                 If AllowGatePassDemandTripWise Then
@@ -17158,6 +17325,11 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                                 End If
                             End If
                         End If
+                        If ConvertIntoBillingUOM Then
+                            gvDistributor.Rows(ii).Cells("Unit_code").Value = DisBilling_UOM
+                            gvDistributor.Rows(ii).Cells("Qty").Value = Math.Ceiling(DispatchQty / DisBillingUOMConvFactor)
+                        End If
+
                     End If
                 Next
                 If myDictionary.Count > 0 Then

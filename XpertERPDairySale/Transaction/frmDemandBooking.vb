@@ -1906,11 +1906,40 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                                 gv1.Columns(dblcolumns).Width = 100
                                 dblcolumns += 1
                                 gv1.Columns(dblcolumns).IsVisible = False
+                            ElseIf clsCommon.myCDecimal(dt.Rows(0)("Entry_UOM")) = 3 Then
+                                gv1.Columns(dblcolumns).IsVisible = True
+                                dblcolumns += 1
+                                gv1.Columns(dblcolumns).IsVisible = True
+                                gv1.Columns(dblcolumns).Width = 100
+                                dblcolumns += 1
+                                gv1.Columns(dblcolumns).IsVisible = False
+                            ElseIf clsCommon.myCDecimal(dt.Rows(0)("Entry_UOM")) = 4 Then
+                                gv1.Columns(dblcolumns).IsVisible = False
+                                dblcolumns += 1
+                                gv1.Columns(dblcolumns).IsVisible = True
+                                gv1.Columns(dblcolumns).Width = 100
+                                dblcolumns += 1
+                                gv1.Columns(dblcolumns).IsVisible = True
+                            ElseIf clsCommon.myCDecimal(dt.Rows(0)("Entry_UOM")) = 5 Then
+                                gv1.Columns(dblcolumns).IsVisible = False
+                                dblcolumns += 1
+                                gv1.Columns(dblcolumns).IsVisible = False
+                                gv1.Columns(dblcolumns).Width = 100
+                                dblcolumns += 1
+                                gv1.Columns(dblcolumns).IsVisible = True
+                            ElseIf clsCommon.myCDecimal(dt.Rows(0)("Entry_UOM")) = 6 Then
+                                gv1.Columns(dblcolumns).IsVisible = True
+                                dblcolumns += 1
+                                gv1.Columns(dblcolumns).IsVisible = True
+                                gv1.Columns(dblcolumns).Width = 100
+                                dblcolumns += 1
+                                gv1.Columns(dblcolumns).IsVisible = True
+
                             End If
-                            'End If
                         End If
+                        'End If
                     Next
-                End If
+            End If
             End If
         Catch ex As Exception
         End Try
@@ -4220,14 +4249,26 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
             End If
             Dim chkEntryUOM As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("Select isnull(Entry_UOM,0) as Entry_UOM from TSPL_Route_Master where Route_No='" & clsCommon.myCstr(txtRouteNo.Value) & "'"))
             Dim chkCratePouch As Boolean = False
+            Dim chkCrateLTR As Boolean = False
+            Dim chkPouchLTR As Boolean = False
             Dim chkCrate As Boolean = False
             Dim chkLTR As Boolean = False
+            Dim chkPouch As Boolean = False
+            Dim chkALL As Boolean = False
             If chkEntryUOM = 0 Then
                 chkCratePouch = True
             ElseIf chkEntryUOM = 1 Then
                 chkCrate = True
-            Else
+            ElseIf chkEntryUOM = 2 Then
                 chkLTR = True
+            ElseIf chkEntryUOM = 3 Then
+                chkCrateLTR = True
+            ElseIf chkEntryUOM = 4 Then
+                chkPouchLTR = True
+            ElseIf chkEntryUOM = 5 Then
+                chkPouch = True
+            ElseIf chkEntryUOM = 6 Then
+                chkALL = True
             End If
             If rdbnFreshAmbientBoth.IsChecked Then
                 For i As Integer = 0 To dtDataExist.Rows.Count - 1
@@ -4241,9 +4282,9 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("SizeL")) '& "LTR"
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").HeaderTextAlignment = ContentAlignment.MiddleCenter
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").IsVisible = clsCommon.myCBool(IIf(chkEntryUOM = 2, False, IIf(chkCrate, chkCrate, chkCratePouch)))
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").IsVisible = clsCommon.myCBool(IIf(chkCratePouch, True, False))
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").IsVisible = clsCommon.myCBool(IIf(chkLTR, True, False)) 'False 
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").IsVisible = clsCommon.myCBool(IIf(chkCrate, True, IIf(chkCrateLTR, True, IIf(chkCratePouch, True, IIf(chkCrate, True, IIf(chkALL, True, False))))))
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").IsVisible = clsCommon.myCBool(IIf(chkCratePouch, True, IIf(chkPouch, True, IIf(chkPouchLTR, True, IIf(chkALL, True, False)))))
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").IsVisible = clsCommon.myCBool(IIf(chkLTR, True, IIf(chkCrateLTR, True, IIf(chkPouchLTR, True, IIf(chkALL, True, False))))) 'False 
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#A").IsVisible = False
                 Next
                 For i As Integer = 0 To dtDataExistProduct.Rows.Count - 1
@@ -4265,9 +4306,9 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").HeaderTextAlignment = ContentAlignment.MiddleCenter
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").HeaderText = clsCommon.myCstr(dtDataExist.Rows(i).Item("SizeL")) '& "LTR"
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").HeaderTextAlignment = ContentAlignment.MiddleCenter
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").IsVisible = clsCommon.myCBool(IIf(chkEntryUOM = 2, False, IIf(chkCrate, chkCrate, chkCratePouch)))
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").IsVisible = clsCommon.myCBool(IIf(chkCratePouch, True, False))
-                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").IsVisible = clsCommon.myCBool(IIf(chkLTR, True, False)) 'False 
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#C").IsVisible = clsCommon.myCBool(IIf(chkCrate, True, IIf(chkCrateLTR, True, IIf(chkCratePouch, True, IIf(chkCrate, True, IIf(chkALL, True, False))))))
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#P").IsVisible = clsCommon.myCBool(IIf(chkCratePouch, True, IIf(chkPouch, True, IIf(chkPouchLTR, True, IIf(chkALL, True, False)))))
+                    GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#L").IsVisible = clsCommon.myCBool(IIf(chkLTR, True, IIf(chkCrateLTR, True, IIf(chkPouchLTR, True, IIf(chkALL, True, False))))) 'False 
                     GVTruckSheet.Columns("" & clsCommon.myCstr(dtDataExist.Rows(i).Item("Alies_Name")) & "#A").IsVisible = False
                 Next
             ElseIf rbtn_Ambient.IsChecked Then

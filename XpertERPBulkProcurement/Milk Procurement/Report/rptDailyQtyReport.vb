@@ -58,6 +58,8 @@ Public Class rptDailyQtyReport
         MyLabel7.Enabled = isEnable
         txtTolerenceSNF.Enabled = isEnable
         btnGainLoss.Enabled = isEnable
+        rbtnDockDetail.Checked = False
+        rbtnDockDetail.Enabled = isEnable
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         FatSnfRoundOff = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DailyQtyReport, clsFixedParameterCode.FATKGSNFKGRoundOff, Nothing))
@@ -2285,13 +2287,13 @@ FROM
             Area = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_NAME from TSPL_MCC_MASTER WHERE Area_Location_Code = '" & fndArea.Value & "' "))
 
 
-            qry = "Select Max(Convert(Date,xxx.Shift_Date,103))Shift_Date,Case When xxx.Shift='M' Then 'Morning' Else 'Evening' End As Shift,"
+            qry = "Select Max(Convert(Varchar,xxx.Shift_Date,103))Shift_Date,Case When xxx.Shift='M' Then 'Morning' Else 'Evening' End As Shift,"
             If AreaWiseBilling Then
                 qry += " Max(xxx.Location_Desc)MCC_NAME,"
             Else
                 qry += " Max(xxx.MCC_NAME)MCC_NAME,"
             End If
-            qry += "Max(xxx.VLC)VLC,'" & Area & "' as Area,Max(xxx.[VLC Name])[VLC Name],Max(xxx.Route)Route,(Convert(int,xxx.[Route Code]))[Route Code],Sum(xxx.[No of Cans])[No of Cans],Sum(xxx.[Good Qty])[Good Qty],Sum(xxx.[Good FAT %])[Good FAT %],Sum(xxx.[Good FATKg])[Good FATKg],Sum(xxx.[Good SNF %])[Good SNF %],Sum(xxx.[Good SNFKG])[Good SNFKG],Sum(xxx.[SOUR Qty])[SOUR Qty],Sum(xxx.[SOUR FAT %])[SOUR FAT %],Sum(xxx.[SOUR FATKg])[SOUR FATKg],Sum(xxx.[SOUR SNF %])[SOUR SNF %],Sum(xxx.[SOUR SNFKG])[SOUR SNFKG],Sum(xxx.[CURD Qty])[CURD Qty],Sum([CURD FAT %])[CURD FAT %],Sum(xxx.[CURD FATKg])[CURD FATKg],Sum(xxx.[CURD SNF %])[CURD SNF %],Sum(xxx.[CURD SNFKG])[CURD SNFKG],Max(xxx.Comp_Name)Comp_Name
+            qry += "Max(xxx.VLC)VLC,'" & Area & "' as Area,Max(xxx.[VLC Name])[VLC Name],Max(xxx.Route)Route,(Convert(int,xxx.[Route Code]))[Route Code],Sum(xxx.[No of Cans])[No of Cans],Sum(xxx.[Good Qty])[Good Qty],Sum(xxx.[Good FAT %])[Good FAT %],Sum(xxx.[Good FATKg])[Good FATKg],Sum(xxx.[Good SNF %])[Good SNF %],Sum(xxx.[Good SNFKG])[Good SNFKG],Sum(xxx.[SOUR Qty])[SOUR Qty],Sum(xxx.[SOUR FAT %])[SOUR FAT %],Sum(xxx.[SOUR FATKg])[SOUR FATKg],Sum(xxx.[SOUR SNF %])[SOUR SNF %],Sum(xxx.[SOUR SNFKG])[SOUR SNFKG],Sum(xxx.[CURD Qty])[CURD Qty],Sum([CURD FAT %])[CURD FAT %],Sum(xxx.[CURD FATKg])[CURD FATKg],Sum(xxx.[CURD SNF %])[CURD SNF %],Sum(xxx.[CURD SNFKG])[CURD SNFKG]
                         from (select TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No,"
             If AreaWiseBilling Then
                 qry += " xxxSetLocation.Location_Desc,"
@@ -2428,6 +2430,7 @@ FROM
         Dim EnteredQty113 As New GridViewSummaryItem("CURD_Milk_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(EnteredQty113)
 
+        Gv1.EnableFiltering = True
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
@@ -2464,7 +2467,7 @@ FROM
             Gv1.Columns("CURD Qty").HeaderText = "CURD Qty"
             Gv1.Columns("CURD FAT %").HeaderText = "CURD FAT %"
             Gv1.Columns("CURD FATKg").HeaderText = "CURD FATKg"
-            Gv1.Columns("[CURD SNF %]").HeaderText = "CURD SNF %"
+            Gv1.Columns("CURD SNF %").HeaderText = "CURD SNF %"
             Gv1.Columns("CURD SNFKG").HeaderText = "CURD SNFKG"
 
             Gv1.Columns(ii).BestFit()
@@ -2491,6 +2494,7 @@ FROM
         Dim EnteredQty15 As New GridViewSummaryItem("CURD SNFKG", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(EnteredQty15)
 
+        Gv1.EnableFiltering = True
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
@@ -2544,6 +2548,7 @@ FROM
         Dim EnteredQty11 As New GridViewSummaryItem("CURD_Milk_Weight", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(EnteredQty11)
 
+        Gv1.EnableFiltering = True
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
@@ -2580,6 +2585,7 @@ FROM
         Dim EnteredSnfKg As New GridViewSummaryItem("Milk_Weight", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(EnteredSnfKg)
 
+        Gv1.EnableFiltering = True
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
