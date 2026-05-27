@@ -368,19 +368,7 @@ AND (Against_TransferToSavingPKID IS NULL OR Against_TransferToSavingPKID = '') 
                   ", TSPL_Customer_Invoice_Head_CANCEL_DATA.Document_Total as [Document Amount] " &
                   ",TSPL_Customer_Invoice_Head_CANCEL_DATA.Created_By as [Created By] " &
                   ", convert(varchar,TSPL_Customer_Invoice_Head_CANCEL_DATA.Created_Date,103) as [Created Date], Description,TSPL_Customer_Invoice_Head_CANCEL_DATA.Cancel_By as [Cancelled By],convert(varchar,TSPL_Customer_Invoice_Head_CANCEL_DATA.Cancel_On,103) as [Cancelled Date] from TSPL_Customer_Invoice_Head_CANCEL_DATA " &
-                  " WHERE  (AgainstScrap IS NULL OR AgainstScrap = '')
-AND (AgainstScrapReturn IS NULL OR AgainstScrapReturn = '')
-AND (AgainstServiceInvoice IS NULL OR AgainstServiceInvoice = '')
-AND (Is_Against_Security_Receipt IS NULL OR Is_Against_Security_Receipt = '')
-
-AND (Against_Sale_No IS NULL OR Against_Sale_No = '')
-AND (Against_MCC_Material_Sale_Return IS NULL OR Against_MCC_Material_Sale_Return = '')
-AND (Against_VCGL IS NULL OR Against_VCGL = '')
-AND (Against_Service_Visit_Code IS NULL OR Against_Service_Visit_Code = '')
-AND (Against_Asset_Disposal IS NULL OR Against_Asset_Disposal = '')
-AND (Against_Security_Receipt_No IS NULL OR Against_Security_Receipt_No = '')
-AND (Against_Subsidy_No IS NULL OR Against_Subsidy_No = '')
-AND (Against_Sale_Return_No IS NULL OR Against_Sale_Return_No = '') and "
+                  " WHERE  AgainstServiceInvoice ='Y' and "
                 If rbtnCancelDate.IsChecked Then
                     qry += " convert(date,TSPL_Customer_Invoice_Head_CANCEL_DATA.cancel_on ,103) >= convert(date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_Customer_Invoice_Head_CANCEL_DATA.cancel_on,103) <= convert(date,'" + dtpToDate.Value + "',103) "
                 Else
@@ -1126,10 +1114,14 @@ Convert(varchar(10),Delete_On,103) As [Deleted Date] from TSPL_TRANSFER_ORDER_HE
                     '  clsVedorInvoiceHead.funAPInvoiceEntryPrint(MyBase.Form_ID, "Cancel", clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
 
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnARInvoiceEntry) = CompairStringResult.Equal Then
-                    clsReceiptInvoiceHead.funARInvoicePrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), Nothing, Nothing)
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnAPInvoiceEntry) = CompairStringResult.Equal Then
-                        clsVedorInvoiceHead.funAPInvoiceEntryPrint(MyBase.Form_ID, "Cancel", clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.FrmVendorService) = CompairStringResult.Equal Then
+                    ' clsReceiptInvoiceHead.funARInvoicePrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), Nothing, Nothing)
+                    clsReceiptInvoiceHead.funPrintServiceInvoicePrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
+
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnAPInvoiceEntry) = CompairStringResult.Equal Then
+                    clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, "Cancel", clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+
+                    'clsVedorInvoiceHead.funAPInvoiceEntryPrint(MyBase.Form_ID, "Cancel", clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.FrmVendorService) = CompairStringResult.Equal Then
                         clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, "Cancel", clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
                     ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.ScrapSaleRetrun) = CompairStringResult.Equal Then
                         Dim qry As String = ""

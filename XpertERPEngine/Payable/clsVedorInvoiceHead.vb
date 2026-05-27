@@ -325,6 +325,7 @@ Public Class clsVedorInvoiceHead
     Public Saving As Integer = 0
     Public arrSecurityAdjustment As ArrayList = Nothing
 #End Region
+
     Public Shared Function funAPInvoiceEntryPrint(ByVal Form_ID As String, ByVal strCancelDelete As String, ByVal strDate As DateTime, ByVal StrDocNo As String, ByVal SettingCostCenterlevel As Boolean) As Boolean
         Try
             Dim TSPL_VENDOR_INVOICE_HEAD As String = Nothing
