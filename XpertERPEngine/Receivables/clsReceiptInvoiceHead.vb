@@ -24,14 +24,17 @@ Public Class clsReceiptInvoiceHead
 
 #End Region
 
-    Public Shared Function funPrintServiceInvoicePrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal txtDate As DateTime, ByVal StrCode As String, ByVal IsEInvoiceApply As Integer) As Boolean
+    Public Shared Function funPrintServiceInvoicePrint(ByVal Form_ID As String, ByVal strCanceldelete As String, ByVal txtDate As DateTime, ByVal StrCode As String, ByVal IsEInvoiceApply As Integer) As Boolean
         Dim TSPL_Customer_Invoice_Head As String = Nothing
         Dim TSPL_Customer_Invoice_Detail As String = Nothing
 
-        If isCancel Then
+        If clsCommon.CompairString(strCanceldelete, "Cancel") = CompairStringResult.Equal Then
+
             TSPL_Customer_Invoice_Head = "TSPL_Customer_Invoice_Head_Cancel_Data"
             TSPL_Customer_Invoice_Detail = "TSPL_Customer_Invoice_Detail_Cancel_Data"
-
+        ElseIf clsCommon.CompairString(strCanceldelete, "Delete") = CompairStringResult.Equal Then
+            TSPL_Customer_Invoice_Head = "TSPL_Customer_Invoice_Head_Delete_data"
+            TSPL_Customer_Invoice_Detail = "TSPL_Customer_Invoice_Detail_Delete_data"
         Else
             TSPL_Customer_Invoice_Head = "TSPL_Customer_Invoice_Head"
             TSPL_Customer_Invoice_Detail = "TSPL_Customer_Invoice_Detail"
@@ -39,7 +42,7 @@ Public Class clsReceiptInvoiceHead
 
         Dim qry As String = "   Select"
 
-        If isCancel Then
+        If clsCommon.CompairString(strCanceldelete, "Cancel") = CompairStringResult.Equal OrElse clsCommon.CompairString(strCanceldelete, "Delete") = CompairStringResult.Equal Then
             qry += " 'Cancelled' As Report_Status, "
         Else
             qry += " '' As Report_Status, "
