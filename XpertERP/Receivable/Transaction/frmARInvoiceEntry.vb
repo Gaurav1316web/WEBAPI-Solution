@@ -3515,7 +3515,7 @@ Public Class FrmARInvoiceEntry
             If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
                 IsEInvoiceApply = 1
             End If
-            clsReceiptInvoiceHead.funARInvoicePrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value, IsEInvoiceApply, SettingCostCenterlevel)
+            clsReceiptInvoiceHead.funARInvoicePrint(MyBase.Form_ID, Nothing, txtDate.Value, txtDocNo.Value, IsEInvoiceApply, SettingCostCenterlevel)
             'Dim qry As String = "SELECT cast(TSPL_Customer_Invoice_Head.BarCode_Img as image) As BarCode_Img,isnull (TSPL_Customer_Invoice_Head.IRN_No,'') as IRN_No,isnull (TSPL_Customer_Invoice_Head.Ack_No,'') as Ack_No,case when len(isnull (TSPL_Customer_Invoice_Head.Ack_No,'')) > 0 then convert (varchar, TSPL_Customer_Invoice_Head.Ack_Date,103) else ''  end as Ack_Date, " + clsCommon.myCstr(IsEInvoiceApply) + " as  IsEInvoiceApply," &
             '  " XXX.RefDocNo, tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_CUSTOMER_MASTER.GSTNO AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode,TSPL_STATE_MASTER.state_name AS Vendor_State_Name, XXX.Loc_Code, locAdd, XXX.Location_Desc,xxx.Tin_No,XXX.PAN,TSPL_COMPANY_MASTER.Add1 + case When TSPL_COMPANY_MASTER.Add2='' Then '' else ', '+ Convert(Varchar(50),TSPL_COMPANY_MASTER.Add2, 103) End + Case When TSPL_COMPANY_MASTER.Add3='' Then '' Else ', '+ COnvert( Varchar,TSPL_COMPANY_MASTER.Add3,103) end + case When TSPL_COMPANY_MASTER.City_Code ='' then '' else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.City_Code, 103) end+ Case When TSPL_COMPANY_MASTER.State='' Then '' else ', '+Convert(Varchar, TSPL_COMPANY_MASTER.State) end +  Case When TSPL_COMPANY_MASTER.Pincode='' Then '' Else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.Pincode, 103)  end  as CompAdd , " &
             '"XXX.Description,XXX.Account_Code,XXX.Account_Desc ,XXX.DrAmt ,XXX.CrAmt ,XXX.Document_No ,XXX.Document_Date,XXX.Status , " &
@@ -5252,7 +5252,7 @@ Public Class FrmARInvoiceEntry
             If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
                 IsEInvoiceApply = 1
             End If
-            clsReceiptInvoiceHead.funPrintServiceInvoicePrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value, IsEInvoiceApply)
+            clsReceiptInvoiceHead.funPrintServiceInvoicePrint(MyBase.Form_ID, Nothing, txtDate.Value, txtDocNo.Value, IsEInvoiceApply)
 
             'Dim qry As String = " Select * from ( 
             'Dim qry As String = "   Select  tspl_company_master.Access_Officer as FSSAI,cast(TSPL_Customer_Invoice_Head.BarCode_Img as image) As BarCode_Img,isnull (TSPL_Customer_Invoice_Head.IRN_No,'') as IRN_No,isnull (TSPL_Customer_Invoice_Head.Ack_No,'') as Ack_No,case when len(isnull (TSPL_Customer_Invoice_Head.Ack_No,'')) > 0 then convert (varchar, TSPL_Customer_Invoice_Head.Ack_Date,103) else ''  end as Ack_Date, " + clsCommon.myCstr(IsEInvoiceApply) + " as  IsEInvoiceApply,'1' as CopyType, TSPL_COMPANY_MASTER.TIN_NO , TSPL_COMPANY_MASTER.CST_LST ,TSPL_COMPANY_MASTER.Pan_No,tspl_location_master.PAN_NO as LocationPAN," &
